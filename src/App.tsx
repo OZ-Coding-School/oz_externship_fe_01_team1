@@ -8,29 +8,27 @@ import Join from './pages/Join'
 import CommunityPost from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
 
-function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" />
-        <Route path="/CommunityList" element={<CommunityList />} />
-        <Route
-          path="/CommunityList/CommunityEdit"
-          element={<CommunityEdits />}
-        />
-        <Route
-          path="/CommunityList/CommunityPost"
-          element={<CommunityPost />}
-        />
-        <Route
-          path="/CommunityList/CommunityDetail"
-          element={<CommunityDetail />}
-        />
-        <Route path="/Join" element={<Join />} />
-        <Route path="/Login" element={<Login />} />
-      </Route>
-    </Routes>
+export default function App() {
+  return  (
+      <Routes>
+        <Route element={<Layout/>}>
+          <Route path="/"/>
+          <Route path="/CommunityList" element={<CommunityList/>}/>
+          <Route
+              path="/CommunityList/CommunityEdit"
+              element={<CommunityEdits/>}
+          />
+          <Route
+              path="/CommunityList/CommunityPost"
+              element={<CommunityPost/>}
+          />
+          <Route
+              path="/CommunityList/CommunityDetail"
+              element={<CommunityDetail/>}
+          />
+          <Route path="/Join" element={<Join/>}/>
+          <Route path="/Login" element={<Login/>}/>
+        </Route>
+      </Routes>
   )
 }
-
-export default App
