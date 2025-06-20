@@ -1,60 +1,73 @@
-// Insert.tsx
-import {useState} from 'react';
-import {useEditorWithPreview} from '../hooks/useEditorWithPreview';
-import Header from '../pages/Header';
-import EditorPreview from '../pages/EditorPreview';
-import {EditorContent} from '@tiptap/react';
+import { useState, useRef } from 'react';
+import MDEditor from '@uiw/react-md-editor';
 
 export default function CommunityPost() {
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('프론트엔드');
-  const {editor, htmlContent} = useEditorWithPreview();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [markdown, setMarkdown] = useState('');
 
-  if (!editor) return <div className="p-4 text-gray-500">에디터 로딩 중...</div>;
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
-      <>
-        <div className="bg-white py-4 px-6 border-b shadow-sm">
-          <Header editor={editor} />
+    <div className="max-w-5xl mx-auto bg-white p-8 shadow-md rounded-md mt-10">
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">커뮤니티 게시글 작성</h1>
+
+      <div className="grid grid-cols-3 gap-6 mb-6">
+        <div>
+
+          <select className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
+            <option>대분류</option>
+          </select>
         </div>
-        <div className="px-6 py-8 font-sans bg-white min-h-screen max-w-6xl mx-auto space-y-6">
+        <div>
 
-          <div>
-            <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="border rounded px-3 py-2"
-            >
-              <option value="프론트엔드">프론트엔드</option>
-              <option value="백엔드">백엔드</option>
-              <option value="풀스택">풀스택</option>
-            </select>
-          </div>
+          <select className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
+            <option>중분류</option>
+          </select>
+        </div>
+        <div>
+          <select className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
+            <option>소분류</option>
+          </select>
+        </div>
+      </div>
 
-          <input
-              type="text"
-              placeholder="제목을 입력하세요"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full text-2xl font-bold border-b py-2 outline-none"
+      <div className="mb-6">
+        <label className="text-sm font-semibold text-gray-800 mb-2 block">제목</label>
+        <input
+          type="text"
+          placeholder="제목을 입력해 주세요"
+          className="w-full px-4 py-3 mb-6 border rounded bg-purple-100 border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+        />
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-semibold text-gray-700">🛠 에디터 도구</span>
+          <button
+            type="button"
+            onClick={triggerFileInput}
+            className="px-3 py-1 border rounded text-sm bg-gray-100 hover:bg-gray-200"
+          >
+            🖼 이미지 업로드
+          </button>
+        </div>
+
+        <div data-color-mode="light">
+          <MDEditor
+            value={markdown}
+            onChange={(val = '') => setMarkdown(val)}
+            height={400}
+            preview="live"
+            style={{ backgroundColor: 'white', color: 'black' }}
+            previewOptions={{ className: 'bg-white', style: { color: 'black' } }}
           />
-
-          <div className="grid grid-cols-2 gap-6 mt-4 border rounded min-h-[400px]">
-            <div className="p-4" onClick={() => editor?.commands.focus()}>
-              <EditorContent
-                  editor={editor}
-                  className="prose prose-sm max-w-none w-full min-h-[400px] outline-none tiptap"
-              />
-            </div>
-            <EditorPreview html={htmlContent}/>
-          </div>
-
-          <div className="w-full flex justify-end pr-6 mt-8">
-            <button className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">
-              완료
-            </button>
-          </div>
         </div>
-      </>
+        <div className="mt-6 text-right">
+          <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded">
+            등록하기
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
