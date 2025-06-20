@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
-import CommunityDetail from './pages/ComunityDetail'
+import CommunityDetail from './pages/CommunityDetail'
 import Layout from './pages/Layout'
 import CommunityList from './pages/CommunityList'
 import Login from './pages/Login'
@@ -33,4 +33,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
