@@ -17,7 +17,7 @@ export default function NavBar() {
         <div className="flex gap-[12px]">
           <Link to="/Login">로그인</Link>
           <div>|</div>
-          <Link to="/Join">회원가입</Link>
+          <Link to="/JoinMain">회원가입</Link>
         </div>
       </div>
     </>
