@@ -37,7 +37,8 @@ export default function CommunityDetail() {
 
   //드랍다운 선택 상태 (초기값: 최신순)
   const [selectedSort, setSelectedSort] = useState<string>('최신순')
-
+  const [isLike, setIsLike] = useState(false)
+  const [likeNum, setLikeNum] = useState(2)
   //드랍다운 창 열고 닫기 상태관리
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
 
@@ -47,6 +48,15 @@ export default function CommunityDetail() {
   const handleSortClick = (option: string) => {
     setSelectedSort(option)
     setSortDropdownOpen(false)
+  }
+
+  const hadleClickLike = () => {
+    if (!isLike) {
+      setLikeNum((prev) => prev + 1)
+    } else {
+      setLikeNum((prev) => prev - 1)
+    }
+    setIsLike((prev) => !prev)
   }
   return (
     <div className="absolute left-1/2 top-[254px] transform -translate-x-1/2">
@@ -90,11 +100,20 @@ export default function CommunityDetail() {
         </div>
         <div className="flex flex-col gap-[24px] w-full">
           <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
-            <button className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[16px] rounded-[1000px] w-[62px] h-[38px]">
-              <AiOutlineLike className="h-[18px] w-[18px]" />
-              <div className="text-[12px] font-[500]">2</div>
+            <button
+              className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[16px] rounded-[1000px] w-[62px] h-[38px] cursor-pointer"
+              onClick={hadleClickLike}
+            >
+              <AiOutlineLike
+                className={`h-[18px] w-[18px] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
+              />
+              <div
+                className={`text-[12px] font-[500] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
+              >
+                {likeNum}
+              </div>
             </button>
-            <button className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px]">
+            <button className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer">
               <GoLink className="h-[18px] w-[18px]" />
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
@@ -117,7 +136,7 @@ export default function CommunityDetail() {
           <div className="flex flex-col w-full gap-[20px]">
             <div className="flex justify-between items-center w-full">
               <div className="text-[#121212] text-[20px] font-[700]">
-                댓글 2개
+                {`댓글 ${comments.length}개`}
               </div>
               <div className="relative">
                 <button
