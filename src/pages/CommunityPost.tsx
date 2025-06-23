@@ -1,3 +1,16 @@
-export default function CommunityPost() {
-  return <h1>커뮤니티 글 등록 페이지</h1>
+
+import Header from "../components/CommunityPostAndEdit/Header.tsx";
+import Content from "../components/CommunityPostAndEdit/Content.tsx";
+import Button from "../components/CommunityPostAndEdit/Button.tsx";
+
+export function CommunityPost() {
+
+
+    return (
+        <div>
+            <Header/>
+            <Content/>
+            <Button text="등록하기기"/>
+        </div>
+    )
 }
