@@ -5,7 +5,7 @@ import Layout from './pages/Layout'
 import CommunityList from './pages/CommunityList'
 import Login from './pages/Login'
 import Join from './pages/Join'
-import CommunityPost from './pages/CommunityPost'
+import {CommunityPost} from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
 
 export default function App() {
