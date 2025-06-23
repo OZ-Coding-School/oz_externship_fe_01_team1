@@ -5,6 +5,7 @@ import { AiOutlineLike } from 'react-icons/ai'
 import { GoLink } from 'react-icons/go'
 import { LuArrowUpDown } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
+import CommentLoading from '../components/comnunityDetail/CommentLoading'
 
 const comments = [
   {
@@ -151,6 +152,9 @@ export default function CommunityDetail() {
               {comments.map((commentData) => (
                 <Comment key={commentData.id} commentData={commentData} />
               ))}
+            </div>
+            <div className="flex justify-center items-center">
+              <CommentLoading />
             </div>
           </div>
         </div>
