@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import photo from '../assets/profile.png'
 import Comment from '../components/comnunityDetail/Comment'
 import { AiOutlineLike } from 'react-icons/ai'
 import { GoLink } from 'react-icons/go'
-import { LuArrowDownUp } from 'react-icons/lu'
+import { LuArrowUpDown } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
 
 const comments = [
@@ -30,6 +31,16 @@ const comments = [
 ]
 
 export default function CommunityDetail() {
+  const sortOptions = ['조회순', '좋아요 순', '댓글 순', '최신순', '오래된 순']
+
+  const [selectedSort, setSelectedSort] = useState<string>('최신순')
+  const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
+
+  //드랍다운 메뉴 클릭 시 선택 및 창닫기
+  const handleSortClick = (option: string) => {
+    setSelectedSort(option)
+    setSortDropdownOpen(false)
+  }
   return (
     <div className="absolute left-1/2 top-[254px] transform -translate-x-1/2">
       <div className="flex flex-col items-center w-[944px] h-[1165px] gap-[100px]">
@@ -97,9 +108,33 @@ export default function CommunityDetail() {
               <div className="text-[#121212] text-[20px] font-[700]">
                 댓글 2개
               </div>
-              <div className="flex gap-[4px] items-center text-[#4d4d4d] text-[16px] font-[400]">
-                <div>최신순</div>
-                <LuArrowDownUp className="w-[20px] h-[20px]" />
+              <div className="relative">
+                <button
+                  onClick={() => setSortDropdownOpen((prev) => !prev)}
+                  className="text-sm text-gray-700 hover:text-purple-600 flex items-center"
+                >
+                  {selectedSort}
+                  <LuArrowUpDown className="ml-2 w-4 h-4" />
+                </button>
+
+                {sortDropdownOpen && (
+                  <div className="absolute top-[100%] right-0 mt-2 bg-white shadow-lg rounded-xl p-2 w-32 text-sm z-20">
+                    {sortOptions.map((option) => (
+                      <div
+                        key={option}
+                        onClick={() => handleSortClick(option)}
+                        className={`cursor-pointer px-3 py-2 rounded-md text-center transition
+                    ${
+                      selectedSort === option
+                        ? 'bg-purple-100 text-purple-600 font-bold'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex flex-col gap-[17px] w-full">
