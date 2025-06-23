@@ -31,10 +31,16 @@ const comments = [
 ]
 
 export default function CommunityDetail() {
+  //드랍다운 메뉴
   const sortOptions = ['조회순', '좋아요 순', '댓글 순', '최신순', '오래된 순']
 
+  //드랍다운 선택 상태 (초기값: 최신순)
   const [selectedSort, setSelectedSort] = useState<string>('최신순')
+
+  //드랍다운 창 열고 닫기 상태관리
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
+
+  const [commentText, setCommentText] = useState('')
 
   //드랍다운 메뉴 클릭 시 선택 및 창닫기
   const handleSortClick = (option: string) => {
@@ -56,10 +62,10 @@ export default function CommunityDetail() {
               </div>
               <div className="flex justify-between w-full ">
                 <p className="font-[700] text-[23px]">러닝 메이트 함께해요.</p>
-                <p className="flex items-center justify-between w-[101px]">
+                <div className="flex items-center justify-between w-[101px]">
                   <img src={photo} alt="" className="h-[48px] rounded-[50%]" />
                   <div>김태산</div>
-                </p>
+                </div>
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -92,13 +98,17 @@ export default function CommunityDetail() {
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
           </div>
-          <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece]">
+          <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
             <textarea
-              className="w-[784px] placeholder:text-[#bdbdbd] resize-none"
+              className="w-[784px] placeholder:text-[#bdbdbd] resize-none outline-none"
               placeholder="개인정보를 공유 및 요청하거나, 명예 회손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있습니다."
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
             ></textarea>
             <div className="flex self-end">
-              <button className="w-[80px] h-[40px] bg-[#ececec] rounded-[100px]">
+              <button
+                className={`w-[80px] h-[40px] ${commentText.trim() ? 'bg-[#efe6fc] text-[#6202E0]' : 'bg-[#ececec] text-[#4d4d4d]'} rounded-[100px]`}
+              >
                 등록
               </button>
             </div>
@@ -111,7 +121,7 @@ export default function CommunityDetail() {
               <div className="relative">
                 <button
                   onClick={() => setSortDropdownOpen((prev) => !prev)}
-                  className="text-sm text-gray-700 hover:text-purple-600 flex items-center"
+                  className="text-sm text-gray-700 hover:text-[#6202E0] flex items-center"
                 >
                   {selectedSort}
                   <LuArrowUpDown className="ml-2 w-4 h-4" />
@@ -126,7 +136,7 @@ export default function CommunityDetail() {
                         className={`cursor-pointer px-3 py-2 rounded-md text-center transition
                     ${
                       selectedSort === option
-                        ? 'bg-purple-100 text-purple-600 font-bold'
+                        ? 'bg-purple-100 text-[#6202E0] font-bold'
                         : 'text-gray-700 hover:bg-gray-100'
                     }`}
                       >
