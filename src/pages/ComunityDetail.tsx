@@ -5,6 +5,30 @@ import { GoLink } from 'react-icons/go'
 import { LuArrowDownUp } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
 
+const comments = [
+  {
+    id: 1,
+    name: '김철수',
+    date: '2025-06-23T10:30:00.000Z',
+    content: '좋은 글 감사합니다!',
+    imgUrl: 'https://i.pravatar.cc/150?img=1',
+  },
+  {
+    id: 2,
+    name: '이영희',
+    date: '2025-06-22T14:15:00.000Z',
+    content: '많은 도움이 되었어요 :)',
+    imgUrl: 'https://i.pravatar.cc/150?img=2',
+  },
+  {
+    id: 3,
+    name: '박민수',
+    date: '2025-06-21T09:45:00.000Z',
+    content: '질문이 있는데 답변 부탁드려요.',
+    imgUrl: 'https://i.pravatar.cc/150?img=3',
+  },
+]
+
 export default function CommunityDetail() {
   return (
     <div className="absolute left-1/2 top-[254px] transform -translate-x-1/2">
@@ -79,8 +103,9 @@ export default function CommunityDetail() {
               </div>
             </div>
             <div className="flex flex-col gap-[17px] w-full">
-              <Comment />
-              <Comment />
+              {comments.map((commentData) => (
+                <Comment key={commentData.id} commentData={commentData} />
+              ))}
             </div>
           </div>
         </div>
