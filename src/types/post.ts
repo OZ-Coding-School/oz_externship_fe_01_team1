@@ -3,12 +3,12 @@ export interface Post {
   category: string;
   title: string;
   link: string;
-  thumbnail?: string;
   likes: number;
   comments: number;
   views: number;
   author: string;
-  authorAvatar?: string;
-  time: string;
-  content?: string;
+  authorAvatar: string;
+  time: string; // ISO or "1시간 전" 등
+  thumbnail?: string;
+  content?:string
 }
