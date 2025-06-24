@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Join from './pages/Join'
 import CommunityPost from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
+import JoinFrom from './components/join/JoinForm'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         />
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Join/JoinForm" element={<JoinFrom />} />
       </Route>
     </Routes>
   )
