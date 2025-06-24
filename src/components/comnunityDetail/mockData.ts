@@ -1,4 +1,4 @@
-export const comments = [
+export const commentsMockData = [
   {
     id: 1,
     name: '김철수',

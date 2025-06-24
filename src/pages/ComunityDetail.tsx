@@ -7,10 +7,11 @@ import { LuArrowUpDown } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
 import CommentLoading from '../components/comnunityDetail/CommentLoading'
 import CommentTextArea from '../components/comnunityDetail/ConnentTextArea'
-import { comments } from '../components/comnunityDetail/mockData'
+import { commentsMockData } from '../components/comnunityDetail/mockData'
 
 export default function CommunityDetail() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [comments, SetComments] = useState(commentsMockData)
 
   //드랍다운 메뉴
   const sortOptions = ['최신순', '오래된 순']
@@ -25,6 +26,17 @@ export default function CommunityDetail() {
   //드랍다운 메뉴 클릭 시 선택 및 창닫기
   const handleSortClick = (option: string) => {
     setSelectedSort(option)
+    if (option === '최신순') {
+      const sortedComments = comments.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      )
+      SetComments(sortedComments)
+    } else {
+      const sortedComments = comments.sort(
+        (b, a) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      )
+      SetComments(sortedComments)
+    }
     setSortDropdownOpen(false)
   }
 
