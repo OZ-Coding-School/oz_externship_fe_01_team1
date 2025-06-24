@@ -8,10 +8,13 @@ import { SlArrowRight } from 'react-icons/sl'
 import CommentLoading from '../components/comnunityDetail/CommentLoading'
 import CommentTextArea from '../components/comnunityDetail/ConnentTextArea'
 import { commentsMockData } from '../components/comnunityDetail/mockData'
+import SharePopup from '../components/comnunityDetail/SharePopup'
 
 export default function CommunityDetail() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [comments, SetComments] = useState(commentsMockData)
+
+  const [showPopup, setShowPopup] = useState(false)
 
   //드랍다운 메뉴
   const sortOptions = ['최신순', '오래된 순']
@@ -23,7 +26,7 @@ export default function CommunityDetail() {
   //드랍다운 창 열고 닫기 상태관리
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
 
-  //드랍다운 메뉴 클릭 시 선택 및 창닫기
+  //최신 순 오래된 순 정렬
   const handleSortClick = (option: string) => {
     setSelectedSort(option)
     if (option === '최신순') {
@@ -104,10 +107,14 @@ export default function CommunityDetail() {
                 {likeNum}
               </div>
             </button>
-            <button className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer">
+            <button
+              className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer"
+              onClick={() => setShowPopup(!showPopup)}
+            >
               <GoLink className="h-[18px] w-[18px]" />
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
+            {showPopup && <SharePopup setShowPopup={setShowPopup} />}
           </div>
           <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
             <CommentTextArea textareaRef={textareaRef} comments={comments} />
