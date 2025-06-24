@@ -20,7 +20,7 @@ export default function PostFormHeader({
                                            setDetailCat,
                                        }: Props) {
     return (
-        <>
+        <header>
             <div className="max-w-5xl mx-auto bg-white border-b border-gray-200 pt-10 gap-5">
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">커뮤니티 게시글 작성</h1>
             </div>
@@ -90,6 +90,6 @@ export default function PostFormHeader({
                     />
                 </div>
             </div>
-        </>
+        </header>
     );
 }
