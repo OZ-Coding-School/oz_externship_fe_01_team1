@@ -1,47 +1,41 @@
 import { useRef, useState } from 'react'
 import photo from '../assets/profile.png'
-import Comment from '../components/comnunityDetail/Comment'
+import Comment from '../components/commnunityDetail/Comment'
 import { AiOutlineLike } from 'react-icons/ai'
 import { GoLink } from 'react-icons/go'
 import { LuArrowUpDown } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
-import CommentLoading from '../components/comnunityDetail/CommentLoading'
-import CommentTextArea from '../components/comnunityDetail/ConnentTextArea'
-import { commentsMockData } from '../components/comnunityDetail/mockData'
-import SharePopup from '../components/comnunityDetail/SharePopup'
+import CommentLoading from '../components/commnunityDetail/CommentLoading'
+import SharePopup from '../components/commnunityDetail/SharePopup'
+import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
+import { useSortComments } from '../hooks'
 
 export default function CommunityDetail() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [comments, SetComments] = useState(commentsMockData)
 
-  const [showPopup, setShowPopup] = useState(false)
+  //최신 순 오래된 순 정렬
+  const {
+    comments,
+    sortDropdownOpen,
+    selectedSort,
+    setSortDropdownOpen,
+    setSelectedSort,
+  } = useSortComments('최신순')
+
+  const handleSort = (option: string) => {
+    setSelectedSort(option)
+    setSortDropdownOpen((prev) => !prev)
+  }
 
   //드랍다운 메뉴
+  const [showPopup, setShowPopup] = useState(false)
+
   const sortOptions = ['최신순', '오래된 순']
 
   //드랍다운 선택 상태 (초기값: 최신순)
-  const [selectedSort, setSelectedSort] = useState<string>('최신순')
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
   //드랍다운 창 열고 닫기 상태관리
-  const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
-
-  //최신 순 오래된 순 정렬
-  const handleSortClick = (option: string) => {
-    setSelectedSort(option)
-    if (option === '최신순') {
-      const sortedComments = comments.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      )
-      SetComments(sortedComments)
-    } else {
-      const sortedComments = comments.sort(
-        (b, a) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      )
-      SetComments(sortedComments)
-    }
-    setSortDropdownOpen(false)
-  }
 
   const hadleClickLike = () => {
     if (!isLike) {
@@ -117,12 +111,17 @@ export default function CommunityDetail() {
             {showPopup && <SharePopup setShowPopup={setShowPopup} />}
           </div>
           <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
-            <CommentTextArea textareaRef={textareaRef} comments={comments} />
+            <CommentTextArea
+              textareaRef={textareaRef}
+              comments={Array.isArray(comments) ? comments : []}
+            />
           </div>
           <div className="flex flex-col w-full gap-[20px]">
             <div className="flex justify-between items-center w-full">
               <div className="text-[#121212] text-[20px] font-[700]">
-                {`댓글 ${comments.length}개`}
+                {Array.isArray(comments)
+                  ? `댓글 ${comments.length}개`
+                  : '댓글 0개'}
               </div>
               <div className="relative">
                 <button
@@ -138,7 +137,7 @@ export default function CommunityDetail() {
                     {sortOptions.map((option) => (
                       <div
                         key={option}
-                        onClick={() => handleSortClick(option)}
+                        onClick={() => handleSort(option)}
                         className={`cursor-pointer px-3 py-2 rounded-md text-center transition
                     ${
                       selectedSort === option
