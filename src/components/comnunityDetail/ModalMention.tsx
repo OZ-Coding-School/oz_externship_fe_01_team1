@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import type { commentData } from '../../types'
 import { useTextarea } from '../../store/mentionStore'
 
