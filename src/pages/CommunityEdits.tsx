@@ -4,19 +4,14 @@ import PostFormHeader from "../components/CommunityPostAndEdit/PostFormHeader.ts
 import Content from "../components/CommunityPostAndEdit/Content.tsx";
 import SubmitButton from "../components/CommunityPostAndEdit/SubmitButton.tsx";
 
-export default function CommunityEditsPage() {
-
+export default function CommunityEdits() {
     const navigate = useNavigate();
-
     const [title, setTitle] = useState('');
     const [mainCat, setMainCat] = useState('');
     const [subCat, setSubCat] = useState('');
     const [detailCat, setDetailCat] = useState('');
     const [markdown, setMarkdown] = useState('');
-
     const isFormValid = title && mainCat && subCat && detailCat && markdown;
-
-
 
     const handleSubmit = () => {
         if (!isFormValid ) return;
