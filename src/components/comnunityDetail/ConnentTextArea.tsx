@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ModalMention from './ModalMention'
 import type { commentData } from '../../types'
 import { getRegExp } from 'korean-regexp'
+import { useTextarea } from '../../store/mentionStore'
 
 interface CommentTextAreaProops {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
@@ -12,7 +13,7 @@ export default function CommentTextArea({
   textareaRef,
   comments,
 }: CommentTextAreaProops) {
-  const [text, setText] = useState('')
+  const { text, setText } = useTextarea()
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [filteredUsers, setFilteredUsers] = useState<[] | commentData[]>([])
 
@@ -31,7 +32,12 @@ export default function CommentTextArea({
 
       const result = comments.filter((comment) => comment.name.match(reg))
       setFilteredUsers(result)
-      setShowSuggestions(true)
+      //멘션검색 시 있을 경우 모달창 열고 없으면 닫기
+      if (result.length !== 0) {
+        setShowSuggestions(true)
+      } else {
+        setShowSuggestions(false)
+      }
     } else {
       setShowSuggestions(false)
     }
