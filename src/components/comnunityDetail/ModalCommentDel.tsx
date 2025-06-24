@@ -1,4 +1,8 @@
-export default function ModalCommentDel({ setIsModal }) {
+export default function ModalCommentDel({
+  setIsModal,
+}: {
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>
+}) {
   const handleCancel = () => {
     setIsModal(false)
   }
