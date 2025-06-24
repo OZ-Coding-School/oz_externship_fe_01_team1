@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function SignupForm() {
   const [nickname, setNickname] = useState("");

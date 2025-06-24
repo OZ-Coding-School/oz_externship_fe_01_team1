@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import PostCard from '../components/PostCard';
+import PostCard from '../components/CommunityList/PostCard';
 import type { Post } from '../types/post';
-import FilterBar from '../components/FilterBar';
+import FilterBar from '../components/CommunityList/FilterBar';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 const dummyPosts: Post[] = [

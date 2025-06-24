@@ -58,11 +58,11 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
                       setSearchType(type);
                       setDropdownOpen(false);
                     }}
-                    className={`py-1 rounded-md cursor-pointer transition
+                    className={`py-1 rounded-md cursor-pointer transition px-2
                       ${
                         searchType === type
                           ? 'bg-purple-100 text-purple-600 font-bold'
-                          : 'text-gray-700 hover:bg-gray-100'
+                          : 'text-gray-700 hover:bg-[#ECECEC] hover:text-[#4D4D4D]'
                       }`}
                   >
                     {type}

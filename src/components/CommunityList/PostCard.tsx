@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
-import type { Post } from '../types/post';
+import type { Post } from '../../types/post';
 
 interface PostCardProps {
   post: Post;
@@ -19,9 +19,9 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
         } hover:bg-purple-50 transition-colors`}
       >
         {/* ✅ 왼쪽: 텍스트 영역 (카테고리+제목+링크+메타) */}
-        <div className="flex flex-col justify-between flex-1">
+        <div className="flex flex-col justify-between flex-1 h-[154px]">
           {/* 카테고리, 제목, 링크 묶음 */}
-          <div className="flex flex-col gap-[6px] mb-4">
+          <div className="flex flex-col gap-[20px]">
             <p className="text-sm text-gray-400">{post.category}</p>
             <h2 className="text-base font-semibold text-black">{post.title}</h2>
             <p className="text-sm text-gray-500 break-all">{post.link}</p>
