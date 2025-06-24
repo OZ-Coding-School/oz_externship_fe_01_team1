@@ -15,7 +15,7 @@ const dummyPosts: Post[] = [
     views: 150,
     author: 'movieFan',
     authorAvatar: 'https://placehold.co/24x24',
-    time: '1시간 전',
+    time: new Date().toISOString(),
     thumbnail: 'https://placehold.co/120x90'
   },
   {
@@ -28,7 +28,7 @@ const dummyPosts: Post[] = [
     views: 100,
     author: '이서윤',
     authorAvatar: 'https://placehold.co/24x24',
-    time: '30분 전',
+    time: new Date().toISOString(),
     thumbnail: '',
     content: '공부 집중용 음악 모음 공유해요!'
   },

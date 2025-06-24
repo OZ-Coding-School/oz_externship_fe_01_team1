@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  FaChevronDown,
   FaChevronLeft,
   FaChevronRight,
   FaPen,
 } from 'react-icons/fa';
 import { LuArrowUpDown } from 'react-icons/lu';
+import Dropdown from './Dropdown'; // 상대경로는 프로젝트 구조에 따라 수정
 
 type FilterBarProps = {
   selected: string;
@@ -18,7 +18,6 @@ const sortOptions = ['조회순', '좋아요 순', '댓글 순', '최신순', '�
 
 const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
   const [searchType, setSearchType] = useState<string>('검색 유형');
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<string>('최신순');
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false);
@@ -38,39 +37,13 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
     <div className="w-full flex flex-col gap-10">
       {/* 상단: 검색바 + 글쓰기 버튼 */}
       <div className="flex justify-between items-center w-full">
-        {/* 검색 유형 + 검색창 */}
         <div className="flex items-center gap-4">
-          {/* 검색 유형 드롭다운 */}
-          <div className="relative">
-            <button
-              onClick={() => setDropdownOpen((prev) => !prev)}
-              className="flex items-center text-sm text-black hover:opacity-70"
-            >
-              <span className="font-medium">{searchType}</span>
-              <FaChevronDown className="ml-1 w-3 h-3" />
-            </button>
-            {dropdownOpen && (
-              <div className="absolute top-8 left-0 z-10 bg-white rounded-xl shadow-md p-2 w-28 text-center">
-                {searchTypes.map((type) => (
-                  <div
-                    key={type}
-                    onClick={() => {
-                      setSearchType(type);
-                      setDropdownOpen(false);
-                    }}
-                    className={`py-1 rounded-md cursor-pointer transition px-2
-                      ${
-                        searchType === type
-                          ? 'bg-purple-100 text-purple-600 font-bold'
-                          : 'text-gray-700 hover:bg-[#ECECEC] hover:text-[#4D4D4D]'
-                      }`}
-                  >
-                    {type}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* 드롭다운 컴포넌트 사용 */}
+          <Dropdown
+            options={searchTypes}
+            selected={searchType}
+            onSelect={setSearchType}
+          />
 
           {/* 검색창 */}
           <input
@@ -89,9 +62,8 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
         </button>
       </div>
 
-      {/* 하단: 카테고리 + 최신순 */}
+      {/* 하단: 카테고리 + 정렬 */}
       <div className="flex justify-between items-center w-full">
-        {/* 좌측: 카테고리 필터 바 */}
         <div className="flex items-center gap-2">
           <button className="p-1 rounded-full hover:bg-gray-100">
             <FaChevronLeft className="w-5 h-5 text-gray-500" />
@@ -117,7 +89,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
           </button>
         </div>
 
-        {/* 우측: 최신순 버튼 */}
+        {/* 정렬 드롭다운 */}
         <div className="relative">
           <button
             onClick={() => setSortDropdownOpen((prev) => !prev)}

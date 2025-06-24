@@ -8,7 +8,7 @@ export interface Post {
   views: number;
   author: string;
   authorAvatar: string;
-  time: string; // ISO or "1시간 전" 등
+  time: string; 
   thumbnail?: string;
   content?:string
 }
