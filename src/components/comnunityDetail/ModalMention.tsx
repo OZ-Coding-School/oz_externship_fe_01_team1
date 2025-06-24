@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { commentData } from '../../types'
+import { useTextarea } from '../../store/mentionStore'
 
 interface ModalMentionProps {
   setShowSuggestions: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,15 +13,15 @@ export default function ModalMention({
   textareaRef,
   filteredUsers,
 }: ModalMentionProps) {
-  const [text, setText] = useState('')
+  const { text, setText } = useTextarea()
 
-  const handleSelect = (nickname: string) => {
+  const handleSelect = (userName: string) => {
     if (!textareaRef.current) return
     const cursorPos = textareaRef.current.selectionStart
     const beforeCursor = text.slice(0, cursorPos)
     const afterCursor = text.slice(cursorPos)
 
-    const replaced = beforeCursor.replace(/@([\w가-힣]{1,})$/, `@${nickname} `)
+    const replaced = beforeCursor.replace(/@([\w가-힣]{1,})$/, `@${userName} `)
     const newText = replaced + afterCursor
 
     setText(newText)
