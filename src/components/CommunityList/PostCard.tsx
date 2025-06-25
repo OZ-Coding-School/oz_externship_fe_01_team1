@@ -2,27 +2,11 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
 import type { Post } from '../../types/post';
+import { formatRelativeTime } from '../../utils/formatRelativeTime';
 
 interface PostCardProps {
   post: Post;
   nocardborder?: boolean;
-}
-
-// ✅ "~초 전, ~분 전, ~시간 전, ~일 전" 형태의 상대 시간 포맷
-function formatRelativeTime(timestamp: string): string {
-  if (!timestamp) return '시간 없음';
-
-  const postTime = new Date(timestamp);
-  if (isNaN(postTime.getTime())) return '잘못된 시간';
-
-  const now = new Date();
-  const diff = Math.floor((now.getTime() - postTime.getTime()) / 1000); // 초 단위
-
-  
-  if (diff < 60) return `${diff}초 전`;
-  if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
-  return `${Math.floor(diff / 86400)}일 전`;
 }
 
 export default function PostCard({ post, nocardborder }: PostCardProps) {
