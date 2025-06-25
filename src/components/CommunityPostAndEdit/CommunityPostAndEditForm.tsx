@@ -21,7 +21,7 @@ interface Props {
     }) => void;
 }
 
-export default function CommunityForm({ type, initialData, onSubmit }: Props) {
+export default function CommunityPostAndEditForm({ type, initialData, onSubmit }: Props) {
     const [title, setTitle] = useState(initialData?.title || '');
     const [mainCat, setMainCat] = useState(initialData?.mainCat || '');
     const [subCat, setSubCat] = useState(initialData?.subCat || '');

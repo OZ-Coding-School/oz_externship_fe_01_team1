@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import CommunityForm from "../components/CommunityPostAndEdit/CommunityForm.tsx";
+import CommunityPostAndEditForm from "../components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
 
 
 export default function CommunityPost() {
@@ -8,5 +8,5 @@ export default function CommunityPost() {
         navigate('/CommunityList/CommunityDetail');
     };
 
-    return <CommunityForm type="create" onSubmit={handleSubmit} />;
+    return <CommunityPostAndEditForm type="create" onSubmit={handleSubmit} />;
 }
