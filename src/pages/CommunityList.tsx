@@ -1,73 +1,20 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import PostCard from '../components/CommunityList/PostCard';
-import type { Post } from '../types/post';
 import FilterBar from '../components/CommunityList/FilterBar';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-
-const DUMMY_POSTS_KEY = 'oz_dummy_posts';
-
-function createDummyPosts(): Post[] {
-  return [
-    {
-      id: '1',
-      category: 'oz.영화',
-      title: '🎬 영화 같이 볼 사람 구해요!',
-      link: 'https://moviegroup.com/room1',
-      likes: 34,
-      comments: 10,
-      views: 150,
-      author: 'movieFan',
-      authorAvatar: 'https://placehold.co/24x24',
-      time: new Date().toISOString(),
-      thumbnail: 'https://placehold.co/120x90'
-    },
-    {
-      id: '3',
-      category: 'oz.음악',
-      title: '공부할 때 듣기 좋은 플레이리스트 공유합니다.',
-      link: 'https://example.com/playlist',
-      likes: 5,
-      comments: 1,
-      views: 100,
-      author: '이서윤',
-      authorAvatar: 'https://placehold.co/24x24',
-      time: new Date().toISOString(),
-      thumbnail: '',
-      content: '공부 집중용 음악 모음 공유해요!'
-    },
-    // ... 필요시 게시글 추가
-  ];
-}
-
-function getOrCreateDummyPosts(): Post[] {
-  const saved = localStorage.getItem(DUMMY_POSTS_KEY);
-  if (saved) {
-    try {
-      return JSON.parse(saved);
-    } catch {
-      // 파싱 실패 시 새로 생성
-    }
-  }
-  const posts = createDummyPosts();
-  localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(posts));
-  return posts;
-}
+import Pagination from '../components/CommunityList/Pagination';
+import { useDummyPosts } from '../utils/useDummyPosts';
+import { filterPosts } from '../utils/filterPosts';
 
 export default function PostList() {
   const [categoryFilter, setCategoryFilter] = useState('전체');
   const [searchText] = useState('');
   const [page, setPage] = useState(1);
 
-  // 새로고침해도 시간 고정(localStorage 사용)
-  const dummyPostsRef = useRef<Post[]>(getOrCreateDummyPosts());
-  const dummyPosts = dummyPostsRef.current;
-
+  const dummyPosts = useDummyPosts();
   const postsPerPage = 5;
 
   // 필터링
-  const filteredPosts = dummyPosts
-    .filter(post => categoryFilter === '전체' || post.category === categoryFilter)
-    .filter(post => post.title.includes(searchText));
+  const filteredPosts = filterPosts(dummyPosts, categoryFilter, searchText);
 
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / postsPerPage));
 
@@ -110,69 +57,11 @@ export default function PostList() {
 
       {/* 페이지네이션 */}
       {totalPages > 0 && (
-        <div className="flex justify-center items-center gap-2 mt-10">
-          {/* 처음으로 */}
-          <button
-            className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
-            disabled={page === 1}
-            onClick={() => setPage(1)}
-            aria-label="처음으로"
-          >
-            <ChevronsLeft size={16} />
-          </button>
-
-          {/* 이전 페이지 */}
-          <button
-            className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
-            disabled={page === 1}
-            onClick={() => setPage(p => Math.max(1, p - 1))}
-            aria-label="이전 페이지"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          {/* 페이지 번호 */}
-          {[...Array(totalPages)].map((_, i) => {
-            const pageNumber = i + 1;
-            const isCurrent = page === pageNumber;
-            return (
-              <button
-                key={pageNumber}
-                onClick={() => setPage(pageNumber)}
-                disabled={isCurrent}
-                className={`w-8 h-8 text-sm rounded-md transition ${
-                  isCurrent
-                    ? 'bg-[#6201E0] text-white font-semibold cursor-default'
-                    : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700 cursor-pointer'
-                }`}
-                aria-current={isCurrent ? 'page' : undefined}
-                aria-label={`페이지 ${pageNumber}`}
-              >
-                {pageNumber}
-              </button>
-            );
-          })}
-
-          {/* 다음 페이지 */}
-          <button
-            className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
-            disabled={page === totalPages}
-            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-            aria-label="다음 페이지"
-          >
-            <ChevronRight size={16} />
-          </button>
-
-          {/* 마지막으로 */}
-          <button
-            className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
-            disabled={page === totalPages}
-            onClick={() => setPage(totalPages)}
-            aria-label="마지막으로"
-          >
-            <ChevronsRight size={16} />
-          </button>
-        </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );
