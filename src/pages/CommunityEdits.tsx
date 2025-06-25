@@ -1,3 +1,14 @@
-export default function CommunityEdits() {
-  return <h1>커뮤니티 글 수정 페이지</h1>
+import Content from "../components/CommunityPostAndEdit/Content.tsx";
+import Header from "../components/CommunityPostAndEdit/Header.tsx";
+import Button from "../components/CommunityPostAndEdit/Button.tsx";
+
+export default function CommunityPost() {
+  return (
+      <div>
+        <Header />
+        <Content />
+        <Button text={"완료"}/>
+      </div>
+  )
+      ;
 }
