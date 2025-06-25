@@ -1,44 +1,66 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PostCard from '../components/CommunityList/PostCard';
 import type { Post } from '../types/post';
 import FilterBar from '../components/CommunityList/FilterBar';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
-const dummyPosts: Post[] = [
-  {
-    id: '1',
-    category: 'oz.영화',
-    title: '🎬 영화 같이 볼 사람 구해요!',
-    link: 'https://moviegroup.com/room1',
-    likes: 34,
-    comments: 10,
-    views: 150,
-    author: 'movieFan',
-    authorAvatar: 'https://placehold.co/24x24',
-    time: new Date().toISOString(),
-    thumbnail: 'https://placehold.co/120x90'
-  },
-  {
-    id: '3',
-    category: 'oz.음악',
-    title: '공부할 때 듣기 좋은 플레이리스트 공유합니다.',
-    link: 'https://example.com/playlist',
-    likes: 5,
-    comments: 1,
-    views: 100,
-    author: '이서윤',
-    authorAvatar: 'https://placehold.co/24x24',
-    time: new Date().toISOString(),
-    thumbnail: '',
-    content: '공부 집중용 음악 모음 공유해요!'
-  },
-  // ... 필요시 게시글 추가
-];
+const DUMMY_POSTS_KEY = 'oz_dummy_posts';
+
+function createDummyPosts(): Post[] {
+  return [
+    {
+      id: '1',
+      category: 'oz.영화',
+      title: '🎬 영화 같이 볼 사람 구해요!',
+      link: 'https://moviegroup.com/room1',
+      likes: 34,
+      comments: 10,
+      views: 150,
+      author: 'movieFan',
+      authorAvatar: 'https://placehold.co/24x24',
+      time: new Date().toISOString(),
+      thumbnail: 'https://placehold.co/120x90'
+    },
+    {
+      id: '3',
+      category: 'oz.음악',
+      title: '공부할 때 듣기 좋은 플레이리스트 공유합니다.',
+      link: 'https://example.com/playlist',
+      likes: 5,
+      comments: 1,
+      views: 100,
+      author: '이서윤',
+      authorAvatar: 'https://placehold.co/24x24',
+      time: new Date().toISOString(),
+      thumbnail: '',
+      content: '공부 집중용 음악 모음 공유해요!'
+    },
+    // ... 필요시 게시글 추가
+  ];
+}
+
+function getOrCreateDummyPosts(): Post[] {
+  const saved = localStorage.getItem(DUMMY_POSTS_KEY);
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      // 파싱 실패 시 새로 생성
+    }
+  }
+  const posts = createDummyPosts();
+  localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(posts));
+  return posts;
+}
 
 export default function PostList() {
   const [categoryFilter, setCategoryFilter] = useState('전체');
   const [searchText] = useState('');
   const [page, setPage] = useState(1);
+
+  // 새로고침해도 시간 고정(localStorage 사용)
+  const dummyPostsRef = useRef<Post[]>(getOrCreateDummyPosts());
+  const dummyPosts = dummyPostsRef.current;
 
   const postsPerPage = 5;
 
