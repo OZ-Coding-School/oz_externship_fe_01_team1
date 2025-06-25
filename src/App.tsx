@@ -5,8 +5,9 @@ import Layout from './pages/Layout'
 import CommunityList from './pages/CommunityList'
 import Login from './pages/Login'
 import Join from './pages/Join'
-import { CommunityPost } from './pages/CommunityPost'
+import CommunityPost from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
+import NotFound from './pages/NotFound'
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
         />
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )
