@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { dummyPosts } from '../mocks/dummyposts';
+import { useEffect, useState } from 'react';
+import { dummyPosts } from '../mocks/useDummyposts';
 import type { Post } from '../types/post';
 
 const DUMMY_POSTS_KEY = 'oz_dummy_posts';
@@ -18,6 +18,25 @@ function getOrCreateDummyPosts(): Post[] {
 }
 
 export function useDummyPosts() {
-  const dummyPostsRef = useRef<Post[]>(getOrCreateDummyPosts());
-  return dummyPostsRef.current;
+  const [posts, setPosts] = useState<Post[]>(getOrCreateDummyPosts());
+
+  // 다른 탭에서 localStorage가 변경될 때 동기화
+  useEffect(() => {
+    const handleStorage = () => {
+      setPosts(getOrCreateDummyPosts());
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  // 게시글 추가/삭제/수정 시 호출
+  const updatePosts = (newPosts: Post[]) => {
+    localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(newPosts));
+    setPosts(newPosts);
+  };
+
+  return { posts, updatePosts };
 }
+
+useDummyPosts();
+

@@ -67,7 +67,7 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
           <img
             src={post.thumbnail}
             alt="썸네일"
-            className="w-[120px] h-[90px] rounded-md object-cover ml-4"
+            className="w-[228px] h-[163px] min-w-[228px] min-h-[163px] max-w-[228px] max-h-[163px] rounded-md object-cover ml-4"
           />
         )}
       </div>

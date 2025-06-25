@@ -41,7 +41,10 @@ jobs:
                   "timestamp": "${{ github.event.pull_request.created_at }}"
                 }]
               }' \
-              ${{ secrets.DISCORD_WEBHOOK_URL }}
+                            "${{ secrets.DISCORD_WEBHOOK_URL }}"
+              # Make sure to add DISCORD_WEBHOOK_URL in your repository's GitHub Actions secrets:
+              # Go to your repository > Settings > Secrets and variables > Actions > New repository secret
+              # Name: DISCORD_WEBHOOK_URL, Value: <your Discord webhook URL>
 
       # 여러 리뷰어 멘션 (중복 방지 버전)
       - name: Mention Reviewers
@@ -111,7 +114,7 @@ jobs:
                      ]
                    }]
                  }" \
-                 ${{ secrets.DISCORD_WEBHOOK_URL }}
+                 "${{ secrets.DISCORD_WEBHOOK_URL }}"
           else
             echo "중복 실행 방지: 이미 첫 번째 리뷰어가 알림을 전송했습니다."
           fi
@@ -151,7 +154,7 @@ jobs:
                   ]
                 }]
               }" \
-              ${{ secrets.DISCORD_WEBHOOK_URL }}
+              "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
       # 리뷰 승인 시 PR 작성자 멘션
       - name: Notify on Review Approved

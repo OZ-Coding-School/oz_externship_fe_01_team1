@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -22,6 +22,22 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
   const [selectedSort, setSelectedSort] = useState<string>('최신순');
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false);
   const [, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
 
   const handleSortClick = (option: string) => {
     if (selectedSort === option) {

@@ -10,11 +10,15 @@ export default function PostList() {
   const [searchText] = useState('');
   const [page, setPage] = useState(1);
 
-  const dummyPosts = useDummyPosts();
+  const { posts } = useDummyPosts();
   const postsPerPage = 5;
 
+  // mock 데이터 추가
+  // Define the type for a Post (adjust fields as needed)
+
+
   // 필터링
-  const filteredPosts = filterPosts(dummyPosts, categoryFilter, searchText);
+  const filteredPosts = filterPosts(posts, categoryFilter, searchText);
 
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / postsPerPage));
 
