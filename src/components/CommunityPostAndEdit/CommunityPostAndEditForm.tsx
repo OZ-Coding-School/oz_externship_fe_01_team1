@@ -21,14 +21,14 @@ interface Props {
     }) => void;
 }
 
-export default function CommunityPostAndEditForm({ type, initialData, onSubmit }: Props) {
-    const [title, setTitle] = useState(initialData?.title || '');
-    const [mainCat, setMainCat] = useState(initialData?.mainCat || '');
-    const [subCat, setSubCat] = useState(initialData?.subCat || '');
-    const [detailCat, setDetailCat] = useState(initialData?.detailCat || '');
-    const [markdown, setMarkdown] = useState(initialData?.markdown || '');
+export default function CommunityPostAndEditForm({type, onSubmit}: Props) {
+    const [title, setTitle] = useState('');
+    const [mainCat, setMainCat] = useState('');
+    const [subCat, setSubCat] = useState('');
+    const [detailCat, setDetailCat] = useState('');
+    const [markdown, setMarkdown] = useState('');
 
-    const isFormValid = title && mainCat && subCat && detailCat && markdown;
+    const isFormValid = title.trim() && mainCat.trim() && subCat.trim() && detailCat.trim() && markdown.trim();
 
     return (
         <>
@@ -42,13 +42,13 @@ export default function CommunityPostAndEditForm({ type, initialData, onSubmit }
                 detailCat={detailCat}
                 setDetailCat={setDetailCat}
             />
-            <Content markdown={markdown} setMarkdown={setMarkdown} />
+            <Content markdown={markdown} setMarkdown={setMarkdown}/>
             <SubmitButton
                 text={type === 'edit' ? '완료' : '등록하기'}
                 disabled={!isFormValid}
                 onClick={() =>
                     isFormValid &&
-                    onSubmit({ title, mainCat, subCat, detailCat, markdown })
+                    onSubmit({title, mainCat, subCat, detailCat, markdown})
                 }
             />
         </>
