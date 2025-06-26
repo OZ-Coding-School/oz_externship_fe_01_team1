@@ -1,4 +1,5 @@
 import React from "react";
+import {imageResize} from "@utils/imageresize.ts";
 
 export const handleImageDrop = (
     event: React.DragEvent<HTMLDivElement>,
@@ -8,7 +9,7 @@ export const handleImageDrop = (
     const file = event.dataTransfer.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
 
-    if (file.size > 3 * 1024 * 1024) {
+    if (file.size > imageResize) {
         alert('이미지는 3MB 이하만 업로드할 수 있습니다.');
         return;
     }
