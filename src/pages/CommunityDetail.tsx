@@ -108,7 +108,7 @@ export default function CommunityDetail() {
               <GoLink className="h-[18px] w-[18px]" />
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
-            {showPopup && <SharePopup setShowPopup={setShowPopup} />}
+            {showPopup && <SharePopup />}
           </div>
           <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
             <CommentTextArea

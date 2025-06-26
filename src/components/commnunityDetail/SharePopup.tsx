@@ -1,10 +1,6 @@
 import { useState } from 'react'
 
-export default function SharePopup({
-  setShowPopup,
-}: {
-  setShowPopup: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+export default function SharePopup() {
   const [copied, setCopied] = useState(false)
   const [copyError, setCopyError] = useState(false)
   const currentUrl = window.location.href
@@ -14,7 +10,7 @@ export default function SharePopup({
       await navigator.clipboard.writeText(currentUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000) // 2초 후 복사 알림 사라짐
-    } catch (err) {
+    } catch {
       setCopyError(true)
       setTimeout(() => setCopyError(false), 2000)
     } finally {
