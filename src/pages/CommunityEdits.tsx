@@ -1,10 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import CommunityPostAndEditForm from "../components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
+import Header from '../components/CommunityPostAndEdit/Header.tsx'
 
-export default function CommunityEdit() {
-    const navigate = useNavigate();
-    const handleUpdate = () => {
-        navigate(`/CommunityList/CommunityDetail`);
-    };
-    return <CommunityPostAndEditForm type="edit" onSubmit={handleUpdate} />;
+export default function CommunityPost() {
+  return (
+    <div>
+      <Header />
+    </div>
+  )
 }
