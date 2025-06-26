@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Join from './pages/Join'
 import CommunityPost from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
+import JoinFrom from './components/join/JoinForm'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/CommunityList/CommunityDetail" element={<CommunityDetail />} />
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Join/JoinForm" element={<JoinFrom />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
