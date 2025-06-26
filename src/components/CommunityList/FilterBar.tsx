@@ -25,6 +25,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // 바깥쪽 클릭 시 드롭다운 닫기
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -38,6 +39,22 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [open]);
+
+  // 정렬 드롭다운 바깥쪽 클릭 닫기
+  const sortRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleSortClickOutside(event: MouseEvent) {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setSortDropdownOpen(false);
+      }
+    }
+    if (sortDropdownOpen) {
+      document.addEventListener('mousedown', handleSortClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleSortClickOutside);
+    };
+  }, [sortDropdownOpen]);
 
   const handleSortClick = (option: string) => {
     if (selectedSort === option) {
@@ -106,7 +123,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
         </div>
 
         {/* 정렬 드롭다운 */}
-        <div className="relative">
+        <div className="relative" ref={sortRef}>
           <button
             onClick={() => setSortDropdownOpen((prev) => !prev)}
             className="text-sm text-gray-700 hover:text-purple-600 flex items-center"

@@ -5,6 +5,9 @@ import type { Post } from '../types/post';
 const DUMMY_POSTS_KEY = 'oz_dummy_posts';
 
 function getOrCreateDummyPosts(): Post[] {
+  // 개발 중에는 항상 최신 mock 데이터를 반영 (배포 전에는 주석 처리!)
+  localStorage.removeItem(DUMMY_POSTS_KEY);
+
   const saved = localStorage.getItem(DUMMY_POSTS_KEY);
   if (saved) {
     try {
@@ -38,5 +41,4 @@ export function useDummyPosts() {
   return { posts, updatePosts };
 }
 
-useDummyPosts();
 
