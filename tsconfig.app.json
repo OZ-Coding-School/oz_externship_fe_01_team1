@@ -19,8 +19,7 @@
       "@constants/*": ["./src/constants/*"],
       "@store/*": ["./src/store/*"]
     },
-"types": ["node"],
-
+    "types": ["node"],
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

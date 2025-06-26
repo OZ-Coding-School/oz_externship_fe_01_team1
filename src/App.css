@@ -1,1 +1,19 @@
+<<<<<<< feature/login
 @import "tailwindcss";
+=======
+@import 'tailwindcss';
+
+@keyframes bounceX {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bounce-x {
+  animation: bounceX 1s ease-in-out;
+}
+>>>>>>> develop
