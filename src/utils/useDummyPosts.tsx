@@ -55,5 +55,6 @@ export function useDummyPosts() {
 
   return { posts, updatePosts };
 }
+// Post interface is now imported from '../types/post'
 
 

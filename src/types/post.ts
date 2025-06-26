@@ -1,4 +1,5 @@
 export interface Post {
+  createdAt: string | number | Date;
   id: string;
   category: string;
   title: string;
