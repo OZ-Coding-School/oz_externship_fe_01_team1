@@ -11,13 +11,23 @@ function getOrCreateDummyPosts(): Post[] {
   const saved = localStorage.getItem(DUMMY_POSTS_KEY);
   if (saved) {
     try {
-      return JSON.parse(saved);
+      // 날짜(Date)는 문자열로 저장되어 있으므로, 객체로 변환
+      const parsed = JSON.parse(saved).map((post: Post) => ({
+        ...post,
+        createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+      }));
+      return parsed;
     } catch {
       // 파싱 실패 시 새로 생성
     }
   }
-  localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(dummyPosts));
-  return dummyPosts;
+  // dummyPosts의 createdAt도 Date 객체로 변환
+  const postsWithDate = dummyPosts.map((post: Post) => ({
+    ...post,
+    createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+  }));
+  localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(postsWithDate));
+  return postsWithDate;
 }
 
 export function useDummyPosts() {
@@ -34,7 +44,12 @@ export function useDummyPosts() {
 
   // 게시글 추가/삭제/수정 시 호출
   const updatePosts = (newPosts: Post[]) => {
-    localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(newPosts));
+    // createdAt이 Date 객체라면 문자열로 변환해서 저장
+    const postsToSave = newPosts.map(post => ({
+      ...post,
+      createdAt: post.createdAt instanceof Date ? post.createdAt.toISOString() : post.createdAt,
+    }));
+    localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(postsToSave));
     setPosts(newPosts);
   };
 
