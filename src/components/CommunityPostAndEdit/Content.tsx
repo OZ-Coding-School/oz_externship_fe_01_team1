@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 
 export default function Content() {
