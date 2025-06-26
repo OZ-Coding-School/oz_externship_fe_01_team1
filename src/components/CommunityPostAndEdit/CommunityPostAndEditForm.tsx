@@ -1,4 +1,4 @@
-import {useState} from "react";
+import  {useState} from "react";
 import PostFormHeader from "./PostFormHeader.tsx";
 import Content from "./Content.tsx";
 import SubmitButton from "./SubmitButton.tsx";
