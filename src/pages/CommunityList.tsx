@@ -1,21 +1,40 @@
-import { useState } from 'react';
+import { Link } from 'react-router'
+import { useState } from 'react'
 import PostCard from '../components/CommunityList/PostCard';
 import FilterBar from '../components/CommunityList/FilterBar';
 import Pagination from '../components/CommunityList/Pagination';
 import { useDummyPosts } from '../utils/useDummyPosts';
 import { filterPosts } from '../utils/filterPosts';
 
-export default function PostList() {
+function CommunityListLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="
+        w-[944px] 
+        min-h-[2445px]
+        mx-auto
+        pt-[219px]
+        px-0
+        rounded-none
+        opacity-100
+        relative
+      "
+      style={{
+        left: '488px',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function CommunityList() {
   const [categoryFilter, setCategoryFilter] = useState('전체');
   const [searchText] = useState('');
   const [page, setPage] = useState(1);
 
   const { posts } = useDummyPosts();
   const postsPerPage = 5;
-
-  // mock 데이터 추가
-  // Define the type for a Post (adjust fields as needed)
-
 
   // 필터링
   const filteredPosts = filterPosts(posts, categoryFilter, searchText);
@@ -33,8 +52,20 @@ export default function PostList() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <h2 className="text-2xl font-semibold mb-6">커뮤니티</h2>
+    <CommunityListLayout>
+      <h1 className="text-[30px]">커뮤니티 목록 페이지</h1>
+
+      <div>
+        <Link to="/CommunityList/CommunityDetail">
+          커뮤니티 상세페이지 이동
+        </Link>
+      </div>
+      <div>
+        <Link to="/CommunityList/CommunityPost">글작성 페이지 이동</Link>
+      </div>
+      <div>
+        <Link to="/CommunityList/CommunityEdit">글수정 페이지 이동</Link>
+      </div>
 
       {/* 필터 바 */}
       <FilterBar
@@ -46,9 +77,8 @@ export default function PostList() {
         }}
       />
 
-      <div className="mb-7" />
-
-      <hr className="border-t border-gray-300 mb-12" />
+      {/* 경계선 1개만, 12px 마진 */}
+      <hr className="border-t border-gray-300 my-3" />
 
       {/* 게시글 목록 */}
       <div className="space-y-6">
@@ -67,6 +97,6 @@ export default function PostList() {
           onPageChange={setPage}
         />
       )}
-    </div>
+    </CommunityListLayout>
   );
 }
