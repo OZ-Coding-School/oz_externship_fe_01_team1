@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router'
 import './App.css'
 import CommunityDetail from './pages/CommunityDetail'
 import Layout from './pages/Layout'
-import CommunityList from './pages/CommunityList'
+// Update the import path to match the actual filename, e.g. CommunityList.tsx or CommunityList/index.tsx
+import CommunityList from './pages/CommunityList' // <-- Update this path if the file is named differently, e.g. './pages/CommunityList.tsx'
 import Login from './pages/Login'
 import Join from './pages/Join'
 import CommunityPost from './pages/CommunityPost';

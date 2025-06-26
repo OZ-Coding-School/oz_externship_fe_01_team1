@@ -15,26 +15,42 @@ const Dropdown: React.FC<DropdownProps> = ({
   widthClass = 'w-28',
 }) => {
   const [open, setOpen] = React.useState(false);
-
   // 검색유형 텍스트를 선택된 값으로 표시
+  // selected가 없으면 '검색 유형' 기본값
+  const displayText = selected || '검색 유형';
+
   return (
     <div className="relative">
       <button
-        className="w-28 min-w-[112px] max-w-[140px] px-4 py-2 rounded text-left bg-white flex items-center border-none whitespace-nowrap"
+        className="
+          w-[118px] h-[42px] flex flex-row justify-center items-center gap-[10px]
+          px-2 py-3 mx-[7px] my-0 rounded text-left bg-white border-none whitespace-nowrap
+        "
         style={{ border: 'none' }}
         onClick={() => setOpen((prev) => !prev)}
         type="button"
       >
-        <span className="text-black">{selected}</span>
-        <svg
-          className="ml-2 w-3 h-3 text-gray-500"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
+        <span className="text-black mr-1">{displayText}</span>
+        {/* 첨부한 SVG 아이콘 적용 */}
+        <span className="flex items-center">
+          <svg
+            width="13.5"
+            height="7.8"
+            viewBox="0 0 13.5059 7.81348"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="ml-1"
+            style={{ display: 'inline' }}
+          >
+            <path
+              d="M12.75 0.75L6.75 6.75L0.75 0.75"
+              stroke="#707070"
+              strokeOpacity="1"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>
       </button>
       {open && (
         <div

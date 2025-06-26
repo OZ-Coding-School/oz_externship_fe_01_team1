@@ -48,7 +48,7 @@ export default function PostList() {
 
       <div className="mb-7" />
 
-      <hr className="border-t border-gray-300 mb-6" />
+      <hr className="border-t border-gray-300 mb-12" />
 
       {/* 게시글 목록 */}
       <div className="space-y-6">
