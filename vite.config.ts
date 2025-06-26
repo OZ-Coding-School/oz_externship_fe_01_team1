@@ -19,8 +19,4 @@ export default defineConfig({
     },
   },
   plugins: [react(), tailwindcss()],
-<<<<<<< feature/login
 })
-=======
-})
->>>>>>> develop

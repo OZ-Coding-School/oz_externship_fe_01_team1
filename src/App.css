@@ -1,6 +1,3 @@
-<<<<<<< feature/login
-@import "tailwindcss";
-=======
 @import 'tailwindcss';
 
 @keyframes bounceX {
@@ -16,4 +13,3 @@
 .bounce-x {
   animation: bounceX 1s ease-in-out;
 }
->>>>>>> develop
