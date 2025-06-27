@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
-import type { Post } from '../../types';
+import type { Post } from '../../types/post';
 import { formatRelativeTime } from '../../utils/formatRelativeTime';
 
 interface PostCardProps {
