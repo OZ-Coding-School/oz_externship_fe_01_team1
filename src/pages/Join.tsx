@@ -20,11 +20,13 @@ export default function Join() {
         </div>
         <div className="flex flex-col items-center gap-[36px] w-full">
           <div className="flex flex-col gap-[16px] w-full">
-            <button className="flex justify-center items-center gap-[4px] bg-[#fee500] w-full h-[52px] text-[#391c1a] text-[16px] rounded-[4px] font-[400]">
+            <button className="flex justify-center items-center gap-[4px] bg-[#fee500] w-full h-[52px] 
+            text-[#391c1a] text-[16px] rounded-[4px] font-[400]">
               <img src={cacaologo} className="w-[16px] h-[14px]" />
               <div>카카오로 3초만에 가입하기</div>
             </button>
-            <button className="flex justify-center items-center gap-[4px] bg-[#03c45a] w-full h-[52px] text-[#ffffff] text-[16px] rounded-[4px]">
+            <button className="flex justify-center items-center gap-[4px] 
+            bg-[#03c45a] w-full h-[52px] text-[#ffffff] text-[16px] rounded-[4px]">
               <img src={naverlogo} className="w-[13px] h-[13px]" />
               <div>네이버로 가입하기</div>
             </button>
