@@ -1,4 +1,3 @@
-import { Link } from 'react-router'
 import { useState } from 'react'
 import PostCard from '../components/CommunityList/PostCard';
 import FilterBar from '../components/CommunityList/FilterBar';
@@ -28,7 +27,7 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function CommunityList() {
+export default function PostList() {
   const [categoryFilter, setCategoryFilter] = useState('전체');
   const [searchText] = useState('');
   const [page, setPage] = useState(1);
@@ -53,19 +52,7 @@ export default function CommunityList() {
 
   return (
     <CommunityListLayout>
-      <h1 className="text-[30px]">커뮤니티 목록 페이지</h1>
-
-      <div>
-        <Link to="/CommunityList/CommunityDetail">
-          커뮤니티 상세페이지 이동
-        </Link>
-      </div>
-      <div>
-        <Link to="/CommunityList/CommunityPost">글작성 페이지 이동</Link>
-      </div>
-      <div>
-        <Link to="/CommunityList/CommunityEdit">글수정 페이지 이동</Link>
-      </div>
+      <h2 className="text-2xl font-semibold mb-6">커뮤니티</h2>
 
       {/* 필터 바 */}
       <FilterBar
