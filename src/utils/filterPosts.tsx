@@ -1,4 +1,4 @@
-import type { Post } from '../types';
+import type { Post } from '../types/post';
 
 export function filterPosts(posts: Post[], category: string, searchText: string) {
   return posts
