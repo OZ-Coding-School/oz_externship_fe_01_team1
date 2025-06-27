@@ -1,4 +1,3 @@
-// components
 export interface Post {
   createdAt: string | number | Date;
   id: string;
@@ -13,10 +12,4 @@ export interface Post {
   time: string; 
   thumbnail?: string;
   content?:string
-}
-export interface commentData {
-  name: string;
-  date: string | Date;
-  content: string;
-  imgUrl: string;
 }

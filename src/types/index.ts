@@ -1,4 +1,3 @@
-// types
 export type commentData = {
   id: number
   name: string
