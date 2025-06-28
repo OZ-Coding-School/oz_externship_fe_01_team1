@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 interface CommonModalProps {
   title: string
@@ -64,12 +65,13 @@ export default function CommonModal({
     return modalContent
   }
 
-  return (
+  return createPortal(
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center ${position === 'center-bg' ? 'bg-[rgba(0,0,0,0.2)]' : ''}`}
       onClick={onClose}
     >
       {modalContent}
-    </div>
+    </div>,
+    document.body
   )
 }

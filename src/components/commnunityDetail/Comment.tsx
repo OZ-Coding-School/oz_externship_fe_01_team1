@@ -30,7 +30,7 @@ export default function Comment({
             <CommonModal
               isOpen={isModal}
               onClose={() => setIsModal(false)}
-              position="center-bg"
+              position="inline"
               title="댓글을 삭제하시겠습니까?"
             >
               <Button
