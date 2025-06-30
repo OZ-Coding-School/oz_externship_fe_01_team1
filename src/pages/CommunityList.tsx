@@ -16,11 +16,8 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
         px-0
         rounded-none
         opacity-100
-        relative
       "
-      style={{
-        left: '122px',
-      }}
+      style={{}}
     >
       {children}
     </div>
