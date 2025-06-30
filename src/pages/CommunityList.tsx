@@ -19,7 +19,7 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
         relative
       "
       style={{
-        left: '488px',
+        left: '122px',
       }}
     >
       {children}
@@ -51,39 +51,42 @@ export default function PostList() {
   }
 
   return (
-    <CommunityListLayout>
-      <h2 className="text-2xl font-semibold mb-6">커뮤니티</h2>
+    // 중앙 정렬을 위한 flex 컨테이너 추가
+    <div className="flex justify-center items-center min-h-screen">
+      <CommunityListLayout>
+        <h2 className="text-2xl font-semibold mb-6">커뮤니티</h2>
 
-      {/* 필터 바 */}
-      <FilterBar
-        selected={categoryFilter}
-        onSelect={(category) => {
-          setCategoryFilter(category);
-          // 페이지 유지하려면 setPage(1) 주석 처리
-          // setPage(1);
-        }}
-      />
-
-      {/* 경계선 1개만, 12px 마진 */}
-      <hr className="border-t border-gray-300 my-3" />
-
-      {/* 게시글 목록 */}
-      <div className="space-y-6">
-        {postsToShow.length > 0 ? (
-          postsToShow.map(post => <PostCard key={post.id} post={post} />)
-        ) : (
-          <p className="text-center text-gray-500">게시물이 없습니다.</p>
-        )}
-      </div>
-
-      {/* 페이지네이션 */}
-      {totalPages > 0 && (
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
+        {/* 필터 바 */}
+        <FilterBar
+          selected={categoryFilter}
+          onSelect={(category) => {
+            setCategoryFilter(category);
+            // 페이지 유지하려면 setPage(1) 주석 처리
+            // setPage(1);
+          }}
         />
-      )}
-    </CommunityListLayout>
+
+        {/* 경계선 1개만, 12px 마진 */}
+        <hr className="border-t border-gray-300 my-3" />
+
+        {/* 게시글 목록 */}
+        <div className="space-y-6">
+          {postsToShow.length > 0 ? (
+            postsToShow.map(post => <PostCard key={post.id} post={post} />)
+          ) : (
+            <p className="text-center text-gray-500">게시물이 없습니다.</p>
+          )}
+        </div>
+
+        {/* 페이지네이션 */}
+        {totalPages > 0 && (
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
+      </CommunityListLayout>
+    </div>
   );
 }
