@@ -18,7 +18,7 @@ export default function App() {
         <Route path="/CommunityList" element={<CommunityList />} />
         <Route path="/CommunityList/CommunityEdit" element={<CommunityEdits />} />
         <Route path="/CommunityList/CommunityPost" element={<CommunityPost />} />
-        <Route path="/CommunityList/CommunityDetail" element={<CommunityDetail />} />
+        <Route path="/CommunityList/CommunityDetail/:id" element={<CommunityDetail />} />
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Join/JoinForm" element={<JoinFrom />} />
