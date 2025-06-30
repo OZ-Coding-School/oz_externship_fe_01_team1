@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { formatDate } from '../../lib'
 import type { commentData } from '../../types'
 import CommonModal from '@components/common/Modal'
@@ -11,6 +11,18 @@ export default function Comment({
 }) {
   const [isModal, setIsModal] = useState(false)
   const commentDate = formatDate(date)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (contentRef.current) {
+      const regex = /@([\wㄱ-ㅎㅏ-ㅣ가-힣]{1,})/g
+      const replaced = content.replace(regex, (match) => {
+        return `<span class="font-semibold text-red-400 bg-gray-300 rounded-md p-0.5">${match}</span>`
+      })
+      contentRef.current.innerHTML = replaced
+    }
+  }, [content])
+
   return (
     <div className="flex gap-[17px] w-full relative">
       <img src={imgUrl} className="w-[48px] h-[48px] rounded-[50%] " />
@@ -50,7 +62,9 @@ export default function Comment({
             </CommonModal>
           }
         </div>
-        <div className="text-[#000000] text-[16px] font-[400]">{content}</div>
+        <div ref={contentRef} className="text-[#000000] text-[16px] font-[400]">
+          {content}
+        </div>
       </div>
     </div>
   )

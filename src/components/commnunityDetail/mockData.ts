@@ -17,7 +17,7 @@ export const commentsMockData = [
     id: 3,
     name: '박민수',
     date: '2025-06-21T09:45:00.000Z',
-    content: '질문이 있는데 답변 부탁드려요.',
+    content: '@이영희 질문이 있는데 답변 부탁드려요.',
     imgUrl: 'https://i.pravatar.cc/150?img=3',
   },
   // 김씨 성 추가
@@ -25,14 +25,14 @@ export const commentsMockData = [
     id: 4,
     name: '김지훈',
     date: '2025-06-20T12:00:00.000Z',
-    content: '정말 유익한 내용이에요!',
+    content: '정말 유익한 내용이에요! @박민수',
     imgUrl: 'https://i.pravatar.cc/150?img=4',
   },
   {
     id: 5,
     name: '김미영',
     date: '2025-06-19T11:20:00.000Z',
-    content: '잘 읽고 갑니다~',
+    content: '잘 읽고 @김정환 갑니다~',
     imgUrl: 'https://i.pravatar.cc/150?img=5',
   },
   {
