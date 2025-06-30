@@ -1,7 +1,7 @@
 import React from 'react';
 import MDEditor, {commands} from '@uiw/react-md-editor';
-import {useImageUploadCommand} from '../../hooks/useImageUploadCommand';
-import {handleImageDrop} from '../../utils/handleImageDrop';
+import {useImageUploadCommand} from '@hooks/useImageUploadCommand.tsx';
+import {handleImageDrop} from '@utils/handleImageDrop.ts';
 
 interface Props {
     markdown: string;

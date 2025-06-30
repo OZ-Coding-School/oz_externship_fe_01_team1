@@ -1,5 +1,7 @@
 import type {ICommand, TextState, TextAreaTextApi} from '@uiw/react-md-editor';
+import {imageResize} from "@utils/imageresize.ts";
 
+const maxSizeBytes = imageResize;
 const createBlobURL = (file: File): string => URL.createObjectURL(file);
 
 export const useImageUploadCommand = (): ICommand => ({
@@ -21,8 +23,8 @@ export const useImageUploadCommand = (): ICommand => ({
             const file = input.files?.[0];
             if (!file) return;
 
-            if (file.size > 3 * 1024 * 1024) {
-                alert('이미지는 3MB 이하만 업로드할 수 있습니다.');
+            if (file.size > maxSizeBytes) {
+                alert(`이미지는 ${Math.floor(maxSizeBytes / 1024 / 1024)}MB 이하만 업로드할 수 있습니다.`);
                 return;
             }
 
