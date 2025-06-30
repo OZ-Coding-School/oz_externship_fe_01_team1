@@ -3,6 +3,7 @@ import { formatDate } from '../../lib'
 import type { commentData } from '../../types'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
+import { commentsMockData } from './mockData'
 
 export default function Comment({
   commentData: { name, date, content, imgUrl },
@@ -17,7 +18,11 @@ export default function Comment({
     if (contentRef.current) {
       const regex = /@([\wㄱ-ㅎㅏ-ㅣ가-힣]{1,})/g
       const replaced = content.replace(regex, (match) => {
-        return `<span class="font-semibold text-red-400 bg-gray-300 rounded-md p-0.5">${match}</span>`
+        const names = commentsMockData.map((comment) => `@${comment.name}`)
+        if (names.includes(match)) {
+          return `<span class="font-semibold text-red-400 bg-gray-300 rounded-md p-0.5">${match}</span>`
+        }
+        return match
       })
       contentRef.current.innerHTML = replaced
     }

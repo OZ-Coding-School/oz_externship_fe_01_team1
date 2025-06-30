@@ -25,7 +25,7 @@ export const commentsMockData = [
     id: 4,
     name: '김지훈',
     date: '2025-06-20T12:00:00.000Z',
-    content: '정말 유익한 내용이에요! @박민수',
+    content: '정말 @김민수 유익한 내용이에요! @박민수',
     imgUrl: 'https://i.pravatar.cc/150?img=4',
   },
   {
