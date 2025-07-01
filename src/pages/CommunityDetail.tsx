@@ -6,9 +6,9 @@ import { GoLink } from 'react-icons/go'
 import { LuArrowUpDown } from 'react-icons/lu'
 import { SlArrowRight } from 'react-icons/sl'
 import CommentLoading from '../components/commnunityDetail/CommentLoading'
-import SharePopup from '../components/commnunityDetail/SharePopup'
 import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
 import { useSortComments } from '../hooks'
+import { URLCopy } from '@lib/index'
 
 export default function CommunityDetail() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -26,9 +26,6 @@ export default function CommunityDetail() {
     setSelectedSort(option)
     setSortDropdownOpen((prev) => !prev)
   }
-
-  //드랍다운 메뉴
-  const [showPopup, setShowPopup] = useState(false)
 
   const sortOptions = ['최신순', '오래된 순']
 
@@ -48,7 +45,7 @@ export default function CommunityDetail() {
 
   return (
     <div className="flex justify-center mt-[142px]">
-      <div className="flex flex-col items-center w-[944px] gap-[100px]">
+      <div className=" relative flex flex-col items-center w-[944px] gap-[100px]">
         <div className="flex flex-col gap-[24px] w-full">
           <div className="flex flex-col gap-[24px] border-b-[1px] pb-[14px] border-[#cecece]">
             <div className="flex flex-col gap-[24px]">
@@ -103,12 +100,16 @@ export default function CommunityDetail() {
             </button>
             <button
               className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer"
-              onClick={() => setShowPopup(!showPopup)}
+              onClick={async () => {
+                const result = await URLCopy()
+                alert(
+                  `${result ? '복사가 완료되었습니다.' : '복사가 실패하였습니다.'}`
+                )
+              }}
             >
               <GoLink className="h-[18px] w-[18px]" />
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
-            {showPopup && <SharePopup />}
           </div>
           <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
             <CommentTextArea
