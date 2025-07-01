@@ -15,6 +15,12 @@ export default function JoinForm() {
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
 
+  const [name, setName] = useState('');
+  const isValidName = name.length >= 2;
+
+  const [birth, setBirth] = useState('');
+  const isValidBirth = birth.length === 8;
+
   return (
 
   <div className="w-[528px] mx-auto px-[24px] py-[40px] bg-white ">
@@ -32,8 +38,12 @@ export default function JoinForm() {
               이름<span className="text-[#EC0037] ml-1">*</span>
             </label>
             <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="이름을 입력해주세요"
               focusBorderColor="focus:border-[#6201E0]"
+              success={name.length > 0 && isValidName}
+              error={name.length > 0 && !isValidName}
               className="placeholder:font-[400] placeholder:text-[14px]"
             />
           </div>
@@ -47,9 +57,13 @@ export default function JoinForm() {
           </label>
           <Input
             type="number"
+            value={birth}
+            onChange={(e) => setBirth(e.target.value)}
             noMarginBottom
             focusBorderColor="focus:border-[#6201E0]"
             placeholder="8자리 입력해주세요 (ex.20001004)"
+            success={birth.length > 0 && isValidBirth}
+            error={birth.length > 0 && !isValidBirth}
             className="placeholder:font-[400] placeholder:text-[14px]"
           />
           </div>

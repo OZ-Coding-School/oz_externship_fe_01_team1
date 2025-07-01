@@ -47,7 +47,7 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
         </Button>
       </div>
 
-      <div className="min-h-[20px] pl-[2px]">
+      <div className="min-h-[20px] mt-[8px] pl-[2px]">
         {nickname && !isValidNickname && (
           <p className="text-[#EC0037] text-[12px] mb-[8px]">* 이미 사용 중인 닉네임입니다.</p>
         )}
