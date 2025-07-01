@@ -10,9 +10,8 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
     <div
       className="
         w-[944px] 
-        min-h-[2445px]
         mx-auto
-        pt-[219px]
+        pt-[80px]
         px-0
         rounded-none
         opacity-100
