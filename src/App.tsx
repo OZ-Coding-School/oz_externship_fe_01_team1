@@ -13,9 +13,9 @@ import NotFound from './pages/NotFound'
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" />
-        <Route path="/CommunityList" element={<CommunityList />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<CommunityList />}/>
+        {/*<Route path="/CommunityList" element={<CommunityList />} />*/}
         <Route path="/CommunityList/CommunityEdit" element={<CommunityEdits />} />
         <Route path="/CommunityList/CommunityPost" element={<CommunityPost />} />
         <Route path="/CommunityList/CommunityDetail/:id" element={<CommunityDetail />} />
