@@ -1,42 +1,38 @@
 import { useEffect, useState } from 'react';
-import { dummyPosts } from '../mocks/postMockData';
+import { dummyPosts } from '../mocks/postMockData'; // 실제 더미 데이터 경로에 맞게 수정
 import type { Post } from '../types/post';
 
-const DUMMY_POSTS_KEY = 'oz_dummy_posts';
+const STORAGE_KEY = 'oz_dummy_posts';
 
-function getOrCreateDummyPosts(): Post[] {
-  // 개발 중에는 항상 최신 mock 데이터를 반영 (배포 전에는 주석 처리!)
-  localStorage.removeItem(DUMMY_POSTS_KEY);
-
-  const saved = localStorage.getItem(DUMMY_POSTS_KEY);
+function getOrCreatePosts(): Post[] {
+  const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
-      // 날짜(Date)는 문자열로 저장되어 있으므로, 객체로 변환
-      const parsed = JSON.parse(saved).map((post: Post) => ({
+      // createdAt 또는 time을 Date 객체로 변환
+      return JSON.parse(saved).map((post: Post) => ({
         ...post,
-        createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+        time: post.time ? post.time : new Date().toISOString(),
       }));
-      return parsed;
     } catch {
       // 파싱 실패 시 새로 생성
     }
   }
-  // dummyPosts의 createdAt도 Date 객체로 변환
-  const postsWithDate = dummyPosts.map((post: Post) => ({
+  // time 필드가 없으면 지금 시간으로 생성
+  const postsWithTime = dummyPosts.map((post: Post) => ({
     ...post,
-    createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+    time: post.time ? post.time : new Date().toISOString(),
   }));
-  localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(postsWithDate));
-  return postsWithDate;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(postsWithTime));
+  return postsWithTime;
 }
 
 export function useDummyPosts() {
-  const [posts, setPosts] = useState<Post[]>(getOrCreateDummyPosts());
+  const [posts, setPosts] = useState<Post[]>(getOrCreatePosts());
 
   // 다른 탭에서 localStorage가 변경될 때 동기화
   useEffect(() => {
     const handleStorage = () => {
-      setPosts(getOrCreateDummyPosts());
+      setPosts(getOrCreatePosts());
     };
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
@@ -44,17 +40,11 @@ export function useDummyPosts() {
 
   // 게시글 추가/삭제/수정 시 호출
   const updatePosts = (newPosts: Post[]) => {
-    // createdAt이 Date 객체라면 문자열로 변환해서 저장
-    const postsToSave = newPosts.map(post => ({
-      ...post,
-      createdAt: post.createdAt instanceof Date ? post.createdAt.toISOString() : post.createdAt,
-    }));
-    localStorage.setItem(DUMMY_POSTS_KEY, JSON.stringify(postsToSave));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newPosts));
     setPosts(newPosts);
   };
 
   return { posts, updatePosts };
 }
-// Post interface is now imported from '../types/post'
 
 
