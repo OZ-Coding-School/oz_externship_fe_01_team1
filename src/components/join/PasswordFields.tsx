@@ -24,7 +24,6 @@ export default function PasswordFields({
 
   return (
     <div className="flex flex-col">
-      {/* 수정: 라벨 아래 20px 간격 추가 */}
       <div className="inline-flex items-center mb-[20px]">
         <span className="text-[16px] font-[500] text-[#121212]">비밀번호</span>
         <span className="text-red-500 ml-[4px] text-[16px]">*</span>

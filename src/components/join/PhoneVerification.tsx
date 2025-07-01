@@ -30,7 +30,6 @@ export default function PhoneVerification({
 
   return (
     <div className="flex flex-col">
-      {/* 수정: mb-[20px] 추가 */}
       <label className="text-[16px] font-[500] mb-[20px]">
         휴대전화<span className="text-red-500 ml-1">*</span>
       </label>
@@ -73,6 +72,7 @@ export default function PhoneVerification({
             className="min-w-0 grow w-[108px]"
           />
         </div>
+
         {/* 인증번호전송 버튼 */}
         <Button
           fullWidth={false}
@@ -88,7 +88,6 @@ export default function PhoneVerification({
         </Button>
       </div>
 
-      {/* 수정: mt-[8px] 오타 수정 */}
       {(isPhoneError || isPhoneSuccess) && (
         <div className="pl-[2px] mt-[8px]">
           {isPhoneError && (

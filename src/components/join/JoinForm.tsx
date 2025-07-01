@@ -30,25 +30,25 @@ export default function JoinForm() {
         <div className="text-[18px] font-[600]">회원가입</div>
 
         <div className="flex flex-col gap-[44px]">
-  <NameField name={name} setName={setName} />
-  <NicknameField nickname={nickname} setNickname={setNickname} />
-  <BirthField birth={birth} setBirth={setBirth} />
-  <EmailVerification email={email} setEmail={setEmail} />
-  <PhoneVerification
-    phone1={phone1}
-    phone2={phone2}
-    phone3={phone3}
-    setPhone1={setPhone1}
-    setPhone2={setPhone2}
-    setPhone3={setPhone3}
-  />
-  <PasswordFields
-    password={password}
-    confirmPw={confirmPw}
-    setPassword={setPassword}
-    setConfirmPw={setConfirmPw}
-  />
-</div>
+          <NameField name={name} setName={setName} />
+          <NicknameField nickname={nickname} setNickname={setNickname} />
+          <BirthField birth={birth} setBirth={setBirth} />
+          <EmailVerification email={email} setEmail={setEmail} />
+          <PhoneVerification
+            phone1={phone1}
+            phone2={phone2}
+            phone3={phone3}
+            setPhone1={setPhone1}
+            setPhone2={setPhone2}
+            setPhone3={setPhone3}
+          />
+          <PasswordFields
+            password={password}
+            confirmPw={confirmPw}
+            setPassword={setPassword}
+            setConfirmPw={setConfirmPw}
+          />
+        </div>
 
           {/* 가입 버튼 */}
           <SubmitButton
