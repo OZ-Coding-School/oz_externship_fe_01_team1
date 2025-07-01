@@ -15,7 +15,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<CommunityList />}/>
-        {/*<Route path="/CommunityList" element={<CommunityList />} />*/}
+        <Route path="/CommunityList" element={<CommunityList />} />
         <Route path="/CommunityList/CommunityEdit" element={<CommunityEdits />} />
         <Route path="/CommunityList/CommunityPost" element={<CommunityPost />} />
         <Route path="/CommunityList/CommunityDetail/:id" element={<CommunityDetail />} />
