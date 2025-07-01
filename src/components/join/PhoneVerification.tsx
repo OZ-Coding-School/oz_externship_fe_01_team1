@@ -30,7 +30,8 @@ export default function PhoneVerification({
 
   return (
     <div className="flex flex-col">
-      <label className="text-[16px] font-[500] mb-[12px]">
+      {/* 수정: mb-[20px] 추가 */}
+      <label className="text-[16px] font-[500] mb-[20px]">
         휴대전화<span className="text-red-500 ml-1">*</span>
       </label>
 
@@ -47,7 +48,7 @@ export default function PhoneVerification({
             error={isPhoneError}
             className="min-w-0 grow w-[108px]"
           />
-          <span className="text-[14px] text-[#bdbdbd] mb-[14px]">-</span>
+          <span className="text-[14px] text-[#bdbdbd] ">-</span>
           <Input
             value={phone2}
             onChange={(e) => setPhone2(e.target.value)}
@@ -59,7 +60,7 @@ export default function PhoneVerification({
             error={isPhoneError}
             className="min-w-0 grow w-[108px]"
           />
-          <span className="text-[14px] text-[#bdbdbd] mb-[14px]">-</span>
+          <span className="text-[14px] text-[#bdbdbd]">-</span>
           <Input
             value={phone3}
             onChange={(e) => setPhone3(e.target.value)}
@@ -87,9 +88,9 @@ export default function PhoneVerification({
         </Button>
       </div>
 
-      {/* ✅ 유효성 메시지는 Button 바깥에서! */}
+      {/* 수정: mt-[8px] 오타 수정 */}
       {(isPhoneError || isPhoneSuccess) && (
-        <div className="pl-[2px] mt-[5px] min-h-[20px]">
+        <div className="pl-[2px] mt-[8px]">
           {isPhoneError && (
             <p className="text-[#EC0037] text-[12px]">* 이미 가입에 사용된 휴대전화 번호입니다.</p>
           )}
