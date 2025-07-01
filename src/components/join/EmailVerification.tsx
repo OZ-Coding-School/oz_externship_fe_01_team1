@@ -18,7 +18,6 @@ export default function EmailVerification({ email, setEmail }: EmailVerification
 
   return (
     <div className="flex flex-col">
-      {/* 수정: 라벨과 인풋 사이 20px 간격 유지 */}
       <div className="flex gap-[16px] items-center mb-[20px]">
         <label className="text-[16px] font-[500]">
           이메일<span className="text-red-500 ml-1">*</span>
