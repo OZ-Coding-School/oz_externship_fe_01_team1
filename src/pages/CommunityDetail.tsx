@@ -47,8 +47,8 @@ export default function CommunityDetail() {
   }
 
   return (
-    <div className="absolute left-1/2 top-[254px] transform -translate-x-1/2">
-      <div className="flex flex-col items-center w-[944px] h-[1165px] gap-[100px]">
+    <div className="flex justify-center mt-[142px]">
+      <div className="flex flex-col items-center w-[944px] gap-[100px]">
         <div className="flex flex-col gap-[24px] w-full">
           <div className="flex flex-col gap-[24px] border-b-[1px] pb-[14px] border-[#cecece]">
             <div className="flex flex-col gap-[24px]">
@@ -67,7 +67,7 @@ export default function CommunityDetail() {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-[16px] text-[16px] font-[500] text-[#9d9d9d] ">
                 <div>조회수 60</div>
                 <div>좋아요 2</div>
@@ -117,7 +117,7 @@ export default function CommunityDetail() {
             />
           </div>
           <div className="flex flex-col w-full gap-[20px]">
-            <div className="flex justify-between items-center w-full">
+            <div className="flex items-center justify-between w-full">
               <div className="text-[#121212] text-[20px] font-[700]">
                 {Array.isArray(comments)
                   ? `댓글 ${comments.length}개`
@@ -129,7 +129,7 @@ export default function CommunityDetail() {
                   className="text-sm text-gray-700 hover:text-[#6202E0] flex items-center cursor-pointer"
                 >
                   {selectedSort}
-                  <LuArrowUpDown className="ml-2 w-4 h-4" />
+                  <LuArrowUpDown className="w-4 h-4 ml-2" />
                 </button>
 
                 {sortDropdownOpen && (
@@ -157,7 +157,7 @@ export default function CommunityDetail() {
                 <Comment key={commentData.id} commentData={commentData} />
               ))}
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
               <CommentLoading />
             </div>
           </div>
