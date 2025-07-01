@@ -11,7 +11,7 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
       className="
         w-[944px] 
         mx-auto
-        pt-[219px]
+        pt-[80px]
         px-0
         rounded-none
         opacity-100
