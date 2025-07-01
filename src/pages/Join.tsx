@@ -13,9 +13,11 @@ export default function Join() {
             <div className="font-[500] text-[#4d4d4d] text-[16px]">
               아직 회원이신가요?
             </div>
-            <button className="font-[500] text-[#6201e0] text-[16px]">
+            <Link to="/Login"
+              className="font-[500] text-[#6201e0] text-[16px]"
+            >
               로그인하기
-            </button>
+            </Link>
           </div>
         </div>
         <div className="flex flex-col items-center gap-[36px] w-full">
