@@ -10,5 +10,14 @@ export function formatRelativeTime(timestamp: string): string {
   if (diff < 60) return `${diff}초 전`;
   if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
-  return `${Math.floor(diff / 86400)}일 전`;
+  if (diff < 2592000) return `${Math.floor(diff / 86400)}일 전`; // 30일 미만
+
+  // 달, 년 계산
+  const months =
+    (now.getFullYear() - postTime.getFullYear()) * 12 +
+    (now.getMonth() - postTime.getMonth());
+  if (months < 12) return `${months}달 전`;
+
+  const years = Math.floor(months / 12);
+  return `${years}년 전`;
 }
