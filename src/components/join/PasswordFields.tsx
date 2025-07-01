@@ -23,8 +23,9 @@ export default function PasswordFields({
   const showSuccess = isConfirmFilled && isSame;
 
   return (
-    <div className="flex flex-col gap-[12px]">
-      <div className="inline-flex items-center">
+    <div className="flex flex-col">
+      {/* 수정: 라벨 아래 20px 간격 추가 */}
+      <div className="inline-flex items-center mb-[20px]">
         <span className="text-[16px] font-[500] text-[#121212]">비밀번호</span>
         <span className="text-red-500 ml-[4px] text-[16px]">*</span>
         <span className="ml-[8px] text-[14px] font-[600] text-[#6201E0]">
@@ -32,7 +33,7 @@ export default function PasswordFields({
         </span>
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-[12px]">
         <Input
           type="password"
           value={password}
@@ -40,7 +41,7 @@ export default function PasswordFields({
           placeholder="비밀번호를 입력해주세요"
           success={isPasswordValid}
           error={password.length > 0 && !isPasswordValid}
-          
+          noMarginBottom
           focusBorderColor="focus:border-[#6201E0]"
           className="placeholder:text-[14px] placeholder:font-[400] w-[480px]"
         />
@@ -58,7 +59,7 @@ export default function PasswordFields({
       </div>
 
       {(showSuccess || showError) && (
-        <div className="pl-[2px] min-h-[20px]">
+        <div className="pl-[2px] mt-[8px] min-h-[20px]">
           {showError && (
             <p className="text-[#EC0037] text-[12px]">* 비밀번호가 일치하지 않습니다.</p>
           )}

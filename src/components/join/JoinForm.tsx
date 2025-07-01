@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import ozlogo from '../../assets/ozcoding_logo_black.png';
-import { Input, Button } from '@components/common';
 import NicknameField from './NicknameField';
 import EmailVerification from './EmailVerification';
 import PhoneVerification from './PhoneVerification';
 import PasswordFields from './PasswordFields';
+import NameField from './NameField';
+import BirthField from './BirthField';
+import SubmitButton from './JoinSubmitButton';
 
 export default function JoinForm() {
   const [nickname, setNickname] = useState('');
@@ -14,12 +16,8 @@ export default function JoinForm() {
   const [phone3, setPhone3] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
-
   const [name, setName] = useState('');
-  const isValidName = name.length >= 2;
-
   const [birth, setBirth] = useState('');
-  const isValidBirth = birth.length === 8;
 
   return (
 
@@ -31,71 +29,40 @@ export default function JoinForm() {
         </div>
         <div className="text-[18px] font-[600]">회원가입</div>
 
-        <div className="flex flex-col">
-          {/* 이름 */}
-          <div className="flex flex-col gap-[12px] mb-[44px]">
-            <label className="text-[16px] text-[#121212]">
-              이름<span className="text-[#EC0037] ml-1">*</span>
-            </label>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="이름을 입력해주세요"
-              focusBorderColor="focus:border-[#6201E0]"
-              success={name.length > 0 && isValidName}
-              error={name.length > 0 && !isValidName}
-              className="placeholder:font-[400] placeholder:text-[14px]"
-            />
-          </div>
-          {/* 닉네임 */}
-          <NicknameField nickname={nickname} setNickname={setNickname} />
+        <div className="flex flex-col gap-[44px]">
+  <NameField name={name} setName={setName} />
+  <NicknameField nickname={nickname} setNickname={setNickname} />
+  <BirthField birth={birth} setBirth={setBirth} />
+  <EmailVerification email={email} setEmail={setEmail} />
+  <PhoneVerification
+    phone1={phone1}
+    phone2={phone2}
+    phone3={phone3}
+    setPhone1={setPhone1}
+    setPhone2={setPhone2}
+    setPhone3={setPhone3}
+  />
+  <PasswordFields
+    password={password}
+    confirmPw={confirmPw}
+    setPassword={setPassword}
+    setConfirmPw={setConfirmPw}
+  />
+</div>
 
-          {/* 생년월일 */}
-          <div className="flex flex-col gap-[12px]  mb-[44px]">
-          <label className="text-[16px] text-[#121212]">
-            생년월일<span className="text-[#EC0037] ml-1">*</span>
-          </label>
-          <Input
-            type="number"
-            value={birth}
-            onChange={(e) => setBirth(e.target.value)}
-            noMarginBottom
-            focusBorderColor="focus:border-[#6201E0]"
-            placeholder="8자리 입력해주세요 (ex.20001004)"
-            success={birth.length > 0 && isValidBirth}
-            error={birth.length > 0 && !isValidBirth}
-            className="placeholder:font-[400] placeholder:text-[14px]"
+          {/* 가입 버튼 */}
+          <SubmitButton
+            name={name}
+            nickname={nickname}
+            birth={birth}
+            email={email}
+            phone1={phone1}
+            phone2={phone2}
+            phone3={phone3}
+            password={password}
+            confirmPw={confirmPw}
           />
-          </div>
         </div>
-
-        {/* 이메일 인증 */}
-        <EmailVerification email={email} setEmail={setEmail} />
-
-        {/* 휴대전화 */}
-        <PhoneVerification
-          phone1={phone1}
-          phone2={phone2}
-          phone3={phone3}
-          setPhone1={setPhone1}
-          setPhone2={setPhone2}
-          setPhone3={setPhone3}
-        />
-
-
-        {/* 비밀번호 */}
-        <PasswordFields
-          password={password}
-          confirmPw={confirmPw}
-          setPassword={setPassword}
-          setConfirmPw={setConfirmPw}
-        />
-
-        {/* 가입 버튼 */}
-        <Button className="bg-[#ececec] text-[#bdbdbd] font-[500] w-[480px] text-[16px]">
-          가입하기
-        </Button>
       </div>
-    </div>
   );
 }
