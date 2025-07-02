@@ -16,7 +16,10 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
         rounded-none
         opacity-100
       "
-      style={{}}
+      style={{ minHeight: '100vh', // 전체 높이 확보
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       {children}
     </div>
