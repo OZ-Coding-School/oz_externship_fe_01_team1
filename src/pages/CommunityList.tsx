@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PostCard from '../components/CommunityList/PostCard';
 import FilterBar from '../components/CommunityList/FilterBar';
 import Pagination from '../components/CommunityList/Pagination';
@@ -48,6 +48,11 @@ export default function PostList() {
   if (page > totalPages) {
     setPage(totalPages);
   }
+
+  // 상세페이지 이동 시 스크롤 Top:0 적용
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     // 중앙 정렬을 위한 flex 컨테이너 추가
