@@ -69,6 +69,10 @@ export default function NavBar() {
                         setIsDropdownOpen(false)
                         localStorage.removeItem('userData')
                       }
+                      if (option === '마이페이지') {
+                        setIsDropdownOpen(false)
+                        window.location.href = '/MyPage'
+                      }
                     }}
                     className="px-3 py-2 text-center transition rounded-md cursor-pointer hover:bg-purple-100 hover:text-[#6202E0] font-bold"
                   >
