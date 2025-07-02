@@ -16,6 +16,8 @@ const LoginForm = () => {
   const [openFindPwModal, setOpenFindPwModal] = useState(false) // 비밀번호 찾기 모달
   const [openResetPwModal, setOpenResetPwModal] = useState(false) // 비밀번호 재설정 모달
   const [showFindIdSuccess, setShowFindIdSuccess] = useState(false) // 아이디 찾기 성공 화면
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className="flex flex-col items-center justify-center bg-white pt-[88px]">
@@ -33,18 +35,22 @@ const LoginForm = () => {
       <LoginButtons />
 
       <div className="w-[348px] pace-y-3 mt-[40px]">
-        <LoginInputs
-          onFindId={() => {
-            setOpenFindIdModal(true)
-            setOpenFindPwModal(false)
-            setOpenResetPwModal(false)
-          }}
-          onFindPw={() => {
-            setOpenFindPwModal(true)
-            setOpenFindIdModal(false)
-            setOpenResetPwModal(false)
-          }}
-        />
+      <LoginInputs
+        email={email}
+        password={password}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        onFindId={() => {
+          setOpenFindIdModal(true);
+          setOpenFindPwModal(false);
+          setOpenResetPwModal(false);
+        }}
+        onFindPw={() => {
+          setOpenFindPwModal(true);
+          setOpenFindIdModal(false);
+          setOpenResetPwModal(false);
+        }}
+      />
 
         {/* 모달 렌더링 담당 (props로 상태 전달) */}
         <LoginModals
