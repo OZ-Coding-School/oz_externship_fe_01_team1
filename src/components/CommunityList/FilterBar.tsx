@@ -30,7 +30,7 @@ const WriteButtonSection: React.FC = () => (
   </div>
 );
 
-const categories = ['전체', '인기글', 'oz.영화', 'oz.음악', '카테고리1', '카테고리2'];
+const categories = ['전체','프론트엔드','백엔드','프로그래밍 언어','인프라','Python','React'];
 const searchTypes = ['제목', '키워드', '작성자'];
 const sortOptions = ['조회순', '좋아요 순', '댓글 순', '최신순', '오래된 순'];
 
@@ -91,7 +91,12 @@ const FilterBar: React.FC<FilterBarProps> = ({ selected, onSelect }) => {
 
       {/* 하단: 카테고리 + 정렬 */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full pb-[12px] gap-2">
-        <CategoryBar categories={categories} selected={selected} onSelect={onSelect} />
+        <CategoryBar
+          categories={categories}
+          selected={selected}
+          onSelect={onSelect}
+          // CategoryBar 내부 버튼에 cursor-pointer가 적용되어야 함
+        />
         <SortDropdown
           sortOptions={sortOptions}
           selectedSort={selectedSort}

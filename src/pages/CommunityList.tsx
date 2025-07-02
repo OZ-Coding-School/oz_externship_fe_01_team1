@@ -78,7 +78,7 @@ export default function PostList() {
           {postsToShow.length > 0 ? (
             postsToShow.map(post => <PostCard key={post.id} post={post} />)
           ) : (
-            <p className="text-center text-gray-500">게시물이 없습니다.</p>
+            <p className="text-center text-gray-500">못 찾겠다 꾀꼬리~</p>
           )}
         </div>
 
