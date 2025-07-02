@@ -14,7 +14,6 @@ const WriteButton: React.FC = () => {
       style={{
         borderRadius: '4px',
         background: 'rgb(98, 1, 224)',
-        marginLeft: 'flex',
       }}
       onClick={handleClick} // 클릭 이벤트에 handleClick 연결
     >
