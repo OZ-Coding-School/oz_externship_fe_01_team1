@@ -10,8 +10,8 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
   const isValidNickname = nicknameRegex.test(nickname);
 
   return (
-    <div className="flex flex-col mb-[44px]">
-      <label className="text-[16px] text-[#121212] mb-[12px]">
+    <div className="flex flex-col">
+      <label className="text-[16px] text-[#121212]  mb-[20px]">
         닉네임<span className="text-[#EC0037] ml-1">*</span>
       </label>
 
@@ -47,7 +47,7 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
         </Button>
       </div>
 
-      <div className="min-h-[20px] mt-[8px] pl-[2px]">
+      <div className="mt-[8px] pl-[2px] ">
         {nickname && !isValidNickname && (
           <p className="text-[#EC0037] text-[12px] mb-[8px]">* 이미 사용 중인 닉네임입니다.</p>
         )}

@@ -17,10 +17,13 @@ export default function ModalMention({
   const handleSelect = (userName: string) => {
     if (!textareaRef.current) return
     const cursorPos = textareaRef.current.selectionStart
-    const beforeCursor = text.slice(0, cursorPos)
-    const afterCursor = text.slice(cursorPos)
+    const beforeCursor = text.slice(0, cursorPos) // 커서 앞쪽 글자 선택
+    const afterCursor = text.slice(cursorPos) // 커서 뒤쪽 글자 선택
 
-    const replaced = beforeCursor.replace(/@([\w가-힣]{1,})$/, `@${userName} `)
+    const replaced = beforeCursor.replace(
+      /@([\wㄱ-ㅎㅏ-ㅣ가-힣]{1,})$/, // '@뒤문자' 선택
+      `@${userName} ` // '@userName' 으로 대체
+    )
     const newText = replaced + afterCursor
 
     setText(newText)
