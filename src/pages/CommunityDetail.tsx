@@ -9,6 +9,7 @@ import CommentLoading from '../components/commnunityDetail/CommentLoading'
 import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
 import { useSortComments } from '../hooks'
 import { URLCopy } from '@lib/index'
+import { IoChatbubbleOutline } from 'react-icons/io5'
 
 export default function CommunityDetail() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -119,10 +120,13 @@ export default function CommunityDetail() {
           </div>
           <div className="flex flex-col w-full gap-[20px]">
             <div className="flex items-center justify-between w-full">
-              <div className="text-[#121212] text-[20px] font-[700]">
-                {Array.isArray(comments)
-                  ? `댓글 ${comments.length}개`
-                  : '댓글 0개'}
+              <div className="flex items-center gap-[12px]">
+                <IoChatbubbleOutline className="w-[18px] h-[18px]" />
+                <div className="text-[#121212] text-[20px]">
+                  {Array.isArray(comments)
+                    ? `댓글 ${comments.length}개`
+                    : '댓글 0개'}
+                </div>
               </div>
               <div className="relative">
                 <button
