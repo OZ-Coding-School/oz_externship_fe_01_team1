@@ -93,3 +93,5 @@ export const dummyPosts: Post[] = [
   },
   // ... 필요시 게시글 추가
 ];
+
+localStorage.removeItem('oz_dummy_posts');
