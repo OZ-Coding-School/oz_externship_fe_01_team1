@@ -31,6 +31,7 @@ const LoginForm = () => {
       // 유저 아이디와 비밀번호를 담아 서버에 post 요청
       axios.post(URL, { email, password }).then((res) => {
         setUserInfo(res.data)
+        localStorage.setItem('userData', JSON.stringify(res.data))
         if (res.statusText === 'OK') {
           navigate('/')
         }

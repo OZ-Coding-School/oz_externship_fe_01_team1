@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 type UserInfoState = {
   userInfo: userData | null
-  setUserInfo: (userInfo: userData) => Promise<void>
+  setUserInfo: (userInfo: userData | null) => Promise<void>
 }
 
 type IsLoginState = {
