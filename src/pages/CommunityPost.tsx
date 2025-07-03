@@ -64,7 +64,7 @@ export default function CommunityPost() {
                 images: base64Images,
             };
 
-            const response = await axios.post('http://localhost:4000/api/v1/community/posts/', formData, {
+            const response = await axios.post('http://localhost:3000/api/v1/community/posts/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

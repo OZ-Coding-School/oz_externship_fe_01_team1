@@ -43,7 +43,7 @@ export function CommunityEdits() {
 
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:4000/api/v1/community/posts/${id}`)
+            axios.get(`http://localhost:3000/api/v1/community/posts/${id}`)
                 .then(res => {
                     console.log("✅ 게시글 데이터:", res.data);
                     const raw = res.data;
@@ -108,7 +108,7 @@ export function CommunityEdits() {
                 images
             };
 
-            await axios.put(`http://localhost:4000/api/v1/community/posts/${id}`, payload, {
+            await axios.put(`http://localhost:3000/api/v1/community/posts/${id}`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

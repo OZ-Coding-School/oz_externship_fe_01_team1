@@ -51,7 +51,7 @@ export default function CommunityDetail() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:4000/api/v1/community/posts/` + id)
+            .get(`http://localhost:3000/api/v1/community/posts/` + id)
             .then(res => setPostData(res.data))
             .catch(err => console.error('게시글 조회 실패:', err));
     }, [id]);
