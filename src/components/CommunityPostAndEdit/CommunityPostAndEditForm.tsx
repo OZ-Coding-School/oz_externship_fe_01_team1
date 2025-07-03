@@ -1,4 +1,4 @@
-import  {useState} from "react";
+import  {useState, useEffect} from "react";
 import PostFormHeader from "./PostFormHeader.tsx";
 import Content from "./Content.tsx";
 import SubmitButton from "./SubmitButton.tsx";
@@ -21,14 +21,29 @@ interface Props {
     }) => void;
 }
 
-export default function CommunityPostAndEditForm({type, onSubmit}: Props) {
-    const [title, setTitle] = useState('');
-    const [mainCat, setMainCat] = useState('');
-    const [subCat, setSubCat] = useState('');
-    const [detailCat, setDetailCat] = useState('');
-    const [markdown, setMarkdown] = useState('');
+export default function CommunityPostAndEditForm({type, onSubmit, initialData}: Props) {
+    const [title, setTitle] = useState(() => initialData?.title || '');
+    const [mainCat, setMainCat] = useState(() => initialData?.mainCat || '');
+    const [subCat, setSubCat] = useState(() => initialData?.subCat || '');
+    const [detailCat, setDetailCat] = useState(() => initialData?.detailCat || '');
+    const [markdown, setMarkdown] = useState(() => initialData?.markdown || '');
 
-    const isFormValid = title.trim() && mainCat.trim() && subCat.trim() && detailCat.trim() && markdown.trim();
+    useEffect(() => {
+        if (type === 'edit' && initialData) {
+            setTitle(initialData.title);
+            setMainCat(initialData.mainCat);
+            setSubCat(initialData.subCat);
+            setDetailCat(initialData.detailCat);
+            setMarkdown(initialData.markdown);
+        }
+    }, [initialData, type]);
+
+    const isFormValid =
+        (title || '').trim() &&
+        (mainCat || '').trim() &&
+        (subCat || '').trim() &&
+        (detailCat || '').trim() &&
+        (markdown || '').trim();
 
     return (
         <>

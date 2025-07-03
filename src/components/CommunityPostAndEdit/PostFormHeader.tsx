@@ -38,13 +38,15 @@ export default function PostFormHeader(props: Props) {
                                 value={cat.value}
                                 onChange={(e) => cat.setValue(e.target.value)}
                                 disabled={cat.disabled}
-                                className={`w-full px-3 py-2 border border-gray-300 rounded ${
-                                    cat.disabled ? 'bg-gray-100 text-gray-400' : ''
-                                }`}
+                                className={`
+                                    w-full px-3 py-2 border border-gray-300 rounded
+                                    focus:outline-none focus:ring-2 focus:ring-purple-500
+                                    ${cat.disabled ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'cursor-pointer'}
+                                `}
                             >
-                                <option value="">{cat.label}</option>
+                                <option className="cursor-pointer" value="" >{cat.label}</option>
                                 {cat.options.map((opt) => (
-                                    <option key={opt.value} value={opt.value}>
+                                    <option className="cursor-pointer" key={opt.value} value={opt.value}>
                                         {opt.label}
                                     </option>
                                 ))}
