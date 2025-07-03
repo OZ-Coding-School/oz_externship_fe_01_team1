@@ -1,4 +1,3 @@
-
 interface PostData {
     id: number;
     category: { id: number; name: string };
@@ -34,20 +33,7 @@ import CommentLoading from '../components/commnunityDetail/CommentLoading';
 import CommentTextArea from '../components/commnunityDetail/CommentTextArea';
 import {useSortComments} from '../hooks';
 import {URLCopy} from '@lib/index';
-
-import { useRef, useState } from 'react'
-import photo from '../assets/profile.png'
-import Comment from '../components/commnunityDetail/Comment'
-import { AiOutlineLike } from 'react-icons/ai'
-import { GoLink } from 'react-icons/go'
-import { LuArrowUpDown } from 'react-icons/lu'
-import { SlArrowRight } from 'react-icons/sl'
-import CommentLoading from '../components/commnunityDetail/CommentLoading'
-import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
-import { useSortComments } from '../hooks'
-import { URLCopy } from '@lib/index'
-import { IoChatbubbleOutline } from 'react-icons/io5'
-
+import { IoChatbubbleOutline } from 'react-icons/io5';
 
 export default function CommunityDetail() {
     const {id} = useParams();
@@ -84,6 +70,7 @@ export default function CommunityDetail() {
     if (!postData) return <div className="mt-36 text-center">로딩 중...</div>;
 
     return (
+        <>
         <div className="flex justify-center mt-[142px]">
             <div className="relative flex flex-col items-center w-[944px] gap-[100px]">
                 <div className="flex flex-col gap-[24px] w-full">
@@ -107,7 +94,11 @@ export default function CommunityDetail() {
                             <div className="flex items-center gap-[16px] text-[16px] font-[500] text-[#9d9d9d]">
                                 <div>조회수 {postData.view_count}</div>
                                 <div>좋아요 {likeNum}</div>
-                                <div>{new Date(postData.created_at).toLocaleString()}</div>
+                                <div>
+                                    {new Date(postData.updated_at).getTime() !== new Date(postData.created_at).getTime()
+                                        ? `수정됨: ${new Date(postData.updated_at).toLocaleString()}`
+                                        : new Date(postData.created_at).toLocaleString()}
+                                </div>
                             </div>
                             <div className="flex items-center gap-[10px] text-[#707070] font-[500] text-[16px]">
                                 <Link to={`/CommunityList/CommunityEdit/${postData.id}`} className="text-[#6201e0]">
@@ -142,82 +133,6 @@ export default function CommunityDetail() {
                         </ReactMarkdown>
                     </div>
                 </div>
-
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-[16px] text-[16px] font-[500] text-[#9d9d9d] ">
-                <div>조회수 60</div>
-                <div>좋아요 2</div>
-                <div>15시간 전</div>
-              </div>
-              <div className="flex items-center gap-[10px] text-[#707070] font-[500] text-[16px]">
-                <div className="text-[#6201e0]">수정</div>
-                <div>|</div>
-                <div>삭제</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            https://www.codeit.kr/costudy/join/684e26b75155062e46211e77
-            함께열공해요
-          </div>
-          <div>함께 열공해요</div>
-        </div>
-        <div className="flex flex-col gap-[24px] w-full">
-          <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
-            <button
-              className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[16px] rounded-[1000px] w-[62px] h-[38px] cursor-pointer"
-              onClick={hadleClickLike}
-            >
-              <AiOutlineLike
-                className={`h-[18px] w-[18px] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
-              />
-              <div
-                className={`text-[12px] font-[500] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
-              >
-                {likeNum}
-              </div>
-            </button>
-            <button
-              className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer"
-              onClick={async () => {
-                const result = await URLCopy()
-                alert(
-                  `${result ? '복사가 완료되었습니다.' : '복사가 실패하였습니다.'}`
-                )
-              }}
-            >
-              <GoLink className="h-[18px] w-[18px]" />
-              <div className="text-[12px] font-[500]">공유하기</div>
-            </button>
-          </div>
-          <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
-            <CommentTextArea
-              textareaRef={textareaRef}
-              comments={Array.isArray(comments) ? comments : []}
-            />
-          </div>
-          <div className="flex flex-col w-full gap-[20px]">
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-[12px]">
-                <IoChatbubbleOutline className="w-[18px] h-[18px]" />
-                <div className="text-[#121212] text-[20px]">
-                  {Array.isArray(comments)
-                    ? `댓글 ${comments.length}개`
-                    : '댓글 0개'}
-                </div>
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setSortDropdownOpen((prev) => !prev)}
-                  className="text-sm text-gray-700 hover:text-[#6202E0] flex items-center cursor-pointer"
-                >
-                  {selectedSort}
-                  <LuArrowUpDown className="w-4 h-4 ml-2" />
-                </button>
-
-
                 <div className="flex flex-col gap-[24px] w-full">
                     <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
                         <button
@@ -225,14 +140,10 @@ export default function CommunityDetail() {
                             onClick={handleClickLike}
                         >
                             <AiOutlineLike
-                                className={`h-[18px] w-[18px] ${
-                                    isLike ? 'text-[#6201e0]' : 'text-[#707070]'
-                                }`}
+                                className={`h-[18px] w-[18px] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
                             />
                             <div
-                                className={`text-[12px] font-[500] ${
-                                    isLike ? 'text-[#6201e0]' : 'text-[#707070]'
-                                }`}
+                                className={`text-[12px] font-[500] ${isLike ? 'text-[#6201e0]' : 'text-[#707070]'}`}
                             >
                                 {likeNum}
                             </div>
@@ -240,36 +151,39 @@ export default function CommunityDetail() {
                         <button
                             className="flex gap-[4px] items-center text-[#707070] border-[1px] border-[#cecece] py-[10px] px-[5px] rounded-[1000px] hover:bg-[#ececec] w-[82px] h-[38px] cursor-pointer"
                             onClick={async () => {
-                                const result = await URLCopy();
+                                const result = await URLCopy()
                                 alert(
-                                    `${
-                                        result ? '복사가 완료되었습니다.' : '복사가 실패하였습니다.'
-                                    }`,
-                                );
+                                    `${result ? '복사가 완료되었습니다.' : '복사가 실패하였습니다.'}`
+                                )
                             }}
                         >
-                            <GoLink className="h-[18px] w-[18px]"/>
+                            <GoLink className="h-[18px] w-[18px]" />
                             <div className="text-[12px] font-[500]">공유하기</div>
                         </button>
                     </div>
-
-                    <div
-                        className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
-                        <CommentTextArea textareaRef={textareaRef} comments={Array.isArray(comments) ? comments : []}/>
+                    <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
+                        <CommentTextArea
+                            textareaRef={textareaRef}
+                            comments={Array.isArray(comments) ? comments : []}
+                        />
                     </div>
-
                     <div className="flex flex-col w-full gap-[20px]">
                         <div className="flex items-center justify-between w-full">
-                            <div className="text-[#121212] text-[20px] font-[700]">
-                                {Array.isArray(comments) ? `댓글 ${comments.length}개` : '댓글 0개'}
+                            <div className="flex items-center gap-[12px]">
+                                <IoChatbubbleOutline className="w-[18px] h-[18px]" />
+                                <div className="text-[#121212] text-[20px]">
+                                    {Array.isArray(comments)
+                                        ? `댓글 ${comments.length}개`
+                                        : '댓글 0개'}
+                                </div>
                             </div>
                             <div className="relative">
                                 <button
-                                    onClick={() => setSortDropdownOpen(prev => !prev)}
+                                    onClick={() => setSortDropdownOpen((prev) => !prev)}
                                     className="text-sm text-gray-700 hover:text-[#6202E0] flex items-center cursor-pointer"
                                 >
                                     {selectedSort}
-                                    <LuArrowUpDown className="w-4 h-4 ml-2"/>
+                                    <LuArrowUpDown className="w-4 h-4 ml-2" />
                                 </button>
                                 {sortDropdownOpen && (
                                     <div
@@ -287,7 +201,6 @@ export default function CommunityDetail() {
                                 )}
                             </div>
                         </div>
-
                         <div className="flex flex-col gap-[17px] w-full">
                             {comments.map(commentData => (
                                 <Comment key={commentData.id} commentData={commentData}/>
@@ -300,5 +213,6 @@ export default function CommunityDetail() {
                 </div>
             </div>
         </div>
+        </>
     );
 }

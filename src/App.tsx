@@ -6,7 +6,7 @@ import CommunityList from './pages/CommunityList'
 import Login from './pages/Login'
 import Join from './pages/Join'
 import CommunityPost from './pages/CommunityPost'
-import {CommunityEdits} from './pages/CommunityEdits'
+import CommunityEdits from './pages/CommunityEdits'
 import JoinFrom from './components/join/JoinForm'
 import NotFound from './pages/NotFound'
 

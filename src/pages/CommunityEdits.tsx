@@ -1,7 +1,7 @@
-import CommunityPostAndEditForm from "@components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CommunityPostAndEditForm from "@components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
 
 const convertBase64ToBlobUrl = (base64: string): string => {
     const byteString = atob(base64.split(',')[1]);
@@ -29,7 +29,7 @@ const convertBlobUrlToBase64 = async (url: string): Promise<string> => {
     });
 };
 
-export function CommunityEdits() {
+export default function CommunityEdits() {
     const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [postData, setPostData] = useState<{
