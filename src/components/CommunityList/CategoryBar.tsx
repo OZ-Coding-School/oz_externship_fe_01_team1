@@ -17,7 +17,7 @@ const CategoryBar: React.FC<CategoryBarProps> = ({ categories, selected, onSelec
         <button
           key={category}
           onClick={() => onSelect(category)}
-          className={`flex items-center justify-center h-[42px] min-w-[81px] gap-[10px] px-[20px] py-0 rounded-md transition font-bold box-border mx-[4px]
+          className={`flex items-center justify-center h-[42px] min-w-[81px] gap-[10px] px-[20px] py-0 rounded-md transition font-bold box-border mx-[4px] cursor-pointer
             ${
               selected === category
                 ? 'bg-purple-100 text-purple-700'

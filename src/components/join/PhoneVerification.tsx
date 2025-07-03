@@ -38,7 +38,11 @@ export default function PhoneVerification({
         <div className="flex grow min-w-0 gap-[5px] items-center">
           <Input
             value={phone1}
-            onChange={(e) => setPhone1(e.target.value)}
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+              const limited = onlyNumbers.slice(0, 4);
+              setPhone1(limited);
+            }}
             placeholder="010"
             fullWidth={false}
             noMarginBottom
@@ -50,7 +54,11 @@ export default function PhoneVerification({
           <span className="text-[14px] text-[#bdbdbd] ">-</span>
           <Input
             value={phone2}
-            onChange={(e) => setPhone2(e.target.value)}
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+              const limited = onlyNumbers.slice(0, 4);
+              setPhone2(limited);
+            }}
             placeholder="1234"
             fullWidth={false}
             noMarginBottom
@@ -62,7 +70,11 @@ export default function PhoneVerification({
           <span className="text-[14px] text-[#bdbdbd]">-</span>
           <Input
             value={phone3}
-            onChange={(e) => setPhone3(e.target.value)}
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+              const limited = onlyNumbers.slice(0, 4);
+              setPhone3(limited);
+            }}
             placeholder="5678"
             noMarginBottom
             fullWidth={false}
