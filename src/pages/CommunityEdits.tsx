@@ -1,14 +1,134 @@
 import CommunityPostAndEditForm from "@components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
-import {useNavigate} from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+const convertBase64ToBlobUrl = (base64: string): string => {
+    const byteString = atob(base64.split(',')[1]);
+    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: mimeString });
+    return URL.createObjectURL(blob);
+};
 
-export default function CommunityEdits() {
+const convertBlobUrlToBase64 = async (url: string): Promise<string> => {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            if (typeof reader.result === 'string') resolve(reader.result);
+            else reject('변환 실패');
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+};
+
+export function CommunityEdits() {
+    const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const handleUpdate = () => {
-        navigate('/CommunityList/CommunityDetail/1');
+    const [postData, setPostData] = useState<{
+        title: string;
+        mainCat: string;
+        subCat: string;
+        detailCat: string;
+        markdown: string;
+    } | null>(null);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        if (id) {
+            axios.get(`http://localhost:4000/api/v1/community/posts/${id}`)
+                .then(res => {
+                    console.log("✅ 게시글 데이터:", res.data);
+                    const raw = res.data;
+                    const [mainCat = '', subCat = '', detailCat = ''] = (raw.category?.name || '').split(' > ');
+
+                    let markdownWithImages = raw.content;
+
+                    if (Array.isArray(raw.images)) {
+                        raw.images.forEach((img: { file_name: string; image_url: string }) => {
+                            const regex = new RegExp(`!\\[.*?\\]\\(${img.file_name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\)`, 'g');
+                            const blobUrl = convertBase64ToBlobUrl(img.image_url);
+                            markdownWithImages = markdownWithImages.replace(regex, `![이미지](${blobUrl})`);
+                        });
+                    }
+
+                    setPostData({
+                        title: raw.title,
+                        mainCat,
+                        subCat,
+                        detailCat,
+                        markdown: markdownWithImages
+                    });
+                })
+                .catch(err => {
+                    console.error("게시글 조회 실패:", err);
+                    setError(true);
+                });
+        }
+    }, [id]);
+
+    const handleUpdate = async (updatedData: {
+        title: string;
+        mainCat: string;
+        subCat: string;
+        detailCat: string;
+        markdown: string;
+    }) => {
+        if (!id) return;
+
+        try {
+            const categoryName = `${updatedData.mainCat} > ${updatedData.subCat} > ${updatedData.detailCat}`;
+
+            const imageRegex = /!\[.*?\]\((blob:[^)]+)\)/g;
+            let contentWithBase64 = updatedData.markdown;
+            const matches = [...updatedData.markdown.matchAll(imageRegex)];
+            const images: { file_name: string; image_url: string }[] = [];
+
+            for (let i = 0; i < matches.length; i++) {
+                const [fullMatch, blobUrl] = matches[i];
+                const base64 = await convertBlobUrlToBase64(blobUrl);
+                const imageName = `image${i + 1}.png`;
+                contentWithBase64 = contentWithBase64.replace(fullMatch, `![이미지](${imageName})`);
+                images.push({ file_name: imageName, image_url: base64 });
+            }
+
+            const payload = {
+                title: updatedData.title,
+                content: contentWithBase64,
+                category_id: 0, // put actual ID logic if needed
+                category_name: categoryName,
+                attachments: [],
+                images
+            };
+
+            await axios.put(`http://localhost:4000/api/v1/community/posts/${id}`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            navigate(`/CommunityList/CommunityDetail/${id}`);
+        } catch (error) {
+            console.error("게시글 수정 실패:", error);
+            alert("게시글 수정에 실패했습니다.");
+        }
     };
 
+    if (error) return <div>❌ 게시글을 불러오는 데 실패했습니다.</div>;
+    if (!postData) return <div>로딩 중...</div>;
+
     return (
-       <CommunityPostAndEditForm type={"edit"} onSubmit={handleUpdate} />
+        <CommunityPostAndEditForm
+            type="edit"
+            onSubmit={(data) => handleUpdate(data)}
+            initialData={postData}
+        />
     );
 }

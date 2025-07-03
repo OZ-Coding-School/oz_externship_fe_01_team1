@@ -15,7 +15,13 @@ export const handleImageDrop = (
         return;
     }
 
-    const blobUrl = URL.createObjectURL(file);
-    const markdownImage = `![이미지 설명](${blobUrl})`;
-    setMarkdown(prev => `${prev}\n${markdownImage}`);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const base64Image = e.target?.result;
+        if (typeof base64Image === 'string') {
+            const markdownImage = `![이미지 설명](${base64Image})`;
+            setMarkdown(prev => `${prev}\n${markdownImage}`);
+        }
+    };
+    reader.readAsDataURL(file);
 };

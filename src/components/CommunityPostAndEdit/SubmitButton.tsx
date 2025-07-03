@@ -14,7 +14,7 @@ export default function SubmitButton({text, onClick, disabled}: Props) {
                     className={`px-6 py-2 rounded-md font-medium shadow-sm transition ${
                         disabled
                             ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-purple-600 hover:bg-purple-700 text-white'
+                            : 'bg-purple-600 hover:bg-purple-700 text-white cursor-pointer'
                     }`}
                 >
                     {text}
