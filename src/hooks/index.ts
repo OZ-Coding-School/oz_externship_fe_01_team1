@@ -19,6 +19,7 @@ export const useSortComments = (initialOption: string) => {
 
   return {
     comments,
+    setComments,
     sortDropdownOpen,
     selectedSort,
     setSortDropdownOpen,
