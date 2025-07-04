@@ -1,5 +1,4 @@
 import { useState, type Dispatch, type SetStateAction } from 'react'
-import { useSortComments } from './useSortComments'
 import { commentsMockData } from '@components/commnunityDetail/mockData'
 import type { commentData } from '@customType/communityDetail'
 

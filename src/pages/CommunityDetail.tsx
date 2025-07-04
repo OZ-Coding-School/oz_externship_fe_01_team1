@@ -22,6 +22,7 @@ import { IoChatbubbleOutline } from 'react-icons/io5'
 import { fetchCommunityDetail } from '../api/community'
 import type { PostData } from '@customType/communityDetail'
 import { useFetchComments } from '@hooks/useFetchComments'
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver'
 
 export default function CommunityDetail() {
   const { id } = useParams()
@@ -29,9 +30,6 @@ export default function CommunityDetail() {
   const [postData, setPostData] = useState<PostData | null>(null)
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
-
-  // const [isLoading, setIsLoading] = useState(false)
-  // const [hasNext, setHasNext] = useState(true)
 
   const {
     comments,
@@ -63,23 +61,11 @@ export default function CommunityDetail() {
     fetchComments()
   }, [selectedSort])
 
-  const observerRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (!node) return
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && !isLoading && hasNext) {
-            fetchComments()
-          }
-        },
-        { threshold: 0.1 }
-      )
-
-      observer.observe(node)
-    },
-    [isLoading, hasNext]
-  )
+  const observerRef = useIntersectionObserver({
+    isLoading,
+    hasNext,
+    onIntersect: fetchComments,
+  })
 
   const handleSort = (option: SetStateAction<string>) => {
     setSelectedSort(option)
