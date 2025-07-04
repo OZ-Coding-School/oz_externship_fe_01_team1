@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { commentData } from '../types'
+import type { commentData } from '@customType/communityDetail'
 
 export const useSortComments = (initialOption: string) => {
   const [comments, setComments] = useState<commentData[]>([])

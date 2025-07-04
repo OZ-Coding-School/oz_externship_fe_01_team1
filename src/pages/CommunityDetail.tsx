@@ -7,7 +7,6 @@ import {
 } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import photo from '../assets/profile.png'
@@ -20,9 +19,9 @@ import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
 import { useSortComments } from '@hooks/useSortComments'
 import { URLCopy } from '@lib/index'
 import { IoChatbubbleOutline } from 'react-icons/io5'
-import { commentsMockData } from '@components/commnunityDetail/mockData'
 import { fetchCommunityDetail } from '../api/community'
 import type { PostData } from '@customType/communityDetail'
+import { useFetchComments } from '@hooks/useFetchComments'
 
 export default function CommunityDetail() {
   const { id } = useParams()
@@ -31,8 +30,8 @@ export default function CommunityDetail() {
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasNext, setHasNext] = useState(true)
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [hasNext, setHasNext] = useState(true)
 
   const {
     comments,
@@ -43,6 +42,11 @@ export default function CommunityDetail() {
     setSelectedSort,
   } = useSortComments('최신순')
 
+  const { fetchComments, hasNext, setHasNext, isLoading } = useFetchComments(
+    comments,
+    setComments
+  )
+
   useEffect(() => {
     const fetchPost = async () => {
       if (id) {
@@ -52,29 +56,6 @@ export default function CommunityDetail() {
     }
     fetchPost()
   }, [id])
-
-  // 불러오기 함수
-  const fetchComments = () => {
-    if (isLoading || !hasNext) return
-
-    setIsLoading(true)
-
-    setTimeout(() => {
-      const currentLength = comments.length
-      const nextBatch = commentsMockData.slice(
-        currentLength,
-        currentLength + 10
-      )
-
-      setComments((prev) => [...prev, ...nextBatch])
-      setHasNext(
-        nextBatch.length === 10 &&
-          currentLength + nextBatch.length < commentsMockData.length
-      )
-
-      setIsLoading(false)
-    }, 2000) // debounce 역할도 겸함
-  }
 
   useEffect(() => {
     setComments([])
