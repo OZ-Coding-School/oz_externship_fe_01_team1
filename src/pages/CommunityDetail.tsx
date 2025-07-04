@@ -20,13 +20,7 @@ interface PostData {
   updated_at: string
 }
 
-import {
-  useRef,
-  useState,
-  useEffect,
-  type SetStateAction,
-  useCallback,
-} from 'react'
+import { useRef, useState, useEffect, type SetStateAction } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -53,6 +47,9 @@ export default function CommunityDetail() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
+  const [cursor, setCursor] = useState<number | null>(null)
+
+  const observerRef = useRef(null)
 
   const {
     comments,
@@ -76,46 +73,50 @@ export default function CommunityDetail() {
 
     setIsLoading(true)
 
-    setTimeout(() => {
-      const currentLength = comments.length
-      const nextBatch = commentsMockData.slice(
-        currentLength,
-        currentLength + 10
-      )
+    const currentLength = comments.length
+    const nextBatch = commentsMockData.slice(currentLength, currentLength + 10)
 
-      setComments((prev) => [...prev, ...nextBatch])
-      setHasNext(
-        nextBatch.length === 10 &&
-          currentLength + nextBatch.length < commentsMockData.length
-      )
+    setComments((prev) => [...prev, ...nextBatch])
+    setHasNext(
+      nextBatch.length === 10 &&
+        currentLength + nextBatch.length < commentsMockData.length
+    )
 
-      setIsLoading(false)
-    }, 2000) // debounce 역할도 겸함
+    setIsLoading(false)
   }
 
   useEffect(() => {
     setComments([])
+    setCursor(0)
     setHasNext(true)
     fetchComments()
   }, [selectedSort])
 
-  const observerRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (!node) return
+  useEffect(() => {
+    console.log('useEffect 실행됨')
+    if (!observerRef.current) return
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && !isLoading && hasNext) {
-            fetchComments()
-          }
-        },
-        { threshold: 0.1 }
-      )
+    const observer = new IntersectionObserver(
+      (entries) => {
+        console.log(
+          'IntersectionObserver 콜백 실행됨:',
+          entries[0].isIntersecting
+        )
+        if (entries[0].isIntersecting && !isLoading && hasNext) {
+          console.log('무한 스크롤 트리거!')
+          fetchComments()
+        }
+      },
+      { threshold: 0.1 }
+    )
 
-      observer.observe(node)
-    },
-    [isLoading, hasNext]
-  )
+    const current = observerRef.current
+    observer.observe(current)
+
+    return () => {
+      if (current) observer.unobserve(current)
+    }
+  }, [isLoading, hasNext])
 
   const handleSort = (option: SetStateAction<string>) => {
     setSelectedSort(option)
@@ -126,7 +127,10 @@ export default function CommunityDetail() {
     setLikeNum((prev) => (isLike ? prev - 1 : prev + 1))
     setIsLike((prev) => !prev)
   }
+  console.log('Ref:', observerRef.current)
 
+  console.log('hasNext:', hasNext)
+  console.log('isLoading:', isLoading)
   if (!postData) return <div className="text-center mt-36">로딩 중...</div>
 
   return (
