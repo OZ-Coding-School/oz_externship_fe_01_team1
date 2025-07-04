@@ -28,7 +28,6 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
   icon,
   title,
   description,
-  onClose,
   noMarginBottom,
 }) => {
   return (
