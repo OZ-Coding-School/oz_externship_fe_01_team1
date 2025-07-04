@@ -15,6 +15,7 @@ import { useUserInfo } from '@store/userInfoStore'
 import { useNavigate } from 'react-router'
 
 import RestoreUserInfoModal from '@components/modals/RestoreUserModal/RestoreUserInfoModal'
+import RestoreUserForm from '@components/modals/RestoreUserModal/RestoreUserForm'
 
 const LoginForm = () => {
   const [openFindIdModal, setOpenFindIdModal] = useState(false) // 아이디 찾기 모달
@@ -26,6 +27,7 @@ const LoginForm = () => {
   const { setUserInfo } = useUserInfo()
 
   const [showRestoreModal, setShowRestoreModal] = useState(false);
+  const [showRestoreForm, setShowRestoreForm] = useState(false);
 
   const navigate = useNavigate()
 
@@ -93,12 +95,23 @@ const LoginForm = () => {
           showFindIdSuccess={showFindIdSuccess}
           setShowFindIdSuccess={setShowFindIdSuccess}
         />
-        {showRestoreModal && (
+        {showRestoreModal && !showRestoreForm && (
           <RestoreUserInfoModal
             onClose={() => setShowRestoreModal(false)}
             onNext={() => {
+              setShowRestoreForm(true);    
+            }}
+          />
+        )}
+        {showRestoreForm && (
+          <RestoreUserForm
+            onVerified={() => {
+              setShowRestoreForm(false);
               setShowRestoreModal(false);
-              // 이후 복구 단계로 이동 처리 (필요 시 추가)
+            }}
+            onClose={() => {
+              setShowRestoreForm(false);
+              setShowRestoreModal(false);
             }}
           />
         )}

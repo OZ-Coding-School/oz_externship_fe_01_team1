@@ -74,7 +74,7 @@ const LoginInputs = ({
     {/* 로그인 버튼 */}
     <Button
       disabled={!email || !password}
-      className={`w-[348px] h-[52px] font-semibold rounded mt-2 
+      className={`w-[348px] h-[52px] font-semibold rounded mt-2 cursor-pointer
         ${email && password ? 'bg-[#6201E0] text-white' : 'bg-[#ECECEC] text-[#BDBDBD]'}`}
       onClick={login}
     >
