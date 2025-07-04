@@ -35,8 +35,6 @@ export default function CommunityEdits() {
     const [postData, setPostData] = useState<{
         title: string;
         mainCat: string;
-        subCat: string;
-        detailCat: string;
         markdown: string;
     } | null>(null);
     const [error, setError] = useState(false);
@@ -47,7 +45,7 @@ export default function CommunityEdits() {
                 .then(res => {
                     console.log("✅ 게시글 데이터:", res.data);
                     const raw = res.data;
-                    const [mainCat = '', subCat = '', detailCat = ''] = (raw.category?.name || '').split(' > ');
+                    const mainCat = raw.category?.name || '';
 
                     let markdownWithImages = raw.content;
 
@@ -62,8 +60,6 @@ export default function CommunityEdits() {
                     setPostData({
                         title: raw.title,
                         mainCat,
-                        subCat,
-                        detailCat,
                         markdown: markdownWithImages
                     });
                 })
@@ -77,14 +73,12 @@ export default function CommunityEdits() {
     const handleUpdate = async (updatedData: {
         title: string;
         mainCat: string;
-        subCat: string;
-        detailCat: string;
         markdown: string;
     }) => {
         if (!id) return;
 
         try {
-            const categoryName = `${updatedData.mainCat} > ${updatedData.subCat} > ${updatedData.detailCat}`;
+            const categoryName = `${updatedData.mainCat}`
 
             const imageRegex = /!\[.*?\]\((blob:[^)]+)\)/g;
             let contentWithBase64 = updatedData.markdown;
@@ -102,7 +96,7 @@ export default function CommunityEdits() {
             const payload = {
                 title: updatedData.title,
                 content: contentWithBase64,
-                category_id: 0, // put actual ID logic if needed
+                category_id: 0,
                 category_name: categoryName,
                 attachments: [],
                 images
