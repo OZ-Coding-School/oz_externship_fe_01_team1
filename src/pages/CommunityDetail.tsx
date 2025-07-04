@@ -20,7 +20,13 @@ interface PostData {
   updated_at: string
 }
 
-import { useRef, useState, useEffect, type SetStateAction } from 'react'
+import {
+  useRef,
+  useState,
+  useEffect,
+  type SetStateAction,
+  useCallback,
+} from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -37,12 +43,17 @@ import { useSortComments } from '../hooks'
 import { URLCopy } from '@lib/index'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 
+import { commentsMockData } from '@components/commnunityDetail/mockData'
+
 export default function CommunityDetail() {
   const { id } = useParams()
   const textareaRef = useRef(null)
   const [postData, setPostData] = useState<PostData | null>(null)
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasNext, setHasNext] = useState(true)
 
   const {
     comments,
@@ -59,6 +70,53 @@ export default function CommunityDetail() {
       .then((res) => setPostData(res.data))
       .catch((err) => console.error('게시글 조회 실패:', err))
   }, [id])
+
+  // 불러오기 함수
+  const fetchComments = () => {
+    if (isLoading || !hasNext) return
+
+    setIsLoading(true)
+
+    setTimeout(() => {
+      const currentLength = comments.length
+      const nextBatch = commentsMockData.slice(
+        currentLength,
+        currentLength + 10
+      )
+
+      setComments((prev) => [...prev, ...nextBatch])
+      setHasNext(
+        nextBatch.length === 10 &&
+          currentLength + nextBatch.length < commentsMockData.length
+      )
+
+      setIsLoading(false)
+    }, 2000) // debounce 역할도 겸함
+  }
+
+  useEffect(() => {
+    setComments([])
+    setHasNext(true)
+    fetchComments()
+  }, [selectedSort])
+
+  const observerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !isLoading && hasNext) {
+            fetchComments()
+          }
+        },
+        { threshold: 0.1 }
+      )
+
+      observer.observe(node)
+    },
+    [isLoading, hasNext]
+  )
 
   const handleSort = (option: SetStateAction<string>) => {
     setSelectedSort(option)
@@ -226,9 +284,14 @@ export default function CommunityDetail() {
                 />
               ))}
             </div>
-            <div className="flex items-center justify-center">
-              <CommentLoading />
-            </div>
+            {hasNext && (
+              <div
+                ref={observerRef}
+                className="flex items-center justify-center w-full h-[40px]"
+              >
+                {isLoading && <CommentLoading />}
+              </div>
+            )}
           </div>
         </div>
       </div>
