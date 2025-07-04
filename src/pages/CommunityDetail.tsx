@@ -1,25 +1,3 @@
-interface PostData {
-  id: number
-  category: { id: number; name: string }
-  author_id: number
-  title: string
-  content: string
-  view_count: number
-  is_visible: boolean
-  is_notice: boolean
-  attachments: { id: number; file_url: string; file_name: string }[]
-  images: [
-    {
-      id: number
-      image_url: string
-      image_name: string
-      image_type: string
-    },
-  ]
-  created_at: string
-  updated_at: string
-}
-
 import {
   useRef,
   useState,
@@ -39,11 +17,12 @@ import { GoLink } from 'react-icons/go'
 import { LuArrowUpDown } from 'react-icons/lu'
 import CommentLoading from '../components/commnunityDetail/CommentLoading'
 import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
-import { useSortComments } from '../hooks'
+import { useSortComments } from '@hooks/useSortComments'
 import { URLCopy } from '@lib/index'
 import { IoChatbubbleOutline } from 'react-icons/io5'
-
 import { commentsMockData } from '@components/commnunityDetail/mockData'
+import { fetchCommunityDetail } from '../api/community'
+import type { PostData } from '@customType/communityDetail'
 
 export default function CommunityDetail() {
   const { id } = useParams()
@@ -65,10 +44,13 @@ export default function CommunityDetail() {
   } = useSortComments('최신순')
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/api/v1/community/posts/` + id)
-      .then((res) => setPostData(res.data))
-      .catch((err) => console.error('게시글 조회 실패:', err))
+    const fetchPost = async () => {
+      if (id) {
+        const res = await fetchCommunityDetail(id)
+        setPostData(res)
+      }
+    }
+    fetchPost()
   }, [id])
 
   // 불러오기 함수
