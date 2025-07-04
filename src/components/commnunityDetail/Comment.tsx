@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { formatDate } from '@utils/formatDate'
-import type { commentData } from '../../types'
+import type { commentData } from '@customType/communityDetail'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
 import { commentsMockData } from './mockData'

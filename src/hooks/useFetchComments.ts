@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from 'react'
+import { useState, useRef, type Dispatch, type SetStateAction } from 'react'
 import { commentsMockData } from '@components/commnunityDetail/mockData'
 import type { commentData } from '@customType/communityDetail'
 
@@ -10,27 +10,33 @@ export const useFetchComments = (
 ) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
+  const isFetchingRef = useRef(false)
 
   const fetchComments = () => {
-    if (isLoading || !hasNext) return
+    if (isLoading || !hasNext || isFetchingRef.current) return
 
     setIsLoading(true)
+    isFetchingRef.current = true
 
     setTimeout(() => {
-      const currentLength = comments.length
-      const nextBatch = commentsMockData.slice(
-        currentLength,
-        currentLength + 10
-      )
+      setComments((prev) => {
+        const currentLength = prev.length
+        const nextBatch = commentsMockData.slice(
+          currentLength,
+          currentLength + 10
+        )
 
-      setComments((prev) => [...prev, ...nextBatch])
-      setHasNext(
-        nextBatch.length === 10 &&
-          currentLength + nextBatch.length < commentsMockData.length
-      )
+        setHasNext(
+          nextBatch.length === 10 &&
+            currentLength + nextBatch.length < commentsMockData.length
+        )
+
+        return [...prev, ...nextBatch]
+      })
 
       setIsLoading(false)
-    }, loadingTime) // debounce 역할도 겸함
+      isFetchingRef.current = false
+    }, loadingTime)
   }
 
   return { fetchComments, hasNext, setHasNext, isLoading }

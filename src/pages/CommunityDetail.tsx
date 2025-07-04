@@ -1,49 +1,21 @@
-import {
-  useRef,
-  useState,
-  useEffect,
-  type SetStateAction,
-  useCallback,
-} from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import photo from '../assets/profile.png'
-import Comment from '../components/commnunityDetail/Comment'
 import { AiOutlineLike } from 'react-icons/ai'
 import { GoLink } from 'react-icons/go'
-import { LuArrowUpDown } from 'react-icons/lu'
-import CommentLoading from '../components/commnunityDetail/CommentLoading'
-import CommentTextArea from '../components/commnunityDetail/CommentTextArea'
-import { useSortComments } from '@hooks/useSortComments'
 import { URLCopy } from '@utils/formatDate'
-import { IoChatbubbleOutline } from 'react-icons/io5'
 import { fetchCommunityDetail } from '../api/community'
 import type { PostData } from '@customType/communityDetail'
-import { useFetchComments } from '@hooks/useFetchComments'
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver'
+import CommentsInfiniteScroll from '@components/commnunityDetail/CommentsInfiniteScroll'
 
 export default function CommunityDetail() {
   const { id } = useParams()
-  const textareaRef = useRef(null)
   const [postData, setPostData] = useState<PostData | null>(null)
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
-
-  const {
-    comments,
-    setComments,
-    sortDropdownOpen,
-    selectedSort,
-    setSortDropdownOpen,
-    setSelectedSort,
-  } = useSortComments('최신순')
-
-  const { fetchComments, hasNext, setHasNext, isLoading } = useFetchComments(
-    comments,
-    setComments
-  )
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -55,31 +27,9 @@ export default function CommunityDetail() {
     fetchPost()
   }, [id])
 
-  useEffect(() => {
-    setComments([])
-    setHasNext(true)
-    fetchComments()
-  }, [selectedSort])
-
-  const observerRef = useIntersectionObserver({
-    isLoading,
-    hasNext,
-    onIntersect: fetchComments,
-  })
-
-  const handleSort = (option: SetStateAction<string>) => {
-    setSelectedSort(option)
-    setSortDropdownOpen((prev) => !prev)
-  }
-
   const handleClickLike = () => {
     setLikeNum((prev) => (isLike ? prev - 1 : prev + 1))
     setIsLike((prev) => !prev)
-  }
-
-  const handleCommentDel = (id: number) => {
-    const delComments = comments.filter((comment) => comment.id !== id)
-    setComments(delComments)
   }
 
   if (!postData) return <div className="text-center mt-36">로딩 중...</div>
@@ -185,63 +135,7 @@ export default function CommunityDetail() {
               <div className="text-[12px] font-[500]">공유하기</div>
             </button>
           </div>
-          <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
-            <CommentTextArea
-              textareaRef={textareaRef}
-              comments={Array.isArray(comments) ? comments : []}
-            />
-          </div>
-          <div className="flex flex-col w-full gap-[20px]">
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-[12px]">
-                <IoChatbubbleOutline className="w-[18px] h-[18px]" />
-                <div className="text-[#121212] text-[20px]">
-                  {Array.isArray(comments)
-                    ? `댓글 ${comments.length}개`
-                    : '댓글 0개'}
-                </div>
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setSortDropdownOpen((prev) => !prev)}
-                  className="text-sm text-gray-700 hover:text-[#6202E0] flex items-center cursor-pointer"
-                >
-                  {selectedSort}
-                  <LuArrowUpDown className="w-4 h-4 ml-2" />
-                </button>
-                {sortDropdownOpen && (
-                  <div className="absolute top-[100%] right-0 mt-2 bg-white shadow-lg rounded-xl p-2 w-32 text-sm z-20">
-                    {['최신순', '오래된 순'].map((option) => (
-                      <div
-                        key={option}
-                        onClick={() => handleSort(option)}
-                        className={`cursor-pointer px-3 py-2 rounded-md text-center transition ${selectedSort === option ? 'bg-purple-100 text-[#6202E0] font-bold' : 'text-gray-700 hover:bg-gray-100'}`}
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="flex flex-col gap-[17px] w-full">
-              {comments.map((commentData) => (
-                <Comment
-                  key={commentData.id}
-                  commentData={commentData}
-                  handleCommentDel={handleCommentDel}
-                />
-              ))}
-            </div>
-            {hasNext && (
-              <div
-                ref={observerRef}
-                className="flex items-center justify-center w-full h-[40px]"
-              >
-                {isLoading && <CommentLoading />}
-              </div>
-            )}
-          </div>
+          <CommentsInfiniteScroll />
         </div>
       </div>
     </div>

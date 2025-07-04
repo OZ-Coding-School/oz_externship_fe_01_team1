@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ModalMention from './ModalMention'
-import type { commentData } from '../../types'
+import type { commentData } from '@customType/communityDetail'
 import { getRegExp } from 'korean-regexp'
 import { useTextarea } from '../../store/mentionStore'
 
