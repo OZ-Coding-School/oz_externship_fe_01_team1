@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { formatDate } from '../../lib'
+import { formatDate } from '@utils/formatDate'
 import type { commentData } from '../../types'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
