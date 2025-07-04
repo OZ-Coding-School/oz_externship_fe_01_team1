@@ -9,6 +9,8 @@ import CommunityPost from './pages/CommunityPost'
 import CommunityEdits from './pages/CommunityEdits'
 import JoinFrom from './components/join/JoinForm'
 import NotFound from './pages/NotFound'
+import MyPage from "@pages/Mypage.tsx";
+import MyPageEdit from "@pages/MypageEdit.tsx";
 
 export default function App() {
   return (
@@ -22,6 +24,8 @@ export default function App() {
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Join/JoinForm" element={<JoinFrom />} />
+        <Route path="/Mypage" element={<MyPage />} />
+        <Route path="/MyPage/MyPageEdit" element={<MyPageEdit />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
