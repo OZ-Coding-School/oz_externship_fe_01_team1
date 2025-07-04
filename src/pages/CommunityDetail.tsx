@@ -20,7 +20,6 @@ interface PostData {
   updated_at: string
 }
 
-
 import {
   useRef,
   useState,
@@ -46,7 +45,6 @@ import { IoChatbubbleOutline } from 'react-icons/io5'
 
 import { commentsMockData } from '@components/commnunityDetail/mockData'
 
-
 export default function CommunityDetail() {
   const { id } = useParams()
   const textareaRef = useRef(null)
@@ -54,10 +52,8 @@ export default function CommunityDetail() {
   const [isLike, setIsLike] = useState(false)
   const [likeNum, setLikeNum] = useState(2)
 
-
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
-
 
   const {
     comments,
@@ -74,7 +70,6 @@ export default function CommunityDetail() {
       .then((res) => setPostData(res.data))
       .catch((err) => console.error('게시글 조회 실패:', err))
   }, [id])
-
 
   // 불러오기 함수
   const fetchComments = () => {
@@ -123,7 +118,6 @@ export default function CommunityDetail() {
     [isLoading, hasNext]
   )
 
-
   const handleSort = (option: SetStateAction<string>) => {
     setSelectedSort(option)
     setSortDropdownOpen((prev) => !prev)
@@ -134,12 +128,10 @@ export default function CommunityDetail() {
     setIsLike((prev) => !prev)
   }
 
-
   const handleCommentDel = (id: number) => {
     const delComments = comments.filter((comment) => comment.id !== id)
     setComments(delComments)
   }
-
 
   if (!postData) return <div className="text-center mt-36">로딩 중...</div>
 
@@ -160,7 +152,6 @@ export default function CommunityDetail() {
                     alt="작성자"
                     className="h-[48px] rounded-[50%]"
                   />
-
                 </div>
               </div>
             </div>
@@ -283,11 +274,14 @@ export default function CommunityDetail() {
                   </div>
                 )}
               </div>
-
             </div>
             <div className="flex flex-col gap-[17px] w-full">
               {comments.map((commentData) => (
-                <Comment key={commentData.id} commentData={commentData} />
+                <Comment
+                  key={commentData.id}
+                  commentData={commentData}
+                  handleCommentDel={handleCommentDel}
+                />
               ))}
             </div>
             {hasNext && (
@@ -298,7 +292,6 @@ export default function CommunityDetail() {
                 {isLoading && <CommentLoading />}
               </div>
             )}
-
           </div>
         </div>
       </div>
