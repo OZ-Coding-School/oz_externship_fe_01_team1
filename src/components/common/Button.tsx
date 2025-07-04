@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ fullWidth = true, className = '', child
   return (
     <button
       {...props}
-      className={`h-[48px] rounded text-[14px] flex items-center justify-center cursor-pointer
+      className={`h-[48px] rounded text-[14px] flex items-center justify-center cursor-pointer"
         ${fullWidth ? 'w-full' : ''} ${className}`}
     >
       {children}

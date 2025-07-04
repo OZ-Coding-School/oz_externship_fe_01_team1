@@ -2,11 +2,13 @@ import { ModalWrapper, ModalHeader, Button } from "@components/common";
 import { CiFaceMeh } from "react-icons/ci";
 import CloseButton from "@components/common/CloseButton";
 
+
 interface Props {
     onNext: () => void; // "계정 다시 사용하기" 클릭 시 처리
     onClose: () => void; // 닫기 버튼
   }
   
+
   const RestoreUserInfoModal = ({ onNext, onClose }: Props) => {
     return (
       <ModalWrapper className="w-[396px] max-w-full h-[278px]">
@@ -31,7 +33,7 @@ interface Props {
           {/* 버튼 */}
           <Button
             onClick={onNext}
-            className="w-full h-[48px] bg-[#6201E0] text-white rounded mt-[40px]"
+            className="w-full h-[48px] bg-[#6201E0] text-white rounded mt-[40px] cursor-pointer"
           >
             계정 다시 사용하기
           </Button>
