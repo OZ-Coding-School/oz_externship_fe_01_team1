@@ -53,7 +53,6 @@ export default function CommunityDetail() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
-  const [cursor, setCursor] = useState<number | null>(null)
 
   const {
     comments,
@@ -96,7 +95,6 @@ export default function CommunityDetail() {
 
   useEffect(() => {
     setComments([])
-    setCursor(0)
     setHasNext(true)
     fetchComments()
   }, [selectedSort])
