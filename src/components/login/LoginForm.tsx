@@ -14,6 +14,8 @@ import axios from 'axios'
 import { useUserInfo } from '@store/userInfoStore'
 import { useNavigate } from 'react-router'
 
+import RestoreUserInfoModal from '@components/modals/RestoreUserModal/RestoreUserInfoModal'
+
 const LoginForm = () => {
   const [openFindIdModal, setOpenFindIdModal] = useState(false) // 아이디 찾기 모달
   const [openFindPwModal, setOpenFindPwModal] = useState(false) // 비밀번호 찾기 모달
@@ -23,21 +25,29 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const { setUserInfo } = useUserInfo()
 
+  const [showRestoreModal, setShowRestoreModal] = useState(false);
+
   const navigate = useNavigate()
 
   const URL = import.meta.env.VITE_API_BASE_URL
   const login = () => {
-    return (
-      // 유저 아이디와 비밀번호를 담아 서버에 post 요청
-      axios.post(URL, { email, password }).then((res) => {
-        setUserInfo(res.data)
-        localStorage.setItem('userData', JSON.stringify(res.data))
+    return axios.post(URL, { email, password }).then((res) => {
+      const userData = res.data;
+  
+      // 탈퇴 회원 여부 확인
+      if (userData.user?.isdeleted) {
+        // 모달 띄우기
+        setShowRestoreModal(true);
+      } else {
+        // 정상 로그인 처리
+        setUserInfo(userData);
+        localStorage.setItem('userData', JSON.stringify(userData));
         if (res.statusText === 'OK') {
-          navigate('/')
+          navigate('/');
         }
-      })
-    )
-  }
+      }
+    });
+  };
   return (
     <div className="flex flex-col items-center justify-center bg-white pt-[88px]">
       {/* 로고 + 상단 안내 텍스트 */}
@@ -83,6 +93,15 @@ const LoginForm = () => {
           showFindIdSuccess={showFindIdSuccess}
           setShowFindIdSuccess={setShowFindIdSuccess}
         />
+        {showRestoreModal && (
+          <RestoreUserInfoModal
+            onClose={() => setShowRestoreModal(false)}
+            onNext={() => {
+              setShowRestoreModal(false);
+              // 이후 복구 단계로 이동 처리 (필요 시 추가)
+            }}
+          />
+        )}
       </div>
     </div>
   )

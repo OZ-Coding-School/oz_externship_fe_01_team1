@@ -13,18 +13,30 @@
  */
 
 
-import React from 'react';
+import React from 'react'
 
 interface ModalHeaderProps {
   icon: React.ReactNode; // 상단 아이콘 (React Element)
   title: string; // 제목 텍스트
   description?: string; // 선택 설명 텍스트 (없으면 생략)
+  onClose?: () => void; // 닫기 버튼 prop
+  noMarginBottom?: boolean;
+  className?: string;
 }
 
-const ModalHeader: React.FC<ModalHeaderProps> = ({ icon, title, description }) => {
+const ModalHeader: React.FC<ModalHeaderProps> = ({
+  icon,
+  title,
+  description,
+  noMarginBottom,
+}) => {
   return (
-    <div className="mt-[14px] flex flex-col items-center mb-[40px]">
-      <div className="w-[28px] h-[28px] bg-[#E8D9FD] rounded-full flex items-center justify-center mb-[8px]">
+    <div
+      className={`mt-[14px] flex flex-col items-center ${
+        noMarginBottom ? '' : 'mb-[40px]'
+      }`}
+    >
+      <div className="w-[28px] h-[28px] bg-[#D0B3F6] rounded-full flex items-center justify-center mb-[8px]">
         {icon}
       </div>
       <h2 className="text-[20px] font-bold text-[#121212]">{title}</h2>
