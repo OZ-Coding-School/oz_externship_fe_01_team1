@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import photo from '../assets/profile.png'
 import { AiOutlineLike } from 'react-icons/ai'
 import { GoLink } from 'react-icons/go'
@@ -10,6 +8,7 @@ import { URLCopy } from '@utils/formatDate'
 import { fetchCommunityDetail } from '../api/community'
 import type { PostData } from '@customType/communityDetail'
 import CommentsInfiniteScroll from '@components/commnunityDetail/CommentsInfiniteScroll'
+import MarkdownEdit from '@components/commnunityDetail/MarkdownEdit'
 
 export default function CommunityDetail() {
   const { id } = useParams()
@@ -77,35 +76,7 @@ export default function CommunityDetail() {
               </div>
             </div>
           </div>
-          <div className="prose max-w-none">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                img: ({ node, ...props }) => {
-                  const src = props.src || ''
-                  const match = src.match(/^image(\d+)/)
-                  if (match) {
-                    const index = parseInt(match[1], 10) - 1
-                    const actualSrc = postData.images?.[index].image_url
-                    if (actualSrc) {
-                      return (
-                        <img
-                          {...props}
-                          src={actualSrc}
-                          alt={props.alt || 'image'}
-                        />
-                      )
-                    } else {
-                      return null
-                    }
-                  }
-                  return <img {...props} alt={props.alt || 'image'} />
-                },
-              }}
-            >
-              {postData.content}
-            </ReactMarkdown>
-          </div>
+          <MarkdownEdit postData={postData} />
         </div>
         <div className="flex flex-col gap-[24px] w-full">
           <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
