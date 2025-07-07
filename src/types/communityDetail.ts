@@ -1,3 +1,14 @@
+export interface CommentsData {
+  id: number
+  author: {
+    id: number
+    nickname: string
+    imgUrl?: string
+  }
+  content: string
+  created_at: string
+}
+
 export interface DetailData {
   id: number
   category: {
@@ -27,26 +38,10 @@ export interface DetailData {
     image_name: string
   }[]
 
-  comments: {
-    id: number
-    author: {
-      id: number
-      nickname: string
-    }
-    content: string
-    created_at: string
-  }[]
+  comments: CommentsData[]
 
   created_at: string
   updated_at: string
-}
-
-export type commentData = {
-  id: number
-  name: string
-  date: string
-  content: string
-  imgUrl: string
 }
 
 export interface PostData {

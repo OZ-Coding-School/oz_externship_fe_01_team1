@@ -35,7 +35,9 @@ export default function CommunityDetail() {
           <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
             <LikeAndCopyButton likeNum={likeNum} setLikeNum={setLikeNum} />
           </div>
-          <CommentsInfiniteScroll />
+          <CommentsInfiniteScroll
+            fetchCommentsData={detailData.comments ?? []}
+          />
         </div>
       </div>
     </div>
