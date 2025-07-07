@@ -1,39 +1,35 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchCommunityDetail } from '../api/community'
-import type { PostData } from '@customType/communityDetail'
+import type { DetailData } from '@customType/communityDetail'
 import CommentsInfiniteScroll from '@components/commnunityDetail/CommentsInfiniteScroll'
 import MarkdownEdit from '@components/commnunityDetail/MarkdownEdit'
 import LikeAndCopyButton from '@components/commnunityDetail/LikeAndCopyButton'
 import CommunityDetailHeader from './CommunityDetailHeader'
+import axiosMainApiInstance from '../api/mainApi'
 
 export default function CommunityDetail() {
   const { id } = useParams()
-  const [postData, setPostData] = useState<PostData | null>(null)
   const [likeNum, setLikeNum] = useState(2)
+  const [detailData, setDetailData] = useState<DetailData | null>(null)
 
   useEffect(() => {
-    const fetchPost = async () => {
-      if (id) {
-        const res = await fetchCommunityDetail(id)
-        setPostData(res)
-      }
+    const fetchDetail = async () => {
+      const res = await axiosMainApiInstance.get<DetailData>(
+        `/api/v1/community/admin/posts/${id}`
+      )
+      setDetailData(res.data)
     }
-    fetchPost()
+    fetchDetail()
   }, [id])
 
-  if (!postData) return <div className="text-center mt-36">로딩 중...</div>
+  if (!detailData) return <div className="text-center mt-36">로딩 중...</div>
 
   return (
     <div className="flex justify-center mt-[142px]">
       <div className="relative flex flex-col items-center w-[944px] gap-[100px]">
         <div className="flex flex-col gap-[24px] w-full">
-          {postData ? (
-            <CommunityDetailHeader postData={postData} likeNum={likeNum} />
-          ) : (
-            <div>로딩 중...</div>
-          )}
-          <MarkdownEdit postData={postData} />
+          <CommunityDetailHeader likeNum={likeNum} detailData={detailData} />
+          <MarkdownEdit detailData={detailData} />
         </div>
         <div className="flex flex-col gap-[24px] w-full">
           <div className="flex w-full justify-end gap-[12px] pb-[24px] border-b-[1px] border-[#cecece]">
