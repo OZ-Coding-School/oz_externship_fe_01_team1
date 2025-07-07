@@ -42,6 +42,7 @@ const ResetPwModal = ({ onClose }: { onClose: () => void }) => {
         <SuccessPopup
           title="비밀번호 변경 완료!"
           message="잠시 후 로그인 페이지로 이동합니다."
+          onConfirm={onClose}
         />
       ) : (
         // 입력 폼 모드

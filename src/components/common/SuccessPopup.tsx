@@ -18,6 +18,7 @@ import { FaCheck } from 'react-icons/fa6';
 interface SuccessPopupProps {
   title: string; // 타이틀 (굵은 텍스트)
   message: string; // 메시지 내용
+  onConfirm: () => void;
 }
 
 const SuccessPopup = ({ title, message }: SuccessPopupProps) => {

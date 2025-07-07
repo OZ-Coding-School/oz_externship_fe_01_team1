@@ -1,69 +1,106 @@
-import ModalWrapper from '@components/common/ModalWrapper';
 import ModalHeader from '@components/common/ModalHeader';
 import CloseButton from '@components/common/CloseButton';
 import Input from '@components/common/Input';
 import Button from '@components/common/Button';
-import { GoSync } from 'react-icons/go';
+import Toast from '@components/common/Toast';
+import { GrPowerReset } from "react-icons/gr";
 import { useState } from 'react';
+import useCountdown from '@hooks/useCountdown';
+import { formatTime } from '@utils/formatTime';
+import { SuccessPopup } from '@components/common';
 
 interface Props {
-  onVerified: () => void;
+
   onClose: () => void;
 }
 
-const RestoreUserForm = ({ onVerified, onClose }: Props) => {
+const RestoreUserForm = ({ onClose }: Props) => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [codeInputVisible, setCodeInputVisible] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const { timeLeft, start } = useCountdown({
+    duration: 300,
+    onExpire: () => setCodeInputVisible(false),
+  });
+
+  const handleSendCode = () => {
+    if (!email.trim()) return;
+    setShowToast(true);
+    setCodeInputVisible(true);
+    start();
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   return (
-    <ModalWrapper className="w-[396px] max-w-full relative">
-    <CloseButton onClick={onClose} className="top-[24px]" />
-    <div className="mb-[40px]">
-      <ModalHeader
-        icon={<GoSync size={16} />}
-        title="계정 다시 사용하기"
-        noMarginBottom 
-      />
-      <p className="mt-[10px] text-[14px] text-[#4d4d4d]">입력하신 이메일로 인증번호를 보내드릴게요.</p>
-     </div>
-      {/* 이메일 입력 + 인증코드 전송 버튼 */}
-      <div className="flex flex-col gap-[8px]">
-      <label className="text-[16px] text-[#121212] font-normal text-left block">
-        이메일 <span className="text-[#EC0037]">*</span>
-      </label>
-      <div className="flex gap-[8px]">
-        <Input
-          placeholder="가입한 이메일을 입력해 주세요."
-          value={email}
-          fullWidth={false}
-          noMarginBottom={false}
-          onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 w-[201px]"
+    <div>
+      {showToast && <Toast message="전송 완료! 이메일을 확인해주세요." 
+      classname="mt-[20px]"/>}
+      <CloseButton onClick={onClose} className="top-[24px]" />
+      <div className="mb-[40px]">
+        <ModalHeader
+          icon={<GrPowerReset size={16} />}
+          title="계정 다시 사용하기"
+          noMarginBottom
         />
+        <p className="mt-[10px] text-[14px] text-[#4d4d4d] text-center">
+          입력하신 이메일로 인증번호를 보내드릴게요.
+        </p>
+      </div>
+
+      {/* 이메일 입력 */}
+      <div className="flex flex-col gap-[8px]">
+        <label className="text-[16px] text-[#121212] font-normal text-left block">
+          이메일 <span className="text-[#EC0037]">*</span>
+        </label>
+        <div className="flex gap-[8px]">
+          <Input
+            placeholder="가입한 이메일을 입력해 주세요."
+            value={email}
+            fullWidth={false}
+            noMarginBottom={false}
+            onChange={(e) => setEmail(e.target.value)}
+            className="flex-1 w-[228px]"
+          />
+          <Button
+            type="button"
+            fullWidth={false}
+            onClick={handleSendCode}
+            className="w-[112px] h-[48px] text-[#1E1E1E] bg-[#F5F5F5] border border-[#CECECE] cursor-pointer"
+          >
+            인증코드전송
+          </Button>
+        </div>
+      </div>
+
+      {/* 인증번호 입력 */}
+      <div className="flex gap-[8px] mb-[24px]">
+        <div className="relative w-[228px]">
+          <Input
+            placeholder={
+              codeInputVisible
+                ? '인증번호를 입력해주세요'
+                : '인증번호 6자리를 입력해주세요'
+            }
+            value={code}
+            fullWidth={false}
+            onChange={(e) => setCode(e.target.value)}
+            className="w-full pr-[60px]"
+            maxLength={6}
+          />
+          {codeInputVisible && (
+            <span className="absolute right-[12px] top-[24px] -translate-y-1/2 text-[#EC0037] text-[12px]">
+              {formatTime(timeLeft)}
+            </span>
+          )}
+        </div>
         <Button
           type="button"
           fullWidth={false}
-          className="w-[140px] h-[48px] text-[#1E1E1E] bg-[#F5F5F5] border border-[#CECECE] cursor-pointer"
+          className="w-[112px] text-[#1E1E1E] bg-[#F5F5F5] border border-[#CECECE] cursor-pointer"
         >
-          인증코드전송
-        </Button>
-      </div>
-    </div>
-
-      {/* 인증번호 입력 + 인증확인 버튼 */}
-      <div className="flex gap-[8px] mb-[24px]">
-        <Input
-          placeholder="인증번호 6자리를 입력해주세요"
-          value={code}
-          fullWidth={false}
-          onChange={(e) => setCode(e.target.value)}
-          className="flex-1 w-[201px]"
-          maxLength={6}
-        />
-        <Button 
-          type="button" 
-          fullWidth={false}
-          className="w-[140px] text-[#1E1E1E] bg-[#F5F5F5] border border-[#CECECE] cursor-pointer">
           인증코드확인
         </Button>
       </div>
@@ -72,11 +109,20 @@ const RestoreUserForm = ({ onVerified, onClose }: Props) => {
       <Button
         type="button"
         className="w-full h-[48px] bg-[#6201E0] text-white rounded cursor-pointer"
-        onClick={onVerified}
+        onClick={() => setShowSuccessPopup(true)}
       >
         확인
       </Button>
-    </ModalWrapper>
+      {showSuccessPopup && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/50">
+          <SuccessPopup
+            title="계정 복구 완료!"
+            message="이제 다시 로그인하실 수 있어요."
+            onConfirm={onClose}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
