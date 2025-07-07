@@ -7,19 +7,18 @@ import { GrPowerReset } from "react-icons/gr";
 import { useState } from 'react';
 import useCountdown from '@hooks/useCountdown';
 import { formatTime } from '@utils/formatTime';
-import { SuccessPopup } from '@components/common';
 
 interface Props {
 
   onClose: () => void;
+  onVerified: () => void;
 }
 
-const RestoreUserForm = ({ onClose }: Props) => {
+const RestoreUserForm = ({ onVerified, onClose }: Props) => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [codeInputVisible, setCodeInputVisible] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const { timeLeft, start } = useCountdown({
     duration: 300,
@@ -109,19 +108,10 @@ const RestoreUserForm = ({ onClose }: Props) => {
       <Button
         type="button"
         className="w-full h-[48px] bg-[#6201E0] text-white rounded cursor-pointer"
-        onClick={() => setShowSuccessPopup(true)}
+        onClick={onVerified}
       >
         확인
       </Button>
-      {showSuccessPopup && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/50">
-          <SuccessPopup
-            title="계정 복구 완료!"
-            message="이제 다시 로그인하실 수 있어요."
-            onConfirm={onClose}
-          />
-        </div>
-      )}
     </div>
   );
 };
