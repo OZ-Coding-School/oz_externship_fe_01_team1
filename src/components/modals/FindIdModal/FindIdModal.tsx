@@ -36,6 +36,11 @@ const FindIdModal: React.FC<FindIdModalProps> = ({ onClose, onSuccess }) => {
     }
   };
 
+  const handlePhoneChange = (value: string) => {
+    const onlyNumbers = value.replace(/[^0-9]/g, '');
+    setPhone(onlyNumbers);
+  };
+  
   return (
     <div className="fixed inset-0 bg-[rgba(18,18,18,0.6)] z-50 flex justify-center items-center">
       {/* 모달 레이어 */}
@@ -50,7 +55,7 @@ const FindIdModal: React.FC<FindIdModalProps> = ({ onClose, onSuccess }) => {
           phone={phone}
           showError={showError}
           onNameChange={setName}
-          onPhoneChange={setPhone}
+          onPhoneChange={handlePhoneChange}
           onFindId={handleFindId}
         />
       </div>

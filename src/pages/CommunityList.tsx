@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PostCard from '../components/CommunityList/PostCard';
 import FilterBar from '../components/CommunityList/FilterBar';
 import Pagination from '../components/CommunityList/Pagination';
@@ -16,7 +16,10 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
         rounded-none
         opacity-100
       "
-      style={{}}
+      style={{ minHeight: '100vh', // 전체 높이 확보
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       {children}
     </div>
@@ -46,6 +49,11 @@ export default function PostList() {
     setPage(totalPages);
   }
 
+  // 상세페이지 이동 시 스크롤 Top:0 적용
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     // 중앙 정렬을 위한 flex 컨테이너 추가
     <div className="flex justify-center items-center min-h-screen">
@@ -70,7 +78,7 @@ export default function PostList() {
           {postsToShow.length > 0 ? (
             postsToShow.map(post => <PostCard key={post.id} post={post} />)
           ) : (
-            <p className="text-center text-gray-500">게시물이 없습니다.</p>
+            <p className="text-center text-gray-500">못 찾겠다 꾀꼬리~</p>
           )}
         </div>
 

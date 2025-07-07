@@ -11,7 +11,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
     <div className="flex justify-center items-center gap-2 mt-10">
       {/* 처음으로 */}
       <button
-        className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
+        className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:text-purple-600 cursor-pointer'}`}
         disabled={page === 1}
         onClick={() => onPageChange(1)}
         aria-label="처음으로"
@@ -21,7 +21,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
 
       {/* 이전 페이지 */}
       <button
-        className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
+        className={`p-1 rounded ${page === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:text-purple-600 cursor-pointer'}`}
         disabled={page === 1}
         onClick={() => onPageChange(Math.max(1, page - 1))}
         aria-label="이전 페이지"
@@ -40,7 +40,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
             disabled={isCurrent}
             className={`w-8 h-8 text-sm rounded-md transition ${
               isCurrent
-                ? 'bg-[#6201E0] text-white font-semibold cursor-default'
+                ? 'bg-[#6201E0] text-white font-semibold cursor-not-allowed'
                 : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700 cursor-pointer'
             }`}
             aria-current={isCurrent ? 'page' : undefined}
@@ -53,7 +53,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
 
       {/* 다음 페이지 */}
       <button
-        className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
+        className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:text-purple-600 cursor-pointer'}`}
         disabled={page === totalPages}
         onClick={() => onPageChange(Math.min(totalPages, page + 1))}
         aria-label="다음 페이지"
@@ -63,7 +63,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
 
       {/* 마지막으로 */}
       <button
-        className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-default' : 'text-black hover:text-purple-600'}`}
+        className={`p-1 rounded ${page === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:text-purple-600 cursor-pointer'}`}
         disabled={page === totalPages}
         onClick={() => onPageChange(totalPages)}
         aria-label="마지막으로"

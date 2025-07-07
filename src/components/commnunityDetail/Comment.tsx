@@ -6,9 +6,11 @@ import { Button } from '@components/common'
 import { commentsMockData } from './mockData'
 
 export default function Comment({
-  commentData: { name, date, content, imgUrl },
+  commentData: { id, name, date, content, imgUrl },
+  handleCommentDel,
 }: {
   commentData: commentData
+  handleCommentDel: (id: number) => void
 }) {
   const [isModal, setIsModal] = useState(false)
   const commentDate = formatDate(date)
@@ -47,7 +49,7 @@ export default function Comment({
             <CommonModal
               isOpen={isModal}
               onClose={() => setIsModal(false)}
-              position="inline"
+              position="center"
               title="댓글을 삭제하시겠습니까?"
             >
               <Button
@@ -60,7 +62,10 @@ export default function Comment({
               <Button
                 fullWidth={false}
                 className="flex justify-center items-center px-[24px] py-[18px] bg-[#6201e0] text-[16px] text-[#fafafa] font-[600] rounded-[100px] h-[43px] w-[76px]"
-                onClick={() => setIsModal(false)}
+                onClick={() => {
+                  handleCommentDel(id)
+                  setIsModal(false)
+                }}
               >
                 확인
               </Button>

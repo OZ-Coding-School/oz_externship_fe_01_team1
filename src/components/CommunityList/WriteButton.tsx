@@ -10,11 +10,10 @@ const WriteButton: React.FC = () => {
 
   return (
     <button
-      className="flex items-center gap-2 px-4 py-2 rounded"
+      className="flex items-center gap-2 px-4 py-2 rounded cursor-pointer"
       style={{
         borderRadius: '4px',
         background: 'rgb(98, 1, 224)',
-        marginLeft: '227px',
       }}
       onClick={handleClick} // 클릭 이벤트에 handleClick 연결
     >

@@ -16,7 +16,11 @@ export default function BirthField({ birth, setBirth }: BirthFieldProps) {
       <Input
         type="number"
         value={birth}
-        onChange={(e) => setBirth(e.target.value)}
+        onChange={(e) => {
+          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+          const limited = onlyNumbers.slice(0, 8);
+          setBirth(limited);
+        }}
         noMarginBottom
         focusBorderColor="focus:border-[#6201E0]"
         placeholder="8자리 입력해주세요 (ex.20001004)"

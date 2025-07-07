@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
-import { commentsMockData } from '../components/commnunityDetail/mockData'
 import type { commentData } from '../types'
 
 export const useSortComments = (initialOption: string) => {
-  const [comments, setComments] = useState<commentData[]>(commentsMockData)
+  const [comments, setComments] = useState<commentData[]>([])
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
   const [selectedSort, setSelectedSort] = useState<string>(initialOption)
 
   useEffect(() => {
-    const sorted = [...commentsMockData].sort((a, b) => {
+    const sorted = [...comments].sort((a, b) => {
       const timeA = new Date(a.date).getTime()
       const timeB = new Date(b.date).getTime()
 
@@ -19,6 +18,7 @@ export const useSortComments = (initialOption: string) => {
 
   return {
     comments,
+    setComments,
     sortDropdownOpen,
     selectedSort,
     setSortDropdownOpen,

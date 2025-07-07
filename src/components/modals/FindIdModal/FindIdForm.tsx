@@ -68,7 +68,7 @@ const FindIdForm = ({
             type="tel"
             placeholder="숫자만 입력해주세요"
             fullWidth={false}
-            value={phone}
+            value={phone.slice(0, 12)}
             onChange={(e) => onPhoneChange(e.target.value)}
             noMarginBottom
             className="w-[228px] h-[48px] border border-[#BDBDBD] rounded px-3 text-[14px]"

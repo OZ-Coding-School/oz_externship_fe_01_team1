@@ -18,6 +18,7 @@ import React from 'react';
 interface ModalWrapperProps {
   children: React.ReactNode; // 모달 내부 콘텐츠
   width?: string; // 모달 너비 (Tailwind 클래스로 전달)
+  className?: string;
 }
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({ children, width = 'w-[396px]' }) => {

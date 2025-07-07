@@ -1,4 +1,4 @@
-import  {useState} from "react";
+import  {useState, useEffect} from "react";
 import PostFormHeader from "./PostFormHeader.tsx";
 import Content from "./Content.tsx";
 import SubmitButton from "./SubmitButton.tsx";
@@ -8,27 +8,32 @@ interface Props {
     initialData?: {
         title: string;
         mainCat: string;
-        subCat: string;
-        detailCat: string;
         markdown: string;
     };
     onSubmit: (data: {
         title: string;
         mainCat: string;
-        subCat: string;
-        detailCat: string;
         markdown: string;
     }) => void;
 }
 
-export default function CommunityPostAndEditForm({type, onSubmit}: Props) {
-    const [title, setTitle] = useState('');
-    const [mainCat, setMainCat] = useState('');
-    const [subCat, setSubCat] = useState('');
-    const [detailCat, setDetailCat] = useState('');
-    const [markdown, setMarkdown] = useState('');
+export default function CommunityPostAndEditForm({type, onSubmit, initialData}: Props) {
+    const [title, setTitle] = useState(() => initialData?.title || '');
+    const [mainCat, setMainCat] = useState(() => initialData?.mainCat || '');
+    const [markdown, setMarkdown] = useState(() => initialData?.markdown || '');
 
-    const isFormValid = title.trim() && mainCat.trim() && subCat.trim() && detailCat.trim() && markdown.trim();
+    useEffect(() => {
+        if (type === 'edit' && initialData) {
+            setTitle(initialData.title);
+            setMainCat(initialData.mainCat);
+            setMarkdown(initialData.markdown);
+        }
+    }, [initialData, type]);
+
+    const isFormValid =
+        (title || '').trim() &&
+        (mainCat || '').trim() &&
+        (markdown || '').trim();
 
     return (
         <>
@@ -37,10 +42,6 @@ export default function CommunityPostAndEditForm({type, onSubmit}: Props) {
                 setTitle={setTitle}
                 mainCat={mainCat}
                 setMainCat={setMainCat}
-                subCat={subCat}
-                setSubCat={setSubCat}
-                detailCat={detailCat}
-                setDetailCat={setDetailCat}
             />
             <Content markdown={markdown} setMarkdown={setMarkdown}/>
             <SubmitButton
@@ -48,7 +49,7 @@ export default function CommunityPostAndEditForm({type, onSubmit}: Props) {
                 disabled={!isFormValid}
                 onClick={() =>
                     isFormValid &&
-                    onSubmit({title, mainCat, subCat, detailCat, markdown})
+                    onSubmit({title, mainCat, markdown})
                 }
             />
         </>
