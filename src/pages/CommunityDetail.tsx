@@ -5,7 +5,7 @@ import CommentsInfiniteScroll from '@components/commnunityDetail/CommentsInfinit
 import MarkdownEdit from '@components/commnunityDetail/MarkdownEdit'
 import LikeAndCopyButton from '@components/commnunityDetail/LikeAndCopyButton'
 import CommunityDetailHeader from './CommunityDetailHeader'
-import axiosMainApiInstance from '../api/mainApi'
+import api from '../api/mainApi'
 
 export default function CommunityDetail() {
   const { id } = useParams()
@@ -14,7 +14,7 @@ export default function CommunityDetail() {
 
   useEffect(() => {
     const fetchDetail = async () => {
-      const res = await axiosMainApiInstance.get<DetailData>(
+      const res = await api.get<DetailData>(
         `/api/v1/community/admin/posts/${id}`
       )
       setDetailData(res.data)

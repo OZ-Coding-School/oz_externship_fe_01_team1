@@ -1,11 +1,11 @@
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 import { useTextarea } from '../../store/mentionStore'
 import photo from '@assets/profile_default.png'
 
 interface ModalMentionProps {
   setShowSuggestions: React.Dispatch<React.SetStateAction<boolean>>
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
-  filteredUsers: CommentsData[]
+  filteredUsers: CommentData[]
 }
 
 export default function ModalMention({

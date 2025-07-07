@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { formatDate } from '@utils/formatDate'
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
 import { commentsMockData } from './mockData'
-import photo from '../../assets/profile_default.png'
+import photo from '@assets/profile_default.png'
 
 export default function Comment({
   comment: { id, author, content, created_at },
   handleCommentDel,
 }: {
-  comment: CommentsData
+  comment: CommentData
   handleCommentDel: (id: number) => void
 }) {
   const [isModal, setIsModal] = useState(false)
@@ -36,6 +36,7 @@ export default function Comment({
       <img
         src={author.imgUrl || photo}
         className="w-[48px] h-[48px] rounded-[50%] "
+        alt={`${author.nickname} 유저의 이미지`}
       />
       <div className="flex flex-col gap-[20px] pb-[38px] border-b-[1px] border-[#cecece] w-full">
         <div className="flex items-center gap-[8px]">

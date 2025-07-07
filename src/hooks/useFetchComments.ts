@@ -1,11 +1,11 @@
 import { useState, useRef, type Dispatch, type SetStateAction } from 'react'
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 
 const loadingTime = 1000
 
 export const useFetchComments = (
-  setComments: Dispatch<SetStateAction<CommentsData[]>>,
-  fetchCommentsData: CommentsData[]
+  setComments: Dispatch<SetStateAction<CommentData[]>>,
+  fetchCommentsData: CommentData[]
 ) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)

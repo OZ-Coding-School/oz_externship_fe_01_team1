@@ -2,11 +2,11 @@ import { useState } from 'react'
 import ModalMention from './ModalMention'
 import { getRegExp } from 'korean-regexp'
 import { useTextarea } from '../../store/mentionStore'
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 
 interface CommentTextAreaProops {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
-  comments: CommentsData[]
+  comments: CommentData[]
 }
 
 export default function CommentTextArea({
@@ -15,7 +15,7 @@ export default function CommentTextArea({
 }: CommentTextAreaProops) {
   const { text, setText } = useTextarea()
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [filteredUsers, setFilteredUsers] = useState<[] | CommentsData[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<[] | CommentData[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value

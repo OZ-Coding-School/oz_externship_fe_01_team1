@@ -1,4 +1,4 @@
-export interface CommentsData {
+export interface CommentData {
   id: number
   author: {
     id: number
@@ -38,7 +38,7 @@ export interface DetailData {
     image_name: string
   }[]
 
-  comments: CommentsData[]
+  comments: CommentData[]
 
   created_at: string
   updated_at: string

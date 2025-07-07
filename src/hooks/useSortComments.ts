@@ -1,8 +1,8 @@
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 import { useState, useEffect } from 'react'
 
 export const useSortComments = (initialOption: string) => {
-  const [comments, setComments] = useState<CommentsData[]>([])
+  const [comments, setComments] = useState<CommentData[]>([])
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
   const [selectedSort, setSelectedSort] = useState<string>(initialOption)
 

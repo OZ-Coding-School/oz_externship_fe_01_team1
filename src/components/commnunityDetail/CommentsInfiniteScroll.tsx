@@ -7,12 +7,12 @@ import { useSortComments } from '@hooks/useSortComments'
 import { useEffect, useRef, type SetStateAction } from 'react'
 import { useFetchComments } from '@hooks/useFetchComments'
 import CommentTextArea from './CommentTextArea'
-import type { CommentsData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 
 export default function CommentsInfiniteScroll({
   fetchCommentsData,
 }: {
-  fetchCommentsData: CommentsData[]
+  fetchCommentsData: CommentData[]
 }) {
   const textareaRef = useRef(null)
 
