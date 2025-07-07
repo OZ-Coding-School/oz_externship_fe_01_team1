@@ -9,12 +9,34 @@ interface Props {
 }
 
 const RestoreUserModal = ({ onClose }: Props) => {
-  const [step, setStep] = useState<'info' | 'form' | 'success'>('info');
+  const [step, setStep] = useState<'info' | 'form'>('info');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleClose = () => {
     setStep('info');
+    setShowSuccess(false);
     onClose();
   };
+
+  const handleVerify = () => {
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      handleClose();
+    }, 10000);
+  };
+
+  if (showSuccess) {
+    return (
+      <div className="fixed inset-0 z-50 bg-[rgba(18,18,18,0.6)] flex items-center justify-center">
+        <SuccessPopup
+          title="계정 복구 완료!"
+          message="잠시 후 로그인 페이지로 이동합니다."
+          onConfirm={handleClose}
+        />
+      </div>
+    );
+  }
 
   return (
     <ModalWrapper className="w-[396px] max-w-full relative">
@@ -27,15 +49,8 @@ const RestoreUserModal = ({ onClose }: Props) => {
 
       {step === 'form' && (
         <RestoreUserForm
+          onVerified={handleVerify}
           onClose={handleClose}
-        />
-      )}
-
-      {step === 'success' && (
-        <SuccessPopup
-          title="계정 복구 완료!"
-          message="이제 다시 로그인하실 수 있어요."
-          onConfirm={handleClose}
         />
       )}
     </ModalWrapper>
