@@ -26,7 +26,6 @@ const LoginForm = () => {
   const { setUserInfo } = useUserInfo()
 
   const [showRestoreModal, setShowRestoreModal] = useState(false);
-  const [showRestoreForm, setShowRestoreForm] = useState(false);
 
   const navigate = useNavigate()
 
