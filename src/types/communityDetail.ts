@@ -17,29 +17,26 @@ export interface DetailData {
   comment_count: number
   is_visible: boolean
   is_notice: boolean
-  attachments: [
-    {
-      file_url: string
-      file_name: string
-    },
-  ]
-  images: [
-    {
-      image_url: string
-      image_name: string
-    },
-  ]
-  comments: [
-    {
+  attachments: {
+    file_url: string
+    file_name: string
+  }[]
+
+  images: {
+    image_url: string
+    image_name: string
+  }[]
+
+  comments: {
+    id: number
+    author: {
       id: number
-      author: {
-        id: number
-        nickname: string
-      }
-      content: string
-      created_at: string
-    },
-  ]
+      nickname: string
+    }
+    content: string
+    created_at: string
+  }[]
+
   created_at: string
   updated_at: string
 }
@@ -62,14 +59,13 @@ export interface PostData {
   is_visible: boolean
   is_notice: boolean
   attachments: { id: number; file_url: string; file_name: string }[]
-  images: [
-    {
-      id: number
-      image_url: string
-      image_name: string
-      image_type: string
-    },
-  ]
+  images: {
+    id: number
+    image_url: string
+    image_name: string
+    image_type: string
+  }[]
+
   created_at: string
   updated_at: string
 }

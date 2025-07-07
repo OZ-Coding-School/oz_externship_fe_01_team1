@@ -1,6 +1,7 @@
 import type { DetailData } from '@customType/communityDetail'
 import photo from '../assets/profile_default.png'
 import { Link } from 'react-router'
+import { formatRelativeTime } from '@utils/formatRelativeTime'
 
 export default function CommunityDetailHeader({
   likeNum,
@@ -36,8 +37,8 @@ export default function CommunityDetailHeader({
           <div>
             {new Date(detailData.updated_at).getTime() !==
             new Date(detailData.created_at).getTime()
-              ? `수정됨: ${new Date(detailData.updated_at).toLocaleString()}`
-              : new Date(detailData.created_at).toLocaleString()}
+              ? formatRelativeTime(detailData.updated_at)
+              : formatRelativeTime(detailData.created_at)}
           </div>
         </div>
         <div className="flex items-center gap-[10px] text-[#707070] font-[500] text-[16px]">
