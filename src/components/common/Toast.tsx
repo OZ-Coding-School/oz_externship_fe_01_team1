@@ -13,12 +13,13 @@ import { FaCheck } from 'react-icons/fa6';
 
 interface ToastProps {
   message: string; // 토스트에 표시할 텍스트
+  classname?: string;
 }
 
-const Toast: React.FC<ToastProps> = ({ message }) => {
+const Toast: React.FC<ToastProps> = ({ message, classname = '' }) => {
   return (
-    <div className="fixed top-[160px] left-1/2 -translate-x-1/2 w-auto max-w-[360px] h-[48px] bg-[#FAFAFA] 
-        border border-[#ECECEC] rounded flex items-center px-[16px] shadow z-[9999]">
+    <div className={`fixed top-[170px] left-1/2 -translate-x-1/2 w-auto max-w-[360px] h-[48px] 
+        bg-[#FAFAFA] border border-[#ECECEC] rounded flex items-center px-[16px] shadow z-[9999] ${classname}`}>
       <div className="w-[20px] h-[20px] bg-[#14C786] rounded-full flex items-center justify-center mr-[12px]">
         <FaCheck className="text-white text-[12px]" />
       </div>

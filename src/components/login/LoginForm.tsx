@@ -14,8 +14,7 @@ import axios from 'axios'
 import { useUserInfo } from '@store/userInfoStore'
 import { useNavigate } from 'react-router'
 
-import RestoreUserInfoModal from '@components/modals/RestoreUserModal/RestoreUserInfoModal'
-import RestoreUserForm from '@components/modals/RestoreUserModal/RestoreUserForm'
+import RestoreUserModal from '@components/modals/RestoreUserModal/RestoreUserModal'
 
 const LoginForm = () => {
   const [openFindIdModal, setOpenFindIdModal] = useState(false) // 아이디 찾기 모달
@@ -95,27 +94,10 @@ const LoginForm = () => {
           showFindIdSuccess={showFindIdSuccess}
           setShowFindIdSuccess={setShowFindIdSuccess}
         />
-        {showRestoreModal && !showRestoreForm && (
-          <RestoreUserInfoModal
-            onClose={() => setShowRestoreModal(false)}
-            onNext={() => {
-              setShowRestoreForm(true);    
-            }}
-          />
-        )}
-        {showRestoreForm && (
-          <RestoreUserForm
-            onVerified={() => {
-              setShowRestoreForm(false);
-              setShowRestoreModal(false);
-            }}
-            onClose={() => {
-              setShowRestoreForm(false);
-              setShowRestoreModal(false);
-            }}
-          />
-        )}
       </div>
+      {showRestoreModal && (
+      <RestoreUserModal onClose={() => setShowRestoreModal(false)} />
+    )}
     </div>
   )
 }
