@@ -10,11 +10,11 @@ import { formatTime } from '@utils/formatTime';
 import { SuccessPopup } from '@components/common';
 
 interface Props {
-  onVerified: () => void;
+
   onClose: () => void;
 }
 
-const RestoreUserForm = ({ onVerified, onClose }: Props) => {
+const RestoreUserForm = ({ onClose }: Props) => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);

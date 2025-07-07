@@ -27,7 +27,6 @@ const RestoreUserModal = ({ onClose }: Props) => {
 
       {step === 'form' && (
         <RestoreUserForm
-          onVerified={() => setStep('success')}
           onClose={handleClose}
         />
       )}
