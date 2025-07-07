@@ -5,7 +5,6 @@ import type { commentData } from '@customType/communityDetail'
 const loadingTime = 1000
 
 export const useFetchComments = (
-  comments: commentData[],
   setComments: Dispatch<SetStateAction<commentData[]>>
 ) => {
   const [isLoading, setIsLoading] = useState(false)

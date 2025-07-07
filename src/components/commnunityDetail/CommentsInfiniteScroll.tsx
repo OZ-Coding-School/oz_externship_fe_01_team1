@@ -26,10 +26,8 @@ export default function CommentsInfiniteScroll() {
     fetchComments()
   }, [selectedSort])
 
-  const { fetchComments, hasNext, setHasNext, isLoading } = useFetchComments(
-    comments,
-    setComments
-  )
+  const { fetchComments, hasNext, setHasNext, isLoading } =
+    useFetchComments(setComments)
 
   const observerRef = useIntersectionObserver({
     isLoading,
