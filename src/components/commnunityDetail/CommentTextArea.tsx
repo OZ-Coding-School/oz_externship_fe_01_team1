@@ -18,7 +18,10 @@ export default function CommentTextArea({
   const [filteredUsers, setFilteredUsers] = useState<[] | CommentData[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
+    const value = e.target.value.replace(
+      /[^\p{Emoji_Presentation}\p{Extended_Pictographic}\p{L}\p{N}\p{P}\p{Zs}]/gu,
+      ''
+    )
     setText(value)
 
     // 커서 위치 기준으로 마지막 단어 추출
@@ -53,6 +56,7 @@ export default function CommentTextArea({
           placeholder="개인정보를 공유 및 요청하거나, 명예 회손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있습니다."
           value={text}
           onChange={handleChange}
+          maxLength={500}
         ></textarea>
         {showSuggestions && (
           <ModalMention
