@@ -8,6 +8,7 @@ import { useEffect, useRef, type SetStateAction } from 'react'
 import { useFetchComments } from '@hooks/useFetchComments'
 import CommentTextArea from './CommentTextArea'
 import type { CommentData } from '@customType/communityDetail'
+import { useUserInfo } from '@store/userInfoStore'
 
 export default function CommentsInfiniteScroll({
   fetchCommentsData,
@@ -15,6 +16,12 @@ export default function CommentsInfiniteScroll({
   fetchCommentsData: CommentData[]
 }) {
   const textareaRef = useRef(null)
+  const userInfo = useUserInfo((state) => state.userInfo)
+  const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
+
+  useEffect(() => {
+    initializeUserInfo()
+  }, [])
 
   const {
     comments,
@@ -54,12 +61,16 @@ export default function CommentsInfiniteScroll({
 
   return (
     <>
-      <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
-        <CommentTextArea
-          textareaRef={textareaRef}
-          comments={Array.isArray(comments) ? comments : []}
-        />
-      </div>
+      {userInfo && (
+        <div className="flex w-full h-[120px] gap-[40px] p-[20px] border-[1px] rounded-[12px] border-[#cecece] focus-within:border-[#6202E0]">
+          <CommentTextArea
+            textareaRef={textareaRef}
+            comments={Array.isArray(comments) ? comments : []}
+            setComments={setComments}
+            userInfo={userInfo}
+          />
+        </div>
+      )}
       <div className="flex flex-col w-full gap-[20px]">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-[12px]">

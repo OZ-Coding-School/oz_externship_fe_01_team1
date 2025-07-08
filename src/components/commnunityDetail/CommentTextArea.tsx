@@ -1,24 +1,35 @@
-import { useState } from 'react'
+import { useState, type SetStateAction } from 'react'
 import ModalMention from './ModalMention'
 import { getRegExp } from 'korean-regexp'
 import { useTextarea } from '../../store/mentionStore'
 import type { CommentData } from '@customType/communityDetail'
+import type { userData } from '@customType/userData'
+import photo from '@assets/profile_default.png'
 
 interface CommentTextAreaProops {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
   comments: CommentData[]
+  setComments: React.Dispatch<SetStateAction<CommentData[]>>
+  userInfo: userData
 }
 
 export default function CommentTextArea({
   textareaRef,
   comments,
+  setComments,
+  userInfo: {
+    user: { id: userId, nickname },
+  },
 }: CommentTextAreaProops) {
   const { text, setText } = useTextarea()
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [filteredUsers, setFilteredUsers] = useState<[] | CommentData[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
+    const value = e.target.value.replace(
+      /[^\p{Emoji_Presentation}\p{Extended_Pictographic}\p{L}\p{N}\p{P}\p{Zs}]/gu,
+      ''
+    )
     setText(value)
 
     // 커서 위치 기준으로 마지막 단어 추출
@@ -44,6 +55,22 @@ export default function CommentTextArea({
       setShowSuggestions(false)
     }
   }
+
+  const handleCreateComment = () => {
+    const newComment: CommentData = {
+      id: comments.length + 1,
+      author: {
+        id: userId,
+        nickname: nickname,
+        imgUrl: photo,
+      },
+      content: text,
+      created_at: new Date().toISOString(),
+    }
+    setComments([...comments, newComment])
+    setText('')
+  }
+
   return (
     <>
       <div className="relative">
@@ -53,6 +80,7 @@ export default function CommentTextArea({
           placeholder="개인정보를 공유 및 요청하거나, 명예 회손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있습니다."
           value={text}
           onChange={handleChange}
+          maxLength={500}
         ></textarea>
         {showSuggestions && (
           <ModalMention
@@ -65,6 +93,7 @@ export default function CommentTextArea({
       <div className="flex self-end">
         <button
           className={`w-[80px] h-[40px] ${text.trim() ? 'bg-[#efe6fc] text-[#6202E0]' : 'bg-[#ececec] text-[#4d4d4d]'} rounded-[100px]`}
+          onClick={handleCreateComment}
         >
           등록
         </button>
