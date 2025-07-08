@@ -15,10 +15,11 @@ export default function NavBar() {
     initializeUserInfo()
   }, [])
 
-  const sortOptions = ['로그아웃', '마이페이지']
+  const sortOptions = ['수강생 등록','마이페이지', '로그아웃']
   return (
     <>
-      <div className="w-full flex justify-center items-center bg-[#222222] text-[#ffffff] font-[400] text-[16px] h-[48px]">
+      <div className="w-full flex justify-center items-center bg-[#222222] text-[#ffffff] 
+      font-[400] text-[16px] h-[48px]">
         🚨 선착순 모집! 국비지원 받고 4주 완성
       </div>
       <div className="w-full flex justify-center items-center border-[rgba(0,0,0,0.2)] border-[1px] py-[8px]">
@@ -53,7 +54,7 @@ export default function NavBar() {
               <img
                 src={default_profile_img}
                 alt=""
-                className="h-[40px]"
+                className="h-[40p] w-[40px] rounded-full cursor-pointer"
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
               />
             ) : (
@@ -64,7 +65,17 @@ export default function NavBar() {
               </>
             )}
             {isDropdownOpen && (
-              <div className="absolute top-[100%] right-0 mt-2 bg-white shadow-lg rounded-xl p-2 w-32 text-sm z-20">
+            <div className="absolute top-[100%] right-0 mt-2 bg-white shadow-lg rounded-xl p-4 w-52 text-sm z-50">
+              {userInfo && (
+                <>
+                  {/* 닉네임 + 이메일 */}
+                  <div className="mb-2">
+                  <div className="text-[16px] mb-[12px] font-bold">{userInfo?.user.nickname}</div>
+                  <div className="text-[13px] mb-[20px] text-gray-400">{userInfo?.user.email}</div>
+                  </div>
+                  <div className="border-t border-gray-200 my-2" />
+                </>
+              )}
                 {sortOptions.map((option) => (
                   <div
                     key={option}
@@ -75,7 +86,8 @@ export default function NavBar() {
                         localStorage.removeItem('userData')
                       }
                     }}
-                    className="px-3 py-2 text-center transition rounded-md cursor-pointer hover:bg-purple-100 hover:text-[#6202E0] font-bold"
+                    className="px-3 py-2 text-left transition cursor-pointer 
+                    hover:bg-purple-100 hover:text-[#6202E0] font-normal text-[14px]"
                   >
                     {option}
                   </div>
