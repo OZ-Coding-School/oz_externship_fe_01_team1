@@ -47,7 +47,6 @@ export default function CommunityDetail() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
-  const [cursor, setCursor] = useState<number | null>(null)
 
   const observerRef = useRef(null)
 
@@ -73,6 +72,7 @@ export default function CommunityDetail() {
 
     setIsLoading(true)
 
+    // setTimeout(() => {
     const currentLength = comments.length
     const nextBatch = commentsMockData.slice(currentLength, currentLength + 10)
 
@@ -83,11 +83,11 @@ export default function CommunityDetail() {
     )
 
     setIsLoading(false)
+    // }, 500)
   }
 
   useEffect(() => {
     setComments([])
-    setCursor(0)
     setHasNext(true)
     fetchComments()
   }, [selectedSort])
