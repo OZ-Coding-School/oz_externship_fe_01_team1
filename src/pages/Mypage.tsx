@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import profileDefault from '../assets/profile_default.png';
+import profileDefault from '../assets/mypage/profile.svg';
 
 const mockUser = {
   nickname: '오즈오즈',
