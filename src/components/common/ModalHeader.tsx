@@ -29,22 +29,23 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
   title,
   description,
   noMarginBottom,
+  className, 
 }) => {
   return (
     <div
       className={`mt-[14px] flex flex-col items-center ${
         noMarginBottom ? '' : 'mb-[40px]'
-      }`}
+      } ${className ?? ''}`} 
     >
       <div className="w-[28px] h-[28px] bg-[#D0B3F6] rounded-full flex items-center justify-center mb-[8px]">
         {icon}
       </div>
       <h2 className="text-[20px] font-bold text-[#121212]">{title}</h2>
       {description && (
-        <p className="text-[14px] text-[#121212] mt-[16px] text-center">{description}</p>
+        <p className="text-[14px] text-[#4D4D4D] mt-[16px] text-center">{description}</p>
       )}
     </div>
-  );
-};
+  )
+}
 
 export default ModalHeader;
