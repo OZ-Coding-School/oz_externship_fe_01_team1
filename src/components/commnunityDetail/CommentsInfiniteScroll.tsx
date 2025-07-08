@@ -7,8 +7,13 @@ import { useSortComments } from '@hooks/useSortComments'
 import { useEffect, useRef, type SetStateAction } from 'react'
 import { useFetchComments } from '@hooks/useFetchComments'
 import CommentTextArea from './CommentTextArea'
+import type { CommentData } from '@customType/communityDetail'
 
-export default function CommentsInfiniteScroll() {
+export default function CommentsInfiniteScroll({
+  fetchCommentsData,
+}: {
+  fetchCommentsData: CommentData[]
+}) {
   const textareaRef = useRef(null)
 
   const {
@@ -26,8 +31,10 @@ export default function CommentsInfiniteScroll() {
     fetchComments()
   }, [selectedSort])
 
-  const { fetchComments, hasNext, setHasNext, isLoading } =
-    useFetchComments(setComments)
+  const { fetchComments, hasNext, setHasNext, isLoading } = useFetchComments(
+    setComments,
+    fetchCommentsData
+  )
 
   const observerRef = useIntersectionObserver({
     isLoading,
@@ -87,10 +94,10 @@ export default function CommentsInfiniteScroll() {
           </div>
         </div>
         <div className="flex flex-col gap-[17px] w-full">
-          {comments.map((commentData) => (
+          {comments.map((comment) => (
             <Comment
-              key={commentData.id}
-              commentData={commentData}
+              key={comment.id}
+              comment={comment}
               handleCommentDel={handleCommentDel}
             />
           ))}

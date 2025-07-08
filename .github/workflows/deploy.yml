@@ -12,6 +12,10 @@ jobs:
       - name: Github Repository 파일 불러오기
         uses: actions/checkout@v4 # githubmarketplace 라이브러리 사용
 
+      - name: VITE_API_MAIN_URL 값을 .env.production 파일로 만들기
+        run: |
+          echo "VITE_API_MAIN_URL=${{ secrets.VITE_API_MAIN_URL }}" > .env.production
+
       - name: 의존성 설치
         run: npm i
 

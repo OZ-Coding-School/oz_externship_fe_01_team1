@@ -1,11 +1,11 @@
 import { useState, useRef, type Dispatch, type SetStateAction } from 'react'
-import { commentsMockData } from '@components/commnunityDetail/mockData'
-import type { commentData } from '@customType/communityDetail'
+import type { CommentData } from '@customType/communityDetail'
 
 const loadingTime = 1000
 
 export const useFetchComments = (
-  setComments: Dispatch<SetStateAction<commentData[]>>
+  setComments: Dispatch<SetStateAction<CommentData[]>>,
+  fetchCommentsData: CommentData[]
 ) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasNext, setHasNext] = useState(true)
@@ -20,14 +20,14 @@ export const useFetchComments = (
     setTimeout(() => {
       setComments((prev) => {
         const currentLength = prev.length
-        const nextBatch = commentsMockData.slice(
+        const nextBatch = fetchCommentsData.slice(
           currentLength,
           currentLength + 10
         )
 
         setHasNext(
           nextBatch.length === 10 &&
-            currentLength + nextBatch.length < commentsMockData.length
+            currentLength + nextBatch.length < fetchCommentsData.length
         )
 
         return [...prev, ...nextBatch]

@@ -1,8 +1,12 @@
-import type { PostData } from '@customType/communityDetail'
+import type { DetailData } from '@customType/communityDetail'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-export default function MarkdownEdit({ postData }: { postData: PostData }) {
+export default function MarkdownEdit({
+  detailData,
+}: {
+  detailData: DetailData
+}) {
   return (
     <div className="prose max-w-none">
       <ReactMarkdown
@@ -13,7 +17,7 @@ export default function MarkdownEdit({ postData }: { postData: PostData }) {
             const match = src.match(/^image(\d+)/)
             if (match) {
               const index = parseInt(match[1], 10) - 1
-              const actualSrc = postData.images?.[index].image_url
+              const actualSrc = detailData.images?.[index].image_url
               if (actualSrc) {
                 return (
                   <img {...props} src={actualSrc} alt={props.alt || 'image'} />
@@ -26,7 +30,7 @@ export default function MarkdownEdit({ postData }: { postData: PostData }) {
           },
         }}
       >
-        {postData.content}
+        {detailData.content}
       </ReactMarkdown>
     </div>
   )

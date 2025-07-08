@@ -1,27 +1,31 @@
-import type { userData } from '@customType/userData'
 import { create } from 'zustand'
+import type { userData } from '@customType/userData'
 
 type UserInfoState = {
   userInfo: userData | null
-  setUserInfo: (userInfo: userData | null) => Promise<void>
-}
-
-type IsLoginState = {
-  isLogin: boolean
-  setIsLogin: (isLogin: boolean) => void
+  setUserInfo: (userInfo: userData | null) => void
+  initializeUserInfo: () => void
 }
 
 export const useUserInfo = create<UserInfoState>((set) => ({
   userInfo: null,
-  setUserInfo: async (userInfo) => {
-    set(() => ({ userInfo: userInfo }))
+  setUserInfo: (userInfo) => {
+    if (userInfo) {
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    } else {
+      localStorage.removeItem('userInfo')
+    }
+    set({ userInfo })
   },
-}))
-
-export const useIsUserLogin = create<IsLoginState>((set) => ({
-  isLogin: false,
-  setIsLogin: (isLogin) =>
-    set(() => {
-      return { isLogin: !!isLogin }
-    }),
+  initializeUserInfo: () => {
+    const stored = localStorage.getItem('userInfo')
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored)
+        set({ userInfo: parsed })
+      } catch {
+        set({ userInfo: null })
+      }
+    }
+  },
 }))
