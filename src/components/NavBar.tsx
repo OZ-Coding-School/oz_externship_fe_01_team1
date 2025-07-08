@@ -1,5 +1,5 @@
-import { Link } from 'react-router'
-import { useNavigate } from 'react-router-dom';
+import { Link} from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import ozLogo from '../assets/oz_logo.png'
 import { useUserInfo } from '@store/userInfoStore'
 import default_profile_img from '../assets/profile_default.png'
