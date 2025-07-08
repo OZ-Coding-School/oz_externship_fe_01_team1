@@ -1,4 +1,4 @@
-import type { commentData } from '../../types'
+import type { commentData } from '@customType/communityDetail'
 import { useTextarea } from '../../store/mentionStore'
 
 interface ModalMentionProps {
