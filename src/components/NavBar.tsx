@@ -1,15 +1,19 @@
 import { Link } from 'react-router'
-
 // 이미지 파일 import (src/assets/oz_logo.png 등 실제 경로에 맞게 수정)
 import ozLogo from '../assets/oz_logo.png'
-import { useUserInfo } from '@store/userInfoStore'
 import default_profile_img from '../assets/profile_default.png'
 import { useState } from 'react'
+import type { userData } from '@customType/userData'
 
 export default function NavBar() {
-  const { userInfo } = useUserInfo()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const { setUserInfo } = useUserInfo()
+
+  const rawData = localStorage.getItem('userInfo')
+
+  const storedData: userData | null = rawData
+    ? (JSON.parse(rawData) as userData)
+    : null
+
   const sortOptions = ['로그아웃', '마이페이지']
   return (
     <>
@@ -44,7 +48,7 @@ export default function NavBar() {
             </div>
           </div>
           <div className="flex gap-[12px] items-center relative">
-            {userInfo ? (
+            {storedData ? (
               <img
                 src={default_profile_img}
                 alt=""
@@ -65,9 +69,9 @@ export default function NavBar() {
                     key={option}
                     onClick={() => {
                       if (option === '로그아웃') {
-                        setUserInfo(null)
                         setIsDropdownOpen(false)
-                        localStorage.removeItem('userData')
+                        localStorage.removeItem('userInfo')
+                        window.location.reload()
                       }
                     }}
                     className="px-3 py-2 text-center transition rounded-md cursor-pointer hover:bg-purple-100 hover:text-[#6202E0] font-bold"
