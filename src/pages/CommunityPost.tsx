@@ -2,7 +2,7 @@ import axios from 'axios';
 import CommunityPostAndEditForm from "@components/CommunityPostAndEdit/CommunityPostAndEditForm.tsx";
 import {useNavigate} from "react-router";
 import {
-    detailCategories,
+    mainCategories,
 } from "../components/CommunityPostAndEdit/data/categoryOptions.ts";
 
 export default function CommunityPost() {
@@ -26,12 +26,10 @@ export default function CommunityPost() {
     const handleSubmit = async (data: {
         title: string;
         mainCat: string;
-        subCat: string;
-        detailCat: string;
         markdown: string;
     }) => {
         try {
-            const selectedDetail = detailCategories.find(cat => cat.value === data.detailCat);
+            const selectedDetail = mainCategories.find(cat => cat.value === data.mainCat);
             if (!selectedDetail) {
                 alert('카테고리 정보를 찾을 수 없습니다.');
                 return;
@@ -52,7 +50,7 @@ export default function CommunityPost() {
 
             const formData = {
                 category_id: selectedDetail.id,
-                category_name: `${data.mainCat} > ${data.subCat} > ${data.detailCat}`,
+                category_name: data.mainCat,
                 title: data.title,
                 content: contentWithPlaceholders,
                 attachments: [

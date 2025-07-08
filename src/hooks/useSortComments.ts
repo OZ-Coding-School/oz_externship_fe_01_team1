@@ -1,16 +1,15 @@
+import type { CommentData } from '@customType/communityDetail'
 import { useState, useEffect } from 'react'
-import { commentsMockData } from '../components/commnunityDetail/mockData'
-import type { commentData } from '../types'
 
 export const useSortComments = (initialOption: string) => {
-  const [comments, setComments] = useState<commentData[]>(commentsMockData)
+  const [comments, setComments] = useState<CommentData[]>([])
   const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false)
   const [selectedSort, setSelectedSort] = useState<string>(initialOption)
 
   useEffect(() => {
-    const sorted = [...commentsMockData].sort((a, b) => {
-      const timeA = new Date(a.date).getTime()
-      const timeB = new Date(b.date).getTime()
+    const sorted = [...comments].sort((a, b) => {
+      const timeA = new Date(a.created_at).getTime()
+      const timeB = new Date(b.created_at).getTime()
 
       return selectedSort === '최신순' ? timeB - timeA : timeA - timeB
     })
@@ -19,6 +18,7 @@ export const useSortComments = (initialOption: string) => {
 
   return {
     comments,
+    setComments,
     sortDropdownOpen,
     selectedSort,
     setSortDropdownOpen,

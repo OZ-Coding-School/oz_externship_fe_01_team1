@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
-import { formatDate } from '../../lib'
-import type { commentData } from '../../types'
+import { formatDate } from '@utils/formatDate'
+import type { CommentData } from '@customType/communityDetail'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
 import { commentsMockData } from './mockData'
+import photo from '@assets/profile_default.png'
 
 export default function Comment({
-  commentData: { name, date, content, imgUrl },
+  comment: { id, author, content, created_at },
+  handleCommentDel,
 }: {
-  commentData: commentData
+  comment: CommentData
+  handleCommentDel: (id: number) => void
 }) {
   const [isModal, setIsModal] = useState(false)
-  const commentDate = formatDate(date)
+  const commentDate = formatDate(created_at)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -30,10 +33,16 @@ export default function Comment({
 
   return (
     <div className="flex gap-[17px] w-full relative">
-      <img src={imgUrl} className="w-[48px] h-[48px] rounded-[50%] " />
+      <img
+        src={author.imgUrl || photo}
+        className="w-[48px] h-[48px] rounded-[50%] "
+        alt={`${author.nickname} 유저의 이미지`}
+      />
       <div className="flex flex-col gap-[20px] pb-[38px] border-b-[1px] border-[#cecece] w-full">
         <div className="flex items-center gap-[8px]">
-          <div className="text-[#4d4d4d] text-[16px] font-[600]">{name}</div>
+          <div className="text-[#4d4d4d] text-[16px] font-[600]">
+            {author.nickname}
+          </div>
           <div className="text-[#9d9d9d] text-[12px] font-[500]">
             {commentDate}
           </div>
@@ -47,7 +56,7 @@ export default function Comment({
             <CommonModal
               isOpen={isModal}
               onClose={() => setIsModal(false)}
-              position="inline"
+              position="center"
               title="댓글을 삭제하시겠습니까?"
             >
               <Button
@@ -60,7 +69,10 @@ export default function Comment({
               <Button
                 fullWidth={false}
                 className="flex justify-center items-center px-[24px] py-[18px] bg-[#6201e0] text-[16px] text-[#fafafa] font-[600] rounded-[100px] h-[43px] w-[76px]"
-                onClick={() => setIsModal(false)}
+                onClick={() => {
+                  handleCommentDel(id)
+                  setIsModal(false)
+                }}
               >
                 확인
               </Button>

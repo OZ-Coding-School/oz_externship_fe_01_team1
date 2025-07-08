@@ -1,10 +1,11 @@
-import type { commentData } from '../../types'
+import type { CommentData } from '@customType/communityDetail'
 import { useTextarea } from '../../store/mentionStore'
+import photo from '@assets/profile_default.png'
 
 interface ModalMentionProps {
   setShowSuggestions: React.Dispatch<React.SetStateAction<boolean>>
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
-  filteredUsers: commentData[]
+  filteredUsers: CommentData[]
 }
 
 export default function ModalMention({
@@ -35,14 +36,14 @@ export default function ModalMention({
         <div
           key={user.id}
           className="flex gap-[12px] items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
-          onClick={() => handleSelect(user.name)}
+          onClick={() => handleSelect(user.author.nickname)}
         >
           <img
-            src={user.imgUrl}
+            src={user.author.imgUrl || photo}
             alt=""
             className="w-[20px] h-[20px] rounded-[50%] "
           />
-          <div>{user.name}</div>
+          <div>{user.author.nickname}</div>
         </div>
       ))}
     </ul>
