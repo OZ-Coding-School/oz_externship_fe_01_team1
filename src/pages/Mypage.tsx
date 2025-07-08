@@ -47,9 +47,7 @@ export default function MyPage() {
             <div className="text-[#BDBDBD] border-l-4 border-transparent pl-4 cursor-pointer hover:text-[#7B61FF] hover:border-[#7B61FF] transition">
               쪽지 시험
             </div>
-            <div className="text-[#BDBDBD] border-l-4 border-transparent pl-4 cursor-pointer hover:text-[#7B61FF] hover:border-[#7B61FF] transition">
-              내 정보
-            </div>
+            <div className="border-l-4 border-[#7B61FF] pl-4">내 정보</div>
             <div className="text-[#BDBDBD] border-l-4 border-transparent pl-4 cursor-pointer hover:text-[#7B61FF] hover:border-[#7B61FF] transition">
               비밀번호 변경
             </div>
