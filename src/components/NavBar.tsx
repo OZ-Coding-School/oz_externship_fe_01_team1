@@ -1,6 +1,5 @@
 import { Link } from 'react-router'
 import { useNavigate } from 'react-router-dom';
-// 이미지 파일 import (src/assets/oz_logo.png 등 실제 경로에 맞게 수정)
 import ozLogo from '../assets/oz_logo.png'
 import { useUserInfo } from '@store/userInfoStore'
 import default_profile_img from '../assets/profile_default.png'
