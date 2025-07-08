@@ -17,10 +17,11 @@ export default function CommentsInfiniteScroll({
 }) {
   const textareaRef = useRef(null)
   const userInfo = useUserInfo((state) => state.userInfo)
-  const setUserInfo = useUserInfo((state) => state.setUserInfo)
   const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
 
-  console.log(userInfo)
+  useEffect(() => {
+    initializeUserInfo()
+  }, [])
 
   const {
     comments,
@@ -65,6 +66,8 @@ export default function CommentsInfiniteScroll({
           <CommentTextArea
             textareaRef={textareaRef}
             comments={Array.isArray(comments) ? comments : []}
+            setComments={setComments}
+            userInfo={userInfo}
           />
         </div>
       )}

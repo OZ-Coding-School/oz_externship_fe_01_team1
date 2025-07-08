@@ -1,17 +1,25 @@
-import { useState } from 'react'
+import { useState, type SetStateAction } from 'react'
 import ModalMention from './ModalMention'
 import { getRegExp } from 'korean-regexp'
 import { useTextarea } from '../../store/mentionStore'
 import type { CommentData } from '@customType/communityDetail'
+import type { userData } from '@customType/userData'
+import photo from '@assets/profile_default.png'
 
 interface CommentTextAreaProops {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
   comments: CommentData[]
+  setComments: React.Dispatch<SetStateAction<CommentData[]>>
+  userInfo: userData
 }
 
 export default function CommentTextArea({
   textareaRef,
   comments,
+  setComments,
+  userInfo: {
+    user: { id: userId, nickname },
+  },
 }: CommentTextAreaProops) {
   const { text, setText } = useTextarea()
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -47,6 +55,22 @@ export default function CommentTextArea({
       setShowSuggestions(false)
     }
   }
+
+  const handleCreateComment = () => {
+    const newComment: CommentData = {
+      id: comments.length + 1,
+      author: {
+        id: userId,
+        nickname: nickname,
+        imgUrl: photo,
+      },
+      content: text,
+      created_at: new Date().toISOString(),
+    }
+    setComments([...comments, newComment])
+    setText('')
+  }
+
   return (
     <>
       <div className="relative">
@@ -69,6 +93,7 @@ export default function CommentTextArea({
       <div className="flex self-end">
         <button
           className={`w-[80px] h-[40px] ${text.trim() ? 'bg-[#efe6fc] text-[#6202E0]' : 'bg-[#ececec] text-[#4d4d4d]'} rounded-[100px]`}
+          onClick={handleCreateComment}
         >
           등록
         </button>
