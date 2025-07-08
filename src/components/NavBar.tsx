@@ -1,14 +1,20 @@
 import { Link} from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import ozLogo from '../assets/oz_logo.png'
-import { useUserInfo } from '@store/userInfoStore'
 import default_profile_img from '../assets/profile_default.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useUserInfo } from '@store/userInfoStore'
 
 export default function NavBar() {
-  const { userInfo } = useUserInfo()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const { setUserInfo } = useUserInfo()
+  const userInfo = useUserInfo((state) => state.userInfo)
+  const setUserInfo = useUserInfo((state) => state.setUserInfo)
+  const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
+
+  useEffect(() => {
+    initializeUserInfo()
+  }, [])
+
   const sortOptions = ['로그아웃', '마이페이지']
   const navigate = useNavigate();
   return (
