@@ -2,17 +2,18 @@ import { Link } from 'react-router'
 // 이미지 파일 import (src/assets/oz_logo.png 등 실제 경로에 맞게 수정)
 import ozLogo from '../assets/oz_logo.png'
 import default_profile_img from '../assets/profile_default.png'
-import { useState } from 'react'
-import type { userData } from '@customType/userData'
+import { useEffect, useState } from 'react'
+import { useUserInfo } from '@store/userInfoStore'
 
 export default function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const userInfo = useUserInfo((state) => state.userInfo)
+  const setUserInfo = useUserInfo((state) => state.setUserInfo)
+  const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
 
-  const rawData = localStorage.getItem('userInfo')
-
-  const storedData: userData | null = rawData
-    ? (JSON.parse(rawData) as userData)
-    : null
+  useEffect(() => {
+    initializeUserInfo()
+  }, [])
 
   const sortOptions = ['로그아웃', '마이페이지']
   return (
@@ -48,7 +49,7 @@ export default function NavBar() {
             </div>
           </div>
           <div className="flex gap-[12px] items-center relative">
-            {storedData ? (
+            {userInfo ? (
               <img
                 src={default_profile_img}
                 alt=""
@@ -69,9 +70,9 @@ export default function NavBar() {
                     key={option}
                     onClick={() => {
                       if (option === '로그아웃') {
+                        setUserInfo(null)
                         setIsDropdownOpen(false)
-                        localStorage.removeItem('userInfo')
-                        window.location.reload()
+                        localStorage.removeItem('userData')
                       }
                     }}
                     className="px-3 py-2 text-center transition rounded-md cursor-pointer hover:bg-purple-100 hover:text-[#6202E0] font-bold"

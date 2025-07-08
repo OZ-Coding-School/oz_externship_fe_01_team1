@@ -12,7 +12,7 @@ import LoginInputs from './LoginInputs' // 이메일/비밀번호 입력 + 아�
 import LoginModals from './LoginModals' // 아이디찾기 / 비번찾기 / 재설정 모달 관리
 import axios from 'axios'
 import { useNavigate } from 'react-router'
-import { useAuthStore } from '@store/useAuthStore'
+import { useUserInfo } from '@store/userInfoStore';
 
 import RestoreUserModal from '@components/modals/RestoreUserModal/RestoreUserModal'
 
@@ -23,7 +23,7 @@ const LoginForm = () => {
   const [showFindIdSuccess, setShowFindIdSuccess] = useState(false) // 아이디 찾기 성공 화면
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setLogin } = useAuthStore();
+  const { setUserInfo } = useUserInfo();
 
   const [showRestoreModal, setShowRestoreModal] = useState(false);
 
@@ -34,11 +34,17 @@ const LoginForm = () => {
     return axios.post(URL, { email, password }).then((res) => {
       const userData = res.data;
   
+      // 탈퇴 회원 여부 확인
       if (userData.user?.isdeleted) {
+        // 모달 띄우기
         setShowRestoreModal(true);
       } else {
-        setLogin(userData); 
-        navigate('/');
+        // 정상 로그인 처리
+        localStorage.setItem('userInfo', JSON.stringify(userData));
+        if (res.statusText === 'OK') {
+          setUserInfo(userData);
+          navigate('/');
+        }
       }
     });
   };
