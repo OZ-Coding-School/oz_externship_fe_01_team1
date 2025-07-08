@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-
+import { useNavigate } from 'react-router-dom';
 // 이미지 파일 import (src/assets/oz_logo.png 등 실제 경로에 맞게 수정)
 import ozLogo from '../assets/oz_logo.png'
 import { useUserInfo } from '@store/userInfoStore'
@@ -11,6 +11,7 @@ export default function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const { setUserInfo } = useUserInfo()
   const sortOptions = ['로그아웃', '마이페이지']
+  const navigate = useNavigate();
   return (
     <>
       <div className="w-full flex justify-center items-center bg-[#222222] text-[#ffffff] font-[400] text-[16px] h-[48px]">
@@ -69,10 +70,7 @@ export default function NavBar() {
                         setIsDropdownOpen(false)
                         localStorage.removeItem('userData')
                       }
-                      if (option === '마이페이지') {
-                        setIsDropdownOpen(false)
-                        window.location.href = '/MyPage'
-                      }
+                      navigate('/MyPage');
                     }}
                     className="px-3 py-2 text-center transition rounded-md cursor-pointer hover:bg-purple-100 hover:text-[#6202E0] font-bold"
                   >
