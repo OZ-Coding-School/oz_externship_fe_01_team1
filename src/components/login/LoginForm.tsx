@@ -10,7 +10,6 @@ import logo from '../../assets/oz_logo.png'
 import LoginButtons from '../common/SnsAuthButton' // SNS 간편 로그인 버튼
 import LoginInputs from './LoginInputs' // 이메일/비밀번호 입력 + 아이디/비번 찾기 링크
 import LoginModals from './LoginModals' // 아이디찾기 / 비번찾기 / 재설정 모달 관리
-import axios from 'axios'
 import { useNavigate } from 'react-router'
 import { useUserInfo } from '@store/userInfoStore'
 
