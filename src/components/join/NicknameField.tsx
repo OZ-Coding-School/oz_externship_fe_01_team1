@@ -1,13 +1,16 @@
-import { Input, Button } from '@components/common';
+import { Input, Button } from '@components/common'
 
 interface NicknameFieldProps {
-  nickname: string;
-  setNickname: (value: string) => void;
+  nickname: string
+  setNickname: (value: string) => void
 }
 
-export default function NicknameField({ nickname, setNickname }: NicknameFieldProps) {
-  const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,10}$/;
-  const isValidNickname = nicknameRegex.test(nickname);
+export default function NicknameField({
+  nickname,
+  setNickname,
+}: NicknameFieldProps) {
+  const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,10}$/
+  const isValidNickname = nicknameRegex.test(nickname)
 
   return (
     <div className="flex flex-col">
@@ -30,6 +33,7 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
             placeholder:text-[14px] 
             placeholder:font-[400]
             mr-[12px]"
+          name="nickname"
         />
         <Button
           fullWidth={false}
@@ -42,6 +46,7 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
                 : 'bg-[#ECECEC] border-[#BDBDBD] text-[#4D4D4D]'
             }
           `}
+          type="button"
         >
           중복확인
         </Button>
@@ -49,12 +54,16 @@ export default function NicknameField({ nickname, setNickname }: NicknameFieldPr
 
       <div className="mt-[8px] pl-[2px] ">
         {nickname && !isValidNickname && (
-          <p className="text-[#EC0037] text-[12px] mb-[8px]">* 이미 사용 중인 닉네임입니다.</p>
+          <p className="text-[#EC0037] text-[12px] mb-[8px]">
+            * 이미 사용 중인 닉네임입니다.
+          </p>
         )}
         {nickname && isValidNickname && (
-          <p className="text-[#00C27C] text-[12px]">* 사용 가능한 닉네임입니다.</p>
+          <p className="text-[#00C27C] text-[12px]">
+            * 사용 가능한 닉네임입니다.
+          </p>
         )}
       </div>
     </div>
-  );
+  )
 }

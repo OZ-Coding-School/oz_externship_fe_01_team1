@@ -1,12 +1,12 @@
-import { Input } from '@components/common';
+import { Input } from '@components/common'
 
 interface BirthFieldProps {
-  birth: string;
-  setBirth: (value: string) => void;
+  birth: string
+  setBirth: (value: string) => void
 }
 
 export default function BirthField({ birth, setBirth }: BirthFieldProps) {
-  const isValidBirth = birth.length === 8;
+  const isValidBirth = birth.length === 8
 
   return (
     <div className="flex flex-col">
@@ -17,9 +17,9 @@ export default function BirthField({ birth, setBirth }: BirthFieldProps) {
         type="number"
         value={birth}
         onChange={(e) => {
-          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-          const limited = onlyNumbers.slice(0, 8);
-          setBirth(limited);
+          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '')
+          const limited = onlyNumbers.slice(0, 8)
+          setBirth(limited)
         }}
         noMarginBottom
         focusBorderColor="focus:border-[#6201E0]"
@@ -27,7 +27,8 @@ export default function BirthField({ birth, setBirth }: BirthFieldProps) {
         success={birth.length > 0 && isValidBirth}
         error={birth.length > 0 && !isValidBirth}
         className="placeholder:font-[400] placeholder:text-[14px]"
+        name="birthday"
       />
     </div>
-  );
+  )
 }
