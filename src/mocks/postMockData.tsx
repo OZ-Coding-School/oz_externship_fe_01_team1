@@ -1,37 +1,41 @@
+// src/data/posts.ts
 import type { Post } from '../types/post';
 
-export const dummyPosts: Post[] = [
-  {
-    id: '1',
-    createdAt: new Date().toISOString(),
-    category: '프론트엔드',
-    title: 'React로 나만의 블로그 만들기 스터디 모집',
-    link: 'https://frontend.com/study1',
-    likes: 21,
-    comments: 4,
-    views: 88,
-    author: 'frontendDev',
-    authorAvatar: 'https://placehold.co/24x24',
-    time: new Date().toISOString(),
-    thumbnail: 'https://placehold.co/120x90',
-    content: '프론트엔드 스터디원 구합니다! React, TypeScript 환영'
-  },
-  {
-    id: '2',
-    createdAt: new Date().toISOString(),
-    category: '백엔드',
-    title: 'Node.js 백엔드 개발자 모임',
-    link: 'https://backend.com/group',
-    likes: 13,
-    comments: 2,
-    views: 54,
-    author: 'backendLee',
-    authorAvatar: 'https://placehold.co/24x24',
-    time: new Date().toISOString(),
-    thumbnail: '',
-    content: 'Node.js, Express 관심 있는 분들 환영합니다!'
-  },
-  {
+const STORAGE_KEY = 'oz_dummy_posts';
+
+function createDummyPosts(): Post[] {
+  return [
+    {
+      id: '1',
+      createdAt: new Date().toISOString(),
+      category: '프론트엔드',
+      title: 'React로 나만의 블로그 만들기 스터디 모집',
+      link: 'https://frontend.com/study1',
+      likes: 21,
+      comments: 4,
+      views: 88,
+      author: 'frontendDev',
+      authorAvatar: 'https://placehold.co/24x24',
+      time: new Date().toISOString(),
+      thumbnail: 'https://placehold.co/120x90',
+      content: '프론트엔드 스터디원 구합니다! React, TypeScript 환영',
+    },
+    {
+      id: '2',
+      createdAt: new Date().toISOString(),
+      category: '백엔드',
+      title: 'Node.js 백엔드 개발자 모임',
+      link: 'https://backend.com/group',
+      likes: 13,
+      comments: 2,
+      views: 54,
+      author: 'backendLee',
+      authorAvatar: 'https://placehold.co/24x24',
+      time: new Date().toISOString(),
+      thumbnail: '',
+      content: 'Node.js, Express 관심 있는 분들 환영합니다!',
+    },
+     {
     id: '3',
     createdAt: new Date().toISOString(),
     category: '프로그래밍 언어',
@@ -91,7 +95,18 @@ export const dummyPosts: Post[] = [
     thumbnail: '',
     content: 'React Hooks에 대해 깊이 있게 공부합니다.'
   },
-  // ... 필요시 게시글 추가
-];
+  ];
+}
 
-localStorage.removeItem('oz_dummy_posts');
+function loadDummyPosts(): Post[] {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    return JSON.parse(stored) as Post[];
+  }
+
+  const posts = createDummyPosts();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  return posts;
+}
+
+export const dummyPosts: Post[] = loadDummyPosts();
