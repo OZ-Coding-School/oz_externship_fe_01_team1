@@ -8,6 +8,9 @@ import NameField from './NameField'
 import BirthField from './BirthField'
 import SubmitButton from './JoinSubmitButton'
 import api from '../../api/mainApi'
+import { useNavigate } from 'react-router'
+import type { AxiosError } from 'axios'
+import axios from 'axios'
 
 export default function JoinForm() {
   const [nickname, setNickname] = useState('')
@@ -19,22 +22,38 @@ export default function JoinForm() {
   const [confirmPw, setConfirmPw] = useState('')
   const [name, setName] = useState('')
   const [birth, setBirth] = useState('')
+  const [errMessage, setErrorMessage] = useState<string[]>([])
+  const navigate = useNavigate()
 
-  const formAction = async (prevState: null, formData: FormData) => {
-    const data: Record<string, any> = {}
+  const formAction = async (_: null, formData: FormData) => {
+    const data: Record<string, string | File> = {}
     for (const [key, value] of formData.entries()) {
       data[key] = value
     }
     data.gender = 'MALE' // 입력 필드가 없어서 강제 적용
     data.phone_number = `${phone1}${phone2}${phone3}`
-    console.log(data)
-    const res = await api.post(`/v1/auth/signup`, data)
+    try {
+      const res = await api.post(`/v1/auth/signup`, data)
+      if (res.status === 201) {
+        navigate('/login')
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          const axiosError = err as AxiosError
+          const errors = axiosError.response?.data ?? {}
+          setErrorMessage([...Object.values(errors)])
+        }
+      } else {
+        // Axios 오류가 아닌 경우 처리
+        console.error('Unexpected error:', err)
+      }
+    }
 
-    console.log(res)
     return null
   }
 
-  const [state, formActionHandler] = useActionState(formAction, null)
+  const [_, formActionHandler, isPending] = useActionState(formAction, null)
 
   return (
     <div className="w-[528px] mx-auto px-[24px] py-[40px] bg-white ">
@@ -80,6 +99,8 @@ export default function JoinForm() {
             phone3={phone3}
             password={password}
             confirmPw={confirmPw}
+            errMessage={errMessage}
+            isPending={isPending}
           />
         </form>
       </div>

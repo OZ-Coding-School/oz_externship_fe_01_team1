@@ -11,6 +11,8 @@ interface SubmitButtonProps {
   phone3: string
   password: string
   confirmPw: string
+  errMessage: string[]
+  isPending: boolean
 }
 
 export default function SubmitButton({
@@ -23,6 +25,8 @@ export default function SubmitButton({
   phone3,
   password,
   confirmPw,
+  errMessage,
+  isPending,
 }: SubmitButtonProps) {
   const { emailCodeValid, phoneCodeValid } = useAuthVerificationStore()
 
@@ -48,19 +52,37 @@ export default function SubmitButton({
     phoneCodeValid
 
   return (
-    <Button
-      disabled={!isFormValid}
-      className={`
-        w-[480px] text-[16px] font-[500]
-        ${
-          isFormValid
-            ? 'bg-[#6201E0] text-white'
-            : 'bg-[#ECECEC] text-[#BDBDBD]'
-        }
-      `}
-      type="submit"
-    >
-      가입하기
-    </Button>
+    <div className="flex flex-col">
+      <Button
+        disabled={!isFormValid || isPending}
+        className={`
+          w-[480px] text-[16px] font-[500]
+          ${
+            isFormValid
+              ? 'bg-[#6201E0] text-white'
+              : 'bg-[#ECECEC] text-[#BDBDBD]'
+          }
+        `}
+        type="submit"
+      >
+        가입하기
+      </Button>
+
+      {isPending ? (
+        <div className="flex flex-col items-end justify-center pl-[2px] mt-[8px] min-h-[20px]">
+          <p className="text-blue-500 text-[12px]">가입진행 중 ...</p>
+        </div>
+      ) : (
+        errMessage && (
+          <div className="flex flex-col items-end justify-center pl-[2px] mt-[8px] min-h-[20px]">
+            {errMessage.map((el, idx) => (
+              <p key={idx} className="text-red-700 text-[12px]">
+                {el}
+              </p>
+            ))}
+          </div>
+        )
+      )}
+    </div>
   )
 }
