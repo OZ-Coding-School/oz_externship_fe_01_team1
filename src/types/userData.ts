@@ -1,9 +1,16 @@
 export interface userData {
-  access_token: string
-  refresh_token: string
+  access: string
+  message: string
+  refresh: string
   user: {
-    id: number
+    birthday: string
     email: string
+    gender: string
+    id: number
+    isDeleted: boolean
     nickname: string
+    phone_number: string
+    profile_image_url: string
+    role: string
   }
 }
