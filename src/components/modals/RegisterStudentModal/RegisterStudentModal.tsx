@@ -7,10 +7,10 @@ import ClassSelect from './ClassSelect'
 import { IoCheckmark } from "react-icons/io5";
 import { useState } from 'react'
 
-
 export default function RegisterStudentModal({ onClose }: { onClose: () => void }) {
   const [selectedCourse, setSelectedCourse] = useState('')
   const [selectedClass, setSelectedClass] = useState('')
+  const [openSelect, setOpenSelect] = useState<'course' | 'class' | null>(null)
 
   return (
     <ModalWrapper width="w-[396px] h-[410px]">
@@ -21,12 +21,29 @@ export default function RegisterStudentModal({ onClose }: { onClose: () => void 
         description="해당하는 과정과 기수를 선택해 주세요."
         className="mt-[18px]"
       />
-      <div className="w-full">
 
-      <CourseSelect selected={selectedCourse} onChange={setSelectedCourse} />
-      <ClassSelect selected={selectedClass} onChange={setSelectedClass} />
+      <div className="w-full">
+        <CourseSelect
+          selected={selectedCourse}
+          onChange={setSelectedCourse}
+          isOpen={openSelect === 'course'}
+          onOpen={() => setOpenSelect('course')}
+          onClose={() => setOpenSelect(null)}
+        />
+
+        <ClassSelect
+          selected={selectedClass}
+          onChange={setSelectedClass}
+          // disabled={!selectedCourse} ← 이거 제거!
+          isOpen={openSelect === 'class'}
+          onOpen={() => setOpenSelect('class')}
+          onClose={() => setOpenSelect(null)}
+        />
       </div>
-      <Button className="bg-[#6201E0] text-white font-normal mt-6 cursor-pointer">등록 하기</Button>
+
+      <Button className="bg-[#6201E0] text-white font-normal mt-6 cursor-pointer">
+        등록 하기
+      </Button>
     </ModalWrapper>
   )
 }
