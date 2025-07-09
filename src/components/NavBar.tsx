@@ -92,6 +92,8 @@ export default function NavBar() {
                       setUserInfo(null)
                       setIsDropdownOpen(false)
                       localStorage.removeItem('userData')
+                    } else {
+                      throw new Error('Error')
                     }
                   }}
                   className="px-3 py-2 text-left transition cursor-pointer 
