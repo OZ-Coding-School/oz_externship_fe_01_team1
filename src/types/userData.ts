@@ -5,5 +5,6 @@ export interface userData {
     id: number
     email: string
     nickname: string
+    isDeleted?: boolean
   }
 }
