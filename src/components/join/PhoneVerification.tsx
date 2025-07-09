@@ -23,6 +23,7 @@ export default function PhoneVerification({
 }: PhoneVerificationProps) {
   const [code, setCode] = useState('')
   const [isPhoneCodeSent, setIsPhoneCodeSent] = useState(false) // 휴대폰 인증요청 성공 여부
+  const [isVerify, setIsVerify] = useState(false)
   const { timeLeft, start } = useCountdown({ duration: 600 }) // 10분
 
   const phone = `${phone1}${phone2}${phone3}`
@@ -32,6 +33,7 @@ export default function PhoneVerification({
   const isCodeEntered = code !== ''
   const isCodeValid = /^\d{6}$/.test(code)
 
+  // 휴대폰 인증 번호 요청
   const sendVerificationCode = async () => {
     try {
       const res = await api.post(`/v1/auth/phone/send-code/`, { phone })
@@ -40,8 +42,7 @@ export default function PhoneVerification({
         start()
         //카운트다운 10분 시작
         //UI 성공 메시지 표시
-      }
-      if (res.status === 400) {
+      } else if (res.status === 400) {
         alert('이미 인증되었거나, 잘못된 형식의 번호 입니다.')
         //400 에러처리
         // 유효하지 않은 휴대폰 번호 형식
@@ -50,6 +51,26 @@ export default function PhoneVerification({
         alert('인증번호 전송 오류 발생하였습니다. 다시한번 시도해 주세요')
       }
     } catch (err) {
+      alert(`오류가 발생하였습니다.: ${err}`)
+    }
+  }
+
+  //휴대폰 인증번호 검증
+  const verifyPhoneCode = async () => {
+    try {
+      const res = await api.post(`/v1/auth/phone/verify-code/`, { phone, code })
+      if (res.status === 200) {
+        setIsPhoneCodeSent(false)
+        setIsVerify(true)
+      } else if (res.status === 400) {
+        alert('인증번호가 잘못 되었습니다.')
+        //400 에러처리
+        // 유효하지 않은 휴대폰 번호 형식
+        //UI에 에러메시지 출력
+      } else {
+        alert('인증번호 전송 오류 발생하였습니다. 다시한번 시도해 주세요')
+      }
+    } catch (err: any) {
       alert(`오류가 발생하였습니다.: ${err}`)
     }
   }
@@ -162,7 +183,7 @@ export default function PhoneVerification({
           />
           <Button
             fullWidth={false}
-            disabled={isCodeValid}
+            disabled={!isCodeValid}
             className={cn(
               'w-[112px]',
               'text-[16px]',
@@ -173,13 +194,14 @@ export default function PhoneVerification({
                 : 'bg-[#ECECEC] border-[#BDBDBD] text-[#4D4D4D]'
             )}
             type="button"
+            onClick={verifyPhoneCode}
           >
             인증번호확인
           </Button>
         </div>
-        {isPhoneCodeSent && (
+        {isPhoneCodeSent ? (
           <div className="pl-[2px] mt-[8px]">
-            <p className="text-[#00C27C] text-[12px]">
+            <p className="text-[12px] text-red-500">
               {timeLeft > 0
                 ? `* 남은 시간 ${Math.floor(timeLeft / 60)
                     .toString()
@@ -189,6 +211,12 @@ export default function PhoneVerification({
                 : '* 인증 시간이 만료되었습니다'}
             </p>
           </div>
+        ) : (
+          isVerify && (
+            <p className="text-[#00C27C] text-[12px]">
+              휴대폰 인증이 완료 되었습니다.
+            </p>
+          )
         )}
       </div>
     </div>
