@@ -7,7 +7,7 @@ import PasswordFields from './PasswordFields'
 import NameField from './NameField'
 import BirthField from './BirthField'
 import SubmitButton from './JoinSubmitButton'
-// import api from 'src/api/mainApi'
+import api from '../../api/mainApi'
 
 export default function JoinForm() {
   const [nickname, setNickname] = useState('')
@@ -20,18 +20,21 @@ export default function JoinForm() {
   const [name, setName] = useState('')
   const [birth, setBirth] = useState('')
 
-  // const formAction = async (prevState: null, formData: FormData) => {
-  //   const data: Record<string, any> = {}
-  //   for (const [key, value] of formData.entries()) {
-  //     data[key] = value
-  //   }
-  //   data.gender = "MALE" // 입력 필드가 없어서 강제 적용
-  //   const res = await api.post(`/api/v1/auth/signup`,data)
+  const formAction = async (prevState: null, formData: FormData) => {
+    const data: Record<string, any> = {}
+    for (const [key, value] of formData.entries()) {
+      data[key] = value
+    }
+    data.gender = 'MALE' // 입력 필드가 없어서 강제 적용
+    data.phone_number = `${phone1}${phone2}${phone3}`
+    console.log(data)
+    const res = await api.post(`/v1/auth/signup`, data)
 
-  //   return null
-  // }
+    console.log(res)
+    return null
+  }
 
-  // const [state, formActionHandler] = useActionState(formAction, null)
+  const [state, formActionHandler] = useActionState(formAction, null)
 
   return (
     <div className="w-[528px] mx-auto px-[24px] py-[40px] bg-white ">
@@ -44,7 +47,7 @@ export default function JoinForm() {
         </div>
         <div className="text-[18px] font-[600]">회원가입</div>
 
-        <form>
+        <form action={formActionHandler}>
           <div className="flex flex-col gap-[44px]">
             <NameField name={name} setName={setName} />
             <NicknameField nickname={nickname} setNickname={setNickname} />

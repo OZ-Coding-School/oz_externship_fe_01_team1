@@ -31,7 +31,7 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   const login = async () => {
-    const res = await api.post<userData>(`api/v1/auth/login/email`, {
+    const res = await api.post<userData>(`v1/auth/login/email`, {
       email,
       password,
     })

@@ -1,4 +1,5 @@
 import { Button } from '@components/common'
+import { useAuthVerificationStore } from '@store/useAuthVerificationStore'
 
 interface SubmitButtonProps {
   name: string
@@ -23,6 +24,8 @@ export default function SubmitButton({
   password,
   confirmPw,
 }: SubmitButtonProps) {
+  const { emailCodeValid, phoneCodeValid } = useAuthVerificationStore()
+
   const isNameValid = name.length >= 2
   const isNicknameValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(nickname)
   const isBirthValid = birth.length === 8
@@ -40,7 +43,9 @@ export default function SubmitButton({
     isEmailValid &&
     isPhoneValid &&
     isPasswordValid &&
-    isPwMatched
+    isPwMatched &&
+    emailCodeValid &&
+    phoneCodeValid
 
   return (
     <Button

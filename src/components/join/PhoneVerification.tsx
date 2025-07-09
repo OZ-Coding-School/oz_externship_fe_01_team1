@@ -3,6 +3,7 @@ import { Input, Button } from '@components/common'
 import { cn } from '@utils/cn'
 import api from '../../api/mainApi'
 import useCountdown from '@hooks/useCountdown'
+import { useAuthVerificationStore } from '@store/useAuthVerificationStore'
 
 interface PhoneVerificationProps {
   phone1: string
@@ -23,7 +24,7 @@ export default function PhoneVerification({
 }: PhoneVerificationProps) {
   const [code, setCode] = useState('')
   const [isPhoneCodeSent, setIsPhoneCodeSent] = useState(false) // 휴대폰 인증요청 성공 여부
-  const [isVerify, setIsVerify] = useState(false)
+  const { phoneCodeValid, setPhoneCodeValid } = useAuthVerificationStore()
   const { timeLeft, start } = useCountdown({ duration: 600 }) // 10분
 
   const phone = `${phone1}${phone2}${phone3}`
@@ -61,7 +62,7 @@ export default function PhoneVerification({
       const res = await api.post(`/v1/auth/phone/verify-code/`, { phone, code })
       if (res.status === 200) {
         setIsPhoneCodeSent(false)
-        setIsVerify(true)
+        setPhoneCodeValid(true)
       } else if (res.status === 400) {
         alert('인증번호가 잘못 되었습니다.')
         //400 에러처리
@@ -212,7 +213,7 @@ export default function PhoneVerification({
             </p>
           </div>
         ) : (
-          isVerify && (
+          phoneCodeValid && (
             <p className="text-[#00C27C] text-[12px]">
               휴대폰 인증이 완료 되었습니다.
             </p>
