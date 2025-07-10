@@ -1,15 +1,18 @@
-import { Button } from '@components/common';
+import { Button } from '@components/common'
+import { useAuthVerificationStore } from '@store/useAuthVerificationStore'
 
 interface SubmitButtonProps {
-  name: string;
-  nickname: string;
-  birth: string;
-  email: string;
-  phone1: string;
-  phone2: string;
-  phone3: string;
-  password: string;
-  confirmPw: string;
+  name: string
+  nickname: string
+  birth: string
+  email: string
+  phone1: string
+  phone2: string
+  phone3: string
+  password: string
+  confirmPw: string
+  errMessage: string[]
+  isPending: boolean
 }
 
 export default function SubmitButton({
@@ -22,14 +25,20 @@ export default function SubmitButton({
   phone3,
   password,
   confirmPw,
+  errMessage,
+  isPending,
 }: SubmitButtonProps) {
-  const isNameValid = name.length >= 2;
-  const isNicknameValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(nickname);
-  const isBirthValid = birth.length === 8;
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isPhoneValid = phone1.length >= 3 && phone2.length >= 3 && phone3.length >= 3;
-  const isPasswordValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:"<>?]).{8,15}$/.test(password);
-  const isPwMatched = password === confirmPw;
+  const { emailCodeValid, phoneCodeValid } = useAuthVerificationStore()
+
+  const isNameValid = name.length >= 2
+  const isNicknameValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(nickname)
+  const isBirthValid = birth.length === 8
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  const isPhoneValid =
+    phone1.length >= 3 && phone2.length >= 3 && phone3.length >= 3
+  const isPasswordValid =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:"<>?]).{8,15}$/.test(password)
+  const isPwMatched = password === confirmPw
 
   const isFormValid =
     isNameValid &&
@@ -38,19 +47,42 @@ export default function SubmitButton({
     isEmailValid &&
     isPhoneValid &&
     isPasswordValid &&
-    isPwMatched;
+    isPwMatched &&
+    emailCodeValid &&
+    phoneCodeValid
 
   return (
-    <Button
-      disabled={!isFormValid}
-      className={`
-        w-[480px] text-[16px] font-[500]
-        ${isFormValid
-          ? 'bg-[#6201E0] text-white'
-          : 'bg-[#ECECEC] text-[#BDBDBD]'}
-      `}
-    >
-      가입하기
-    </Button>
-  );
+    <div className="flex flex-col">
+      <Button
+        disabled={!isFormValid || isPending}
+        className={`
+          w-[480px] text-[16px] font-[500]
+          ${
+            isFormValid
+              ? 'bg-[#6201E0] text-white'
+              : 'bg-[#ECECEC] text-[#BDBDBD]'
+          }
+        `}
+        type="submit"
+      >
+        가입하기
+      </Button>
+
+      {isPending ? (
+        <div className="flex flex-col items-end justify-center pl-[2px] mt-[8px] min-h-[20px]">
+          <p className="text-blue-500 text-[12px]">가입진행 중 ...</p>
+        </div>
+      ) : (
+        errMessage && (
+          <div className="flex flex-col items-end justify-center pl-[2px] mt-[8px] min-h-[20px]">
+            {errMessage.map((el, idx) => (
+              <p key={idx} className="text-red-700 text-[12px]">
+                {el}
+              </p>
+            ))}
+          </div>
+        )
+      )}
+    </div>
+  )
 }

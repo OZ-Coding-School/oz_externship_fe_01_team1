@@ -3,11 +3,12 @@ import axios from 'axios'
 
 // 인스턴스 생성
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_MAIN_URL,
+  baseURL: `/api`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json', // 공통 헤더
   },
+  withCredentials: true,
 })
 
 //요청 인터셉터: 요청 전에 토큰을 헤더에 추가

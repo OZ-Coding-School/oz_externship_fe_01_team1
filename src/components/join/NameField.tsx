@@ -1,12 +1,12 @@
-import { Input } from '@components/common';
+import { Input } from '@components/common'
 
 interface NameFieldProps {
-  name: string;
-  setName: (value: string) => void;
+  name: string
+  setName: (value: string) => void
 }
 
 export default function NameField({ name, setName }: NameFieldProps) {
-  const isValidName = name.length >= 2;
+  const isValidName = name.length >= 2
 
   return (
     <div className="flex flex-col">
@@ -22,7 +22,8 @@ export default function NameField({ name, setName }: NameFieldProps) {
         success={name.length > 0 && isValidName}
         error={name.length > 0 && !isValidName}
         className="placeholder:font-[400] placeholder:text-[14px]"
+        name="name"
       />
     </div>
-  );
+  )
 }
