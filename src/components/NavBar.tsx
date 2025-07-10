@@ -105,7 +105,7 @@ export default function NavBar() {
               </div>
             )}
           </div>
-              {/* ✅ 모달 조건부 렌더링: 여기에 들어가야 함 */}
+              {/* 모달 조건부 렌더링: 여기에 들어가야 함 */}
               {showRegisterModal && (
                 <RegisterStudentModal onClose={() => setShowRegisterModal(false)} />
               )}
