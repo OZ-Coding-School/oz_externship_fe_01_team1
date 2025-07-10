@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import default_profile_img from '../assets/profile_default.png';
 import checker from '../assets/checker.png';
 import Button from '@components/common/Button'
 import SidebarMenu from '@components/mypage/SidebarMenu';
+import WithdrawalModal from '@components/modals/WithdrawalModal';
 
 const mockUser = {
   nickname: '오즈오즈',
@@ -38,6 +39,8 @@ export default function MyPage() {
   const handleEditClick = () => {
     navigate('/MyPage/MyPageEdit');
   };
+
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-white flex justify-center py-20 text-black font-sans">
@@ -132,11 +135,15 @@ export default function MyPage() {
 
             <Button
               fullWidth={false}
-              className="w-[142px] border border-[#cecece] bg-[#ececec] text-[#4d4d4d] px-4 py-2 text-[16px]
-              cursor-pointer"
+              className="w-[142px] border border-[#cecece] bg-[#ececec] text-[#4d4d4d] px-4 py-2 text-[16px] cursor-pointer"
+              onClick={() => setShowWithdrawalModal(true)}
             >
               회원 탈퇴하기
             </Button>
+
+            {showWithdrawalModal && (
+              <WithdrawalModal onClose={() => setShowWithdrawalModal(false)} />
+            )}
           </div>
         </div>
       </div>
