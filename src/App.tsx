@@ -11,6 +11,7 @@ import JoinFrom from './components/join/JoinForm'
 import NotFound from './pages/NotFound'
 import MyPage from "@pages/Mypage.tsx";
 import MyPageEdit from "@pages/MypageEdit.tsx";
+import ChangePwPage from '@pages/ChangePwPage';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/Join/JoinForm" element={<JoinFrom />} />
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/MyPage/MyPageEdit" element={<MyPageEdit />} />
+        <Route path="/MyPage/Password" element={<ChangePwPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
