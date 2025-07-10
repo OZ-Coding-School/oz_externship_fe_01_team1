@@ -16,6 +16,7 @@ import { useUserInfo } from '@store/userInfoStore'
 import RestoreUserModal from '@components/modals/RestoreUserModal/RestoreUserModal'
 import type { userData } from '@customType/userData'
 import api from '../../api/mainApi'
+import axios, { AxiosError } from 'axios'
 
 const LoginForm = () => {
   const [openFindIdModal, setOpenFindIdModal] = useState(false) // 아이디 찾기 모달
@@ -31,23 +32,39 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   const login = async () => {
-    const res = await api.post<userData>(`v1/auth/login/email`, {
-      email,
-      password,
-    })
-    const userData = res.data
-    userData.user.isDeleted = false // 탈퇴 여부 API 속성값이 없어 입의로 속성값 적용
+    try {
+      const res = await api.post<userData>(`v1/auth/login/email`, {
+        email,
+        password,
+      })
 
-    // 탈퇴 회원 여부 확인
-    if (userData.user?.isDeleted) {
-      // 모달 띄우기
-      setShowRestoreModal(true)
-    } else {
-      // 정상 로그인 처리
-      localStorage.setItem('userInfo', JSON.stringify(userData))
-      if (res.statusText === 'OK') {
-        setUserInfo(userData)
-        navigate('/')
+      const userData = res.data
+      if (userData) {
+        userData.user.isDeleted = false // 탈퇴 여부 API 속성값이 없어 입의로 속성값 적용
+      }
+
+      // 탈퇴 회원 여부 확인
+      if (userData.user?.isDeleted) {
+        // 모달 띄우기
+        setShowRestoreModal(true)
+      } else {
+        // 정상 로그인 처리
+        localStorage.setItem('userInfo', JSON.stringify(userData))
+        if (res.status === 200) {
+          setUserInfo(userData)
+          navigate('/')
+        }
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError
+        const errors = axiosError.response?.data ?? {}
+        const messages = Object.values(errors)
+        alert(messages.join('\n'))
+      } else {
+        // Axios 오류가 아닌 경우 처리
+        console.error('Unexpected error:', err)
+        alert('알수없는 오류가 발생하였습니다.')
       }
     }
   }
