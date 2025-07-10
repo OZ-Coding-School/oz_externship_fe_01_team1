@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import profileDefault from '../assets/mypage/profile.svg';
+import default_profile_img from '../assets/profile_default.png';
+import checker from '../assets/checker.png';
+import Button from '@components/common/Button'
 
 const mockUser = {
   nickname: '오즈오즈',
@@ -31,9 +33,7 @@ export default function MyPage() {
   }, [isLoggedIn, navigate]);
 
   const user = mockUser;
-  const profileImgSrc = user.profileImg || profileDefault;
-  const thumbnailSrc = user.course.thumbnail || profileImgSrc;
-
+  
   const handleEditClick = () => {
     navigate('/MyPage/MyPageEdit');
   };
@@ -42,103 +42,110 @@ export default function MyPage() {
     <div className="min-h-screen bg-white flex justify-center py-20 text-black font-sans">
       <div className="flex w-[944px] gap-12">
         {/* 왼쪽 메뉴 */}
-        <div className="w-[200px] pt-2">
-          <div className="flex flex-col gap-4 text-[18px] font-semibold text-[#7B61FF]">
-            <div className="text-[#BDBDBD] border-l-4 border-transparent pl-4 cursor-pointer hover:text-[#7B61FF] hover:border-[#7B61FF] transition">
+        <div className="w-[180px] pt-2">
+          <div className="flex flex-col gap-4 text-[18px] font-semibold text-[#6201E0]">
+            <div className="text-[#9d9d9d] border-l-[4px] border-transparent pl-4 cursor-pointer hover:text-[#6201E0] hover:border-[#6201E0] transition">
               쪽지 시험
             </div>
-            <div className="border-l-4 border-[#7B61FF] pl-4">내 정보</div>
-            <div className="text-[#BDBDBD] border-l-4 border-transparent pl-4 cursor-pointer hover:text-[#7B61FF] hover:border-[#7B61FF] transition">
+            <div className="border-l-[4px] border-[#6201E0] pl-4">내 정보</div>
+            <div className="text-[#9d9d9d] border-l-[4px] border-transparent pl-4 cursor-pointer hover:text-[#6201E0] hover:border-[#6201E0] transition">
               비밀번호 변경
             </div>
           </div>
         </div>
 
         {/* 오른쪽 콘텐츠 */}
-        <div className="flex-1 flex flex-col gap-10">
+        <div className=" w-[744px] flex-1 flex flex-col gap-10">
           {/* 상단 내 정보 헤더 및 수정 버튼 */}
           <div className="flex items-center justify-between">
             <h2 className="text-[28px] font-semibold">내 정보</h2>
-            <button
-              onClick={handleEditClick}
-              className="border border-[#7B61FF] text-[#7B61FF] rounded px-4 py-1 text-[14px] font-medium hover:bg-[#f7f3ff] transition"
-            >
-              수정하기
-            </button>
+
+            <Button
+            onClick={handleEditClick}
+            fullWidth={false}
+            className="w-[126px] bg-[#6201E0] text-[#ffffff] text-[16px] px-4 py- cursor-pointer"
+          >
+            수정하기
+          </Button>
           </div>
 
           {/* 프로필 박스 */}
-          <div className="bg-white border border-[#D9D9D9] rounded-[8px] px-[44px] py-[52px] flex flex-col items-center gap-[40px]">
+          <div className="border border-[#d1d1d1] rounded-[8px] px-[44px] py-[52px] flex flex-col items-center">
             {/* 프로필 헤더 */}
             <div className="w-full">
-              <h2 className="text-[#7B61FF] font-bold text-[16px] mb-2">프로필</h2>
-              <div className="border-b border-[#D9D9D9] w-full" />
+              <h2 className="text-[#6201E0] font-bold text-[20px] mb-[16px]">프로필</h2>
+              <div className="border-b border-[#bdbdbd] w-full" />
             </div>
 
-            {/* 프로필 이미지 140x140, 닉네임, 이메일 */}
-            <div className="flex flex-col items-center">
-              <div className="w-[140px] h-[140px] rounded-full overflow-hidden bg-[#E0E0E0] mb-6">
-                <img src={profileImgSrc} alt="프로필" className="w-full h-full object-cover" />
+            {/* 프로필 이미지 + 닉네임/이메일 */}
+            <div className="w-full flex flex-col items-center">
+              {/* 프로필 이미지 */}
+              <div className="w-[184px] h-[184px] rounded-full overflow-hidden mt-[52px] mb-[52px]">
+                <img src={default_profile_img} alt="프로필" className="w-full h-full object-cover" />
               </div>
-              <div className="grid grid-cols-2 gap-y-2 text-[14px] w-full max-w-[440px]">
-                <div className="text-[#4F4F4F]">닉네임</div>
-                <div className="text-black font-medium">{user.nickname}</div>
-                <div className="text-[#4F4F4F]">이메일</div>
-                <div className="text-black font-medium">{user.email}</div>
+
+              {/* 텍스트를 왼쪽 기준으로 */}
+              <div className="w-full flex justify-start mb-[100px]">
+                <div className="grid grid-cols-2 gap-y-[42px] text-[14px] max-w-[440px]">
+                  <div className="text-[#121212] text-[18px]">닉네임</div>
+                  <div className="text-[#121212] text-[16px]">{user.nickname}</div>
+                  <div className="text-[#121212] text-[18px]">이메일</div>
+                  <div className="text-[#121212] text-[16px]">{user.email}</div>
+                </div>
               </div>
             </div>
 
             {/* 개인정보 */}
             <div className="w-full">
-              <h2 className="text-[#7B61FF] font-bold text-[16px] mb-2">개인 정보</h2>
-              <div className="border-b border-[#D9D9D9] w-full mb-4" />
-              <div className="grid grid-cols-2 gap-y-2 gap-x-8 text-[14px]">
-                <div className="text-[#4F4F4F]">이름</div>
-                <div className="text-black font-medium">{user.name}</div>
-                <div className="text-[#4F4F4F]">휴대전화</div>
-                <div className="text-black font-medium">{user.phone}</div>
-                <div className="text-[#4F4F4F]">생년월일</div>
-                <div className="text-black font-medium">{user.birth}</div>
-                <div className="text-[#4F4F4F]">거주지</div>
-                <div className="text-black font-medium">{user.address}</div>
+              <h2 className="text-[#6201E0] font-bold text-[20px] mb-[16px]">개인 정보</h2>
+              <div className="border-b border-[#D9D9D9] w-full mb-[52px]" />
+              <div className="grid grid-cols-2 gap-y-[40px] gap-x-8 text-[14px]">
+                <div className="text-[#121212] text-[18px]">이름</div>
+                <div className="text-[#121212] text-[16px]">{user.name}</div>
+                <div className="text-[#121212] text-[18px]">휴대전화</div>
+                <div className="text-[#121212] text-[16px]">{user.phone}</div>
+                <div className="text-[#121212] text-[18px]">생년월일</div>
+                <div className="text-[#121212] text-[16px]">{user.birth}</div>
               </div>
             </div>
           </div>
-
           {/* 수강 증명 과정 */}
-          <div className="bg-white border border-[#D9D9D9] rounded-[8px] px-[44px] py-[52px] flex flex-col items-start gap-[40px]">
+          <div className="border border-[#d1d1d1] rounded-[8px] px-[44px] py-[52px] flex flex-col items-start gap-[40px]">
             <div className="w-full">
-              <h2 className="text-[#7B61FF] font-bold text-[16px] mb-2">수강 중인 과정</h2>
-              <div className="border-b border-[#D9D9D9] w-full" />
+              <h2 className="text-[#6201E0] font-bold text-[20px] mb-[16px]">수강 중인 과정</h2>
+              <div className="border-b border-[#bdbdbd] w-full" />
             </div>
 
-            <div className="w-full flex items-start justify-between">
-              <div>
-                <div className="text-black font-medium text-[14px] mb-2">{user.course.title}</div>
-                <div className="text-[#4F4F4F] text-[13px]">{user.course.description}</div>
-                <div className="text-[#BDBDBD] text-[13px] mt-2">
-                  {user.nickname} · {user.course.date} · 좋아요 {user.course.likes}
-                </div>
-                <div className="text-[#7B61FF] text-[13px] mt-1 underline cursor-pointer">
-                  이수증/카드 발급 <span className="ml-1">&gt;</span>
+            {/* 내용 */}
+            <div className="flex items-start gap-[33px] w-full">
+              <div className="flex-1 min-w-0">
+                <div className="text-[#bdbdbd] font-medium text-[14px] mb-[20px]">{user.course.title}</div>
+                <div className="text-[#121212] font-normal text-[16px] leading-[1.4]">
+                  {user.course.description}
                 </div>
               </div>
-              <div className="w-[140px] h-[80px] bg-[#E0E0E0] rounded overflow-hidden">
-                <img src={thumbnailSrc} alt="썸네일" className="w-full h-full object-cover" />
+
+              <div className="w-[152px] h-[102px] bg-[#d1d1d1] rounded overflow-hidden shrink-0">
+                <img src={checker} alt="썸네일" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
 
           {/* 탈퇴 안내 + 탈퇴 버튼 한 줄에 */}
-          <div className="flex justify-between items-center text-[#BDBDBD] text-[12px] leading-relaxed">
-            <div>
-              회원 탈퇴 안내<br />
-              탈퇴 시, 수강 기간 / 작성한 글 / 댓글 / 가입정보 / 개인인증 서류가 모두 삭제되며 복구가 불가능합니다.<br />
-              일시 정지, 상담이 필요한 경우 반드시 문의 후 진행해 주세요.
+          <div className="flex justify-between items-center leading-relaxed mt-[40px]">
+            <div className="">
+              <p className="text-[20px] mb-[34px] text-[#9d9d9d]">회원 탈퇴 안내</p>
+              <p className="text-[14px] text-[#bdbdbd]">탈퇴 처리 시, 수강 기간 / 포인트 / 쿠폰은 소멸되며 환불되지 않습니다.
+                  <br /> 필요한 경우, 반드시 탈퇴 전에 문의 바랍니다..</p>
             </div>
-            <button className="border border-[#BDBDBD] text-[#4F4F4F] rounded px-4 py-2 text-[13px] font-medium hover:bg-[#f7f3ff] transition whitespace-nowrap">
+
+            <Button
+              fullWidth={false}
+              className="w-[142px] border border-[#cecece] bg-[#ececec] text-[#4d4d4d] px-4 py-2 text-[16px]
+              cursor-pointer"
+            >
               회원 탈퇴하기
-            </button>
+            </Button>
           </div>
         </div>
       </div>
