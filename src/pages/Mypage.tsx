@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import default_profile_img from '../assets/profile_default.png';
 import checker from '../assets/checker.png';
 import Button from '@components/common/Button'
+import SidebarMenu from '@components/mypage/SidebarMenu';
 
 const mockUser = {
   nickname: '오즈오즈',
@@ -42,17 +43,7 @@ export default function MyPage() {
     <div className="min-h-screen bg-white flex justify-center py-20 text-black font-sans">
       <div className="flex w-[944px] gap-12">
         {/* 왼쪽 메뉴 */}
-        <div className="w-[180px] pt-2">
-          <div className="flex flex-col gap-4 text-[18px] font-semibold text-[#6201E0]">
-            <div className="text-[#9d9d9d] border-l-[4px] border-transparent pl-4 cursor-pointer hover:text-[#6201E0] hover:border-[#6201E0] transition">
-              쪽지 시험
-            </div>
-            <div className="border-l-[4px] border-[#6201E0] pl-4">내 정보</div>
-            <div className="text-[#9d9d9d] border-l-[4px] border-transparent pl-4 cursor-pointer hover:text-[#6201E0] hover:border-[#6201E0] transition">
-              비밀번호 변경
-            </div>
-          </div>
-        </div>
+        <SidebarMenu active="내 정보" />
 
         {/* 오른쪽 콘텐츠 */}
         <div className=" w-[744px] flex-1 flex flex-col gap-10">
