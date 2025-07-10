@@ -17,6 +17,8 @@ import RestoreUserModal from '@components/modals/RestoreUserModal/RestoreUserMod
 import type { userData } from '@customType/userData'
 import api from '../../api/mainApi'
 import axios, { AxiosError } from 'axios'
+import CommonModal from '@components/common/Modal'
+import { Button } from '@components/common'
 
 const LoginForm = () => {
   const [openFindIdModal, setOpenFindIdModal] = useState(false) // 아이디 찾기 모달
@@ -26,6 +28,8 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { setUserInfo } = useUserInfo()
+  const [errMsg, setErrMsg] = useState<string>('')
+  const [isOpenErrMsg, setIsOpenErrMsg] = useState(false)
 
   const [showRestoreModal, setShowRestoreModal] = useState(false)
 
@@ -58,12 +62,31 @@ const LoginForm = () => {
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         const axiosError = err as AxiosError
-        const errors = axiosError.response?.data ?? {}
-        const messages = Object.values(errors)
-        alert(messages.join('\n'))
+
+        if (axiosError.code === 'ECONNABORTED') {
+          // 요청 시간 초과
+          setErrMsg(
+            '요청시간이 초과 되었습니다. 다시한번 시도해 보시기 바랍니다.'
+          )
+        } else if (axiosError.response?.data) {
+          // 백엔드에서 전달안 에러 응답 처리
+          const errorData = axiosError.response.data
+          const messages =
+            typeof errorData === 'string'
+              ? [errorData]
+              : Object.values(errorData).flat()
+
+          setErrMsg(messages.join('\n'))
+        } else {
+          // 기타 Axios 오류
+          setErrMsg(
+            '예상치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+          )
+        }
+
+        setIsOpenErrMsg(true)
       } else {
         // Axios 오류가 아닌 경우 처리
-        console.error('Unexpected error:', err)
         alert('알수없는 오류가 발생하였습니다.')
       }
     }
@@ -114,6 +137,22 @@ const LoginForm = () => {
           setShowFindIdSuccess={setShowFindIdSuccess}
         />
       </div>
+      <CommonModal
+        title={errMsg}
+        isOpen={isOpenErrMsg}
+        onClose={() => setIsOpenErrMsg(false)}
+        position="center-bg"
+      >
+        <Button
+          fullWidth={false}
+          className="flex justify-center items-center px-[24px] py-[18px] bg-[#6201e0] text-[16px] text-[#fafafa] font-[600] rounded-[100px] h-[43px] w-[76px]"
+          onClick={() => {
+            setIsOpenErrMsg(false)
+          }}
+        >
+          확인
+        </Button>
+      </CommonModal>
       {showRestoreModal && (
         <RestoreUserModal onClose={() => setShowRestoreModal(false)} />
       )}

@@ -14,9 +14,7 @@ export default function CommunityDetail() {
 
   useEffect(() => {
     const fetchDetail = async () => {
-      const res = await api.get<DetailData>(
-        `/api/v1/community/admin/posts/${id}`
-      )
+      const res = await api.get<DetailData>(`/v1/community/admin/posts/${id}`)
       setDetailData(res.data)
     }
     fetchDetail()
