@@ -17,11 +17,6 @@ export default function CommentsInfiniteScroll({
 }) {
   const textareaRef = useRef(null)
   const userInfo = useUserInfo((state) => state.userInfo)
-  const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
-
-  useEffect(() => {
-    initializeUserInfo()
-  }, [])
 
   const {
     comments,
