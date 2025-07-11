@@ -1,31 +1,20 @@
 import { create } from 'zustand'
 import type { userData } from '@customType/userData'
+import { persist } from 'zustand/middleware'
 
 type UserInfoState = {
   userInfo: userData | null
   setUserInfo: (userInfo: userData | null) => void
-  initializeUserInfo: () => void
 }
 
-export const useUserInfo = create<UserInfoState>((set) => ({
-  userInfo: null,
-  setUserInfo: (userInfo) => {
-    if (userInfo) {
-      localStorage.setItem('userInfo', JSON.stringify(userInfo))
-    } else {
-      localStorage.removeItem('userInfo')
+export const useUserInfo = create<UserInfoState>()(
+  persist(
+    (set) => ({
+      userInfo: null,
+      setUserInfo: (userInfo) => set({ userInfo }),
+    }),
+    {
+      name: 'userInfo',
     }
-    set({ userInfo })
-  },
-  initializeUserInfo: () => {
-    const stored = localStorage.getItem('userInfo')
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored)
-        set({ userInfo: parsed })
-      } catch {
-        set({ userInfo: null })
-      }
-    }
-  },
-}))
+  )
+)
