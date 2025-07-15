@@ -32,7 +32,7 @@ export default function EmailVerification({
   // 이메일 인증 번호 요청
   const sendVerificationCode = async () => {
     try {
-      const res = await api.post(`/v1/auth/email/send-code`, {
+      const res = await api.post(`/api/v1/auth/email/send-code`, {
         email,
         purpose: 'signup',
       })
@@ -58,7 +58,7 @@ export default function EmailVerification({
   //이메일 인증번호 검증
   const verifyPhoneCode = async () => {
     try {
-      const res = await api.post(`/v1/auth/email/verify-code`, {
+      const res = await api.post(`/api/v1/auth/email/verify-code`, {
         email,
         verification_code: code,
         purpose: 'signup',

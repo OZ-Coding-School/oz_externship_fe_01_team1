@@ -37,7 +37,7 @@ export default function PhoneVerification({
   // 휴대폰 인증 번호 요청
   const sendVerificationCode = async () => {
     try {
-      const res = await api.post(`/v1/auth/phone/send-code/`, { phone })
+      const res = await api.post(`/api/v1/auth/phone/send-code/`, { phone })
       if (res.status === 200) {
         setIsPhoneCodeSent(true)
         start()
@@ -59,7 +59,10 @@ export default function PhoneVerification({
   //휴대폰 인증번호 검증
   const verifyPhoneCode = async () => {
     try {
-      const res = await api.post(`/v1/auth/phone/verify-code/`, { phone, code })
+      const res = await api.post(`/api/v1/auth/phone/verify-code/`, {
+        phone,
+        code,
+      })
       if (res.status === 200) {
         setIsPhoneCodeSent(false)
         setPhoneCodeValid(true)

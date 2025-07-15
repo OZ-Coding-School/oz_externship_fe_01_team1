@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import type { DetailData } from '@customType/communityDetail'
 import CommentsInfiniteScroll from '@components/commnunityDetail/CommentsInfiniteScroll'
 import MarkdownEdit from '@components/commnunityDetail/MarkdownEdit'
@@ -9,23 +9,38 @@ import api from '../api/mainApi'
 
 export default function CommunityDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [likeNum, setLikeNum] = useState(2)
   const [detailData, setDetailData] = useState<DetailData | null>(null)
 
   useEffect(() => {
     const fetchDetail = async () => {
-      const res = await api.get<DetailData>(`api/v1/community/posts/${id}`)
+      const res = await api.get<DetailData>(`/api/v1/community/posts/${id}`)
       setDetailData(res.data)
     }
     fetchDetail()
   }, [id])
+
+
+  const handleDeletePost = async () => {
+    const response = await api.delete(`/api/v1/community/posts/${id}/delete/`)
+    if (response.status === 204) {
+      navigate('/communitylist')
+    }
+  }
+
+
   if (!detailData) return <div className="text-center mt-36">로딩 중...</div>
 
   return (
     <div className="flex justify-center mt-[142px]">
       <div className="relative flex flex-col items-center w-[944px] gap-[100px]">
         <div className="flex flex-col gap-[24px] w-full">
-          <CommunityDetailHeader likeNum={likeNum} detailData={detailData} />
+          <CommunityDetailHeader
+            likeNum={likeNum}
+            detailData={detailData}
+            handleDeletePost={handleDeletePost}
+          />
           <MarkdownEdit detailData={detailData} />
         </div>
         <div className="flex flex-col gap-[24px] w-full">

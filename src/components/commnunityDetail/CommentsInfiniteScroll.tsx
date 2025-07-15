@@ -17,11 +17,6 @@ export default function CommentsInfiniteScroll({
 }) {
   const textareaRef = useRef(null)
   const userInfo = useUserInfo((state) => state.userInfo)
-  const initializeUserInfo = useUserInfo((state) => state.initializeUserInfo)
-
-  useEffect(() => {
-    initializeUserInfo()
-  }, [])
 
   const {
     comments,
@@ -54,7 +49,7 @@ export default function CommentsInfiniteScroll({
     setSortDropdownOpen((prev) => !prev)
   }
 
-  const handleCommentDel = (id: number) => {
+  const handleCommentDel = async (id: number) => {
     const delComments = comments.filter((comment) => comment.id !== id)
     setComments(delComments)
   }
