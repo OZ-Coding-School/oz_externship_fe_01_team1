@@ -18,13 +18,4 @@ export default defineConfig({
     },
   },
   plugins: [react(), tailwindcss()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://api.ozcoding.site',
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
 })
