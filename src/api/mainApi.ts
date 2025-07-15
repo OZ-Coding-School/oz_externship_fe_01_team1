@@ -13,19 +13,14 @@ api.interceptors.request.use(
     (config) => {
         const userInfo = localStorage.getItem('userInfo')
 
-
         if (userInfo) {
             const parsed: { state: { userInfo: userData } } = JSON.parse(userInfo)
-            const token =parsed.state.userInfo.access
+            const token = parsed.state.userInfo.access
             console.log('✅ Access Token:', token)
             config.headers = config.headers || {} // 안전하게 초기화
             config.headers.Authorization = `Bearer ${token}`
         }
-  (error) => {
-    console.error('Request error:', error)
-    return error
-  }
-)
+
         // multipart/form-data 시 Content-Type 제거 (axios가 자동 설정하게)
         if (
             config.data instanceof FormData &&
