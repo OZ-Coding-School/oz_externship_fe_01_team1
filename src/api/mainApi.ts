@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // 인스턴스 생성
 const api = axios.create({
-  baseURL: `/api`,
+  baseURL: import.meta.env.VITE_API_MAIN_URL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json', // 공통 헤더
@@ -25,7 +25,7 @@ api.interceptors.request.use(
   },
   (error) => {
     console.error('Request error:', error)
-    return Promise.reject(error)
+    return error
   }
 )
 
