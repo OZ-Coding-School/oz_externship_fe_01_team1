@@ -9,7 +9,6 @@ import { useFetchComments } from '@hooks/useFetchComments'
 import CommentTextArea from './CommentTextArea'
 import type { CommentData } from '@customType/communityDetail'
 import { useUserInfo } from '@store/userInfoStore'
-import api from '../../api/mainApi'
 
 export default function CommentsInfiniteScroll({
   fetchCommentsData,

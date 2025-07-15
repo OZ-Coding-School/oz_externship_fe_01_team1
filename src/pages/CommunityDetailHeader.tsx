@@ -63,7 +63,7 @@ export default function CommunityDetailHeader({
             <CommonModal
               isOpen={isModal}
               onClose={() => setIsModal(false)}
-              position="center"
+              position="center-bg"
               title="삭제 시 되돌릴 수 없으며, 작성된 댓글도 함께 삭제됩니다"
             >
               <Button
