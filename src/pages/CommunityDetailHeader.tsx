@@ -5,6 +5,7 @@ import { formatRelativeTime } from '@utils/formatRelativeTime'
 import CommonModal from '@components/common/Modal'
 import { Button } from '@components/common'
 import { useState } from 'react'
+import type { userData } from '@customType/userData'
 
 export default function CommunityDetailHeader({
   likeNum,
@@ -16,6 +17,17 @@ export default function CommunityDetailHeader({
   handleDeletePost: () => Promise<void>
 }) {
   const [isModal, setIsModal] = useState(false)
+
+  const postUserId = detailData.author.id
+  const userInfoState = localStorage.getItem('userInfo')
+  let parsed: { state: { userInfo: userData } } | null = null
+  if (userInfoState) {
+    parsed = JSON.parse(userInfoState)
+  }
+  const userId = parsed?.state.userInfo.user.id
+
+  console.log('userId', userId)
+  console.log('postUserId', postUserId)
 
   return (
     <div className="flex flex-col gap-[24px] border-b-[1px] pb-[14px] border-[#cecece]">
@@ -49,16 +61,23 @@ export default function CommunityDetailHeader({
           </div>
         </div>
         <div className="flex items-center gap-[10px] text-[#707070] font-[500] text-[16px]">
-          <Link
-            to={`/CommunityList/CommunityEdit/${detailData.id}`}
-            className="text-[#6201e0]"
-          >
-            수정
-          </Link>
-          <div>|</div>
-          <button onClick={() => setIsModal(true)} className="cursor-pointer">
-            삭제
-          </button>
+          {postUserId === userId && (
+            <>
+              <Link
+                to={`/CommunityList/CommunityEdit/${detailData.id}`}
+                className="text-[#6201e0]"
+              >
+                수정
+              </Link>
+              <div>|</div>
+              <button
+                onClick={() => setIsModal(true)}
+                className="cursor-pointer"
+              >
+                삭제
+              </button>
+            </>
+          )}
           {
             <CommonModal
               isOpen={isModal}
