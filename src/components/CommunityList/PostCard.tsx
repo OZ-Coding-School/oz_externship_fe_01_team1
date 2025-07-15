@@ -30,7 +30,7 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
       {/* 왼쪽: 카테고리, 제목, 링크 */}
       <div className="flex flex-col justify-between flex-1 h-[154px]">
         <div className="flex flex-col gap-[20px]">
-          <p className="text-sm text-gray-400">{post.category}</p>
+          <p className="text-sm text-gray-400">{post.id}</p>
           <h2 className="text-base font-semibold text-black">{post.title}</h2>
           <p className="text-sm text-gray-500 break-all">{post.link}</p>
         </div>
@@ -55,7 +55,7 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
                 className="w-5 h-5 rounded-full"
               />
             )}
-            <span className="text-black">{post.author}</span>
+            <span className="text-black">{post.time}</span>
             <span className="text-gray-400 text-[11px] ml-1">
               {formatRelativeTime(post.time)}
             </span>

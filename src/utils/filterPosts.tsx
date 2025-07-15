@@ -1,4 +1,4 @@
-import type { Post } from '../types/post';
+import type { Post } from '../types/communityList';
 
 export function filterPosts(posts: Post[], category: string, searchText: string) {
   return posts
