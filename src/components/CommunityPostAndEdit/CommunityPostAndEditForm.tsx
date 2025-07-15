@@ -28,8 +28,12 @@ export default function CommunityPostAndEditForm({type, onSubmit, initialData}: 
             setMainCat(initialData.mainCat);
             setMarkdown(initialData.markdown);
         }
+
     }, [initialData, type]);
 
+    console.log(initialData, markdown);
+    console.log('\n')
+    console.log(initialData?.markdown);
     const isFormValid =
         (title || '').trim() &&
         (mainCat || '').trim() &&
