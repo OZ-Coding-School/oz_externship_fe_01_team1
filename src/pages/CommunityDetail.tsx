@@ -15,18 +15,20 @@ export default function CommunityDetail() {
 
   useEffect(() => {
     const fetchDetail = async () => {
-      const res = await api.get<DetailData>(`api/v1/community/posts/${id}`)
+      const res = await api.get<DetailData>(`/api/v1/community/posts/${id}`)
       setDetailData(res.data)
     }
     fetchDetail()
   }, [id])
 
+
   const handleDeletePost = async () => {
-    const response = await api.delete(`v1/community/posts/${id}/delete/`)
+    const response = await api.delete(`/api/v1/community/posts/${id}/delete/`)
     if (response.status === 204) {
       navigate('/communitylist')
     }
   }
+
 
   if (!detailData) return <div className="text-center mt-36">로딩 중...</div>
 

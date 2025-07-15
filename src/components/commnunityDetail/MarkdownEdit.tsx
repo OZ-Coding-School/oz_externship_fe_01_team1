@@ -17,7 +17,7 @@ export default function MarkdownEdit({
             const match = src.match(/^image(\d+)/)
             if (match) {
               const index = parseInt(match[1], 10) - 1
-              const actualSrc = detailData.images?.[index].image_url
+              const actualSrc = detailData.images?.[index]?.image_url
               if (actualSrc) {
                 return (
                   <img {...props} src={actualSrc} alt={props.alt || 'image'} />
