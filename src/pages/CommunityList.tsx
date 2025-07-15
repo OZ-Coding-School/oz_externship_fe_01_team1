@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import PostCard from '../components/CommunityList/PostCard';
-import FilterBar from '../components/CommunityList/FilterBar';
-import Pagination from '../components/CommunityList/Pagination';
-import { useDummyPosts } from '../utils/useDummydata';
-import { filterPosts } from '../utils/filterPosts';
+import PostCard from '../components/CommunityList/PostCard'
+import FilterBar from '../components/CommunityList/FilterBar'
+import Pagination from '../components/CommunityList/Pagination'
+// import { filterPosts } from '../utils/filterPosts'
+import api from '../api/mainApi'
+import type { CommunityListResponse } from '@customType/communityList'
 
 function CommunityListLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,81 +17,77 @@ function CommunityListLayout({ children }: { children: React.ReactNode }) {
         rounded-none
         opacity-100
       "
-      style={{ minHeight: '100vh', // 전체 높이 확보
+      style={{
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
       {children}
     </div>
-  );
+  )
 }
 
 export default function PostList() {
-  const [categoryFilter, setCategoryFilter] = useState('전체');
-  const [searchText] = useState('');
-  const [page, setPage] = useState(1);
+  const [response, setResponse] = useState<CommunityListResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  // const [error, setError] = useState<string | null>(null)
 
-  const { posts } = useDummyPosts();
-  const postsPerPage = 5;
+  const [categoryFilter, setCategoryFilter] = useState('전체')
+  // const [searchText] = useState('')
+  const [page, setPage] = useState(1)
 
-  // 필터링
-  const filteredPosts = filterPosts(posts, categoryFilter, searchText);
-
-  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / postsPerPage));
-
-  // 현재 페이지에 보여줄 게시글
-  const startIndex = (page - 1) * postsPerPage;
-  const endIndex = startIndex + postsPerPage;
-  const postsToShow = filteredPosts.slice(startIndex, endIndex);
-
-  // 페이지가 totalPages 보다 크면 맞춰서 보정 (예: 필터 변경 시)
-  if (page > totalPages) {
-    setPage(totalPages);
-  }
-
-  // 상세페이지 이동 시 스크롤 Top:0 적용
+  // ✅ API 호출
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    const fetchPosts = async () => {
+      try {
+        const response: CommunityListResponse = await api.get(
+          `api/v1/community/posts/list?page=${page}&size=10`
+        )
+        console.log('response', response)
+        setResponse(response)
+      } catch (err) {
+        console.error('fetchPosts 에러:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
 
+    fetchPosts()
+  }, [page])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  if (!response) return
   return (
-    // 중앙 정렬을 위한 flex 컨테이너 추가
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen">
       <CommunityListLayout>
-        <h2 className="text-2xl font-semibold mb-6">커뮤니티</h2>
-
+        <h2 className="mb-6 text-2xl font-semibold">커뮤니티</h2>
         {/* 필터 바 */}
         <FilterBar
           selected={categoryFilter}
           onSelect={(category) => {
-            setCategoryFilter(category);
-            // 페이지 유지하려면 setPage(1) 주석 처리
-            // setPage(1);
+            setCategoryFilter(category)
           }}
         />
-
-        {/* 경계선 1개만, 12px 마진 */}
-        <hr className="border-t border-gray-300 my-3" />
-
+        {/* 경계선 */}
+        <hr className="my-3 border-t border-gray-300" />
         {/* 게시글 목록 */}
         <div className="space-y-6">
-          {postsToShow.length > 0 ? (
-            postsToShow.map(post => <PostCard key={post.id} post={post} />)
-          ) : (
-            <p className="text-center text-gray-500">못 찾겠다 꾀꼬리~</p>
-          )}
+          {response.data.results.map((post) => (
+            <PostCard key={post.id} post={post} />
+          ))}
         </div>
-
-        {/* 페이지네이션 */}
-        {totalPages > 0 && (
+        {response.data.count > 0 && !loading && (
           <Pagination
             page={page}
-            totalPages={totalPages}
+            totalPages={Math.floor(response.data.count / 10)}
             onPageChange={setPage}
           />
         )}
       </CommunityListLayout>
     </div>
-  );
+  )
 }

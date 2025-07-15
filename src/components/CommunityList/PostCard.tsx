@@ -1,24 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { FaThumbsUp } from 'react-icons/fa';
-import type { Post } from '../../types/post';
-import { formatRelativeTime } from '../../utils/formatRelativeTime';
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { FaThumbsUp } from 'react-icons/fa'
+import { formatRelativeTime } from '../../utils/formatRelativeTime'
+import type { CommunityListData } from '@customType/communityList'
 
 interface PostCardProps {
-  post: Post;
-  nocardborder?: boolean;
+  post: CommunityListData
+  nocardborder?: boolean
 }
 
 export default function PostCard({ post, nocardborder }: PostCardProps) {
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(post.likes);
-  const navigate = useNavigate();
+  const [liked, setLiked] = useState(false)
+  const [likes, setLikes] = useState(post.likes_count)
+  const navigate = useNavigate()
 
   const handleLike = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setLiked((prev) => !prev);
-    setLikes((prev: number) => (liked ? prev - 1 : prev + 1));
-  };
+    e.preventDefault()
+    setLiked((prev) => !prev)
+    setLikes((prev: number) => (liked ? prev - 1 : prev + 1))
+  }
 
   return (
     <div
@@ -30,9 +30,9 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
       {/* 왼쪽: 카테고리, 제목, 링크 */}
       <div className="flex flex-col justify-between flex-1 h-[154px]">
         <div className="flex flex-col gap-[20px]">
-          <p className="text-sm text-gray-400">{post.category}</p>
+          <p className="text-sm text-gray-400">{post.category.name}</p>
           <h2 className="text-base font-semibold text-black">{post.title}</h2>
-          <p className="text-sm text-gray-500 break-all">{post.link}</p>
+          <p className="text-sm text-gray-500 break-all">{post.summary}</p>
         </div>
 
         {/* 좋아요, 댓글, 조회수, 작성자 */}
@@ -44,20 +44,22 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
             <FaThumbsUp className={liked ? 'text-blue-500' : 'text-gray-400'} />
             좋아요 {likes}
           </span>
-          <span>댓글 {post.comments}</span>
-          <span>조회수 {post.views}</span>
+          <span>댓글 {post.comment_count}</span>
+          <span>조회수 {post.view_count}</span>
 
           <div className="flex items-center gap-1 ml-auto">
-            {post.authorAvatar && (
+            {post.author.profile_image_url ? (
               <img
-                src={post.authorAvatar}
-                alt={post.author}
+                src={post.author.profile_image_url}
+                alt="유저 이미지"
                 className="w-5 h-5 rounded-full"
               />
+            ) : (
+              ''
             )}
-            <span className="text-black">{post.author}</span>
+            <span className="text-black">{post.author.nickname}</span>
             <span className="text-gray-400 text-[11px] ml-1">
-              {formatRelativeTime(post.time)}
+              {formatRelativeTime(post.created_at)}
             </span>
           </div>
         </div>
@@ -66,11 +68,11 @@ export default function PostCard({ post, nocardborder }: PostCardProps) {
       {/* 오른쪽: 썸네일 */}
       {post.thumbnail && (
         <img
-          src={post.thumbnail}
+          src={post.thumbnail.image_url}
           alt="썸네일"
           className="w-[228px] h-[163px] min-w-[228px] min-h-[163px] max-w-[228px] max-h-[163px] rounded-md object-cover ml-4"
         />
       )}
     </div>
-  );
+  )
 }
