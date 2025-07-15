@@ -2,14 +2,33 @@ import type { DetailData } from '@customType/communityDetail'
 import photo from '../assets/profile_default.png'
 import { Link } from 'react-router'
 import { formatRelativeTime } from '@utils/formatRelativeTime'
+import CommonModal from '@components/common/Modal'
+import { Button } from '@components/common'
+import { useState } from 'react'
+import type { userData } from '@customType/userData'
 
 export default function CommunityDetailHeader({
   likeNum,
   detailData,
+  handleDeletePost,
 }: {
   likeNum: number
   detailData: DetailData
+  handleDeletePost: () => Promise<void>
 }) {
+  const [isModal, setIsModal] = useState(false)
+
+  const postUserId = detailData.author.id
+  const userInfoState = localStorage.getItem('userInfo')
+  let parsed: { state: { userInfo: userData } } | null = null
+  if (userInfoState) {
+    parsed = JSON.parse(userInfoState)
+  }
+  const userId = parsed?.state.userInfo.user.id
+
+  console.log('userId', userId)
+  console.log('postUserId', postUserId)
+
   return (
     <div className="flex flex-col gap-[24px] border-b-[1px] pb-[14px] border-[#cecece]">
       <div className="flex flex-col gap-[24px]">
@@ -42,14 +61,49 @@ export default function CommunityDetailHeader({
           </div>
         </div>
         <div className="flex items-center gap-[10px] text-[#707070] font-[500] text-[16px]">
-          <Link
-            to={`/CommunityList/CommunityEdit/${detailData.id}`}
-            className="text-[#6201e0]"
-          >
-            수정
-          </Link>
-          <div>|</div>
-          <div>삭제</div>
+          {postUserId === userId && (
+            <>
+              <Link
+                to={`/CommunityList/CommunityEdit/${detailData.id}`}
+                className="text-[#6201e0]"
+              >
+                수정
+              </Link>
+              <div>|</div>
+              <button
+                onClick={() => setIsModal(true)}
+                className="cursor-pointer"
+              >
+                삭제
+              </button>
+            </>
+          )}
+          {
+            <CommonModal
+              isOpen={isModal}
+              onClose={() => setIsModal(false)}
+              position="center-bg"
+              title="삭제 시 되돌릴 수 없으며, 작성된 댓글도 함께 삭제됩니다"
+            >
+              <Button
+                fullWidth={false}
+                className="flex justify-center items-center px-[24px] py-[18px] bg-[#efe6fc] text-[16px] text-[#4e01b3] font-[600] rounded-[100px] h-[43px] w-[76px]"
+                onClick={() => setIsModal(false)}
+              >
+                취소
+              </Button>
+              <Button
+                fullWidth={false}
+                className="flex justify-center items-center px-[24px] py-[18px] bg-[#6201e0] text-[16px] text-[#fafafa] font-[600] rounded-[100px] h-[43px] w-[76px]"
+                onClick={() => {
+                  handleDeletePost()
+                  setIsModal(false)
+                }}
+              >
+                확인
+              </Button>
+            </CommonModal>
+          }
         </div>
       </div>
     </div>

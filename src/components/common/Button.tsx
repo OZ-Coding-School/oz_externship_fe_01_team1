@@ -14,6 +14,7 @@
  * </Button>
  */
 
+import { cn } from '@utils/cn'
 import React from 'react'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -30,8 +31,16 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       {...props}
-      className={`shrink-0 h-[48px] rounded text-[14px] flex items-center justify-center cursor-pointer'
-        ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={cn(
+        'shrink-0',
+        'h-[48px]',
+        'rounded text-[14px]',
+        'flex items-center',
+        'justify-center',
+        'cursor-pointer',
+        fullWidth ? 'w-full' : '',
+        className
+      )}
     >
       {children}
     </button>

@@ -49,7 +49,7 @@ export default function CommentsInfiniteScroll({
     setSortDropdownOpen((prev) => !prev)
   }
 
-  const handleCommentDel = (id: number) => {
+  const handleCommentDel = async (id: number) => {
     const delComments = comments.filter((comment) => comment.id !== id)
     setComments(delComments)
   }
