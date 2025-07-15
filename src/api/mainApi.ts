@@ -17,8 +17,8 @@ api.interceptors.request.use(
     const userInfo = localStorage.getItem('userInfo')
 
     if (userInfo) {
-      const parsed: userData = JSON.parse(userInfo)
-      const token = parsed.access
+      const parsed: { state: { userInfo: userData } } = JSON.parse(userInfo)
+      const token = parsed.state.userInfo.access
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
