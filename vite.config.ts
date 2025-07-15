@@ -21,7 +21,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://13.124.239.91',
+        target: 'https://api.ozcoding.site',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, ''),
       },

@@ -9,6 +9,7 @@ import { useFetchComments } from '@hooks/useFetchComments'
 import CommentTextArea from './CommentTextArea'
 import type { CommentData } from '@customType/communityDetail'
 import { useUserInfo } from '@store/userInfoStore'
+import api from '../../api/mainApi'
 
 export default function CommentsInfiniteScroll({
   fetchCommentsData,
@@ -49,7 +50,7 @@ export default function CommentsInfiniteScroll({
     setSortDropdownOpen((prev) => !prev)
   }
 
-  const handleCommentDel = (id: number) => {
+  const handleCommentDel = async (id: number) => {
     const delComments = comments.filter((comment) => comment.id !== id)
     setComments(delComments)
   }
