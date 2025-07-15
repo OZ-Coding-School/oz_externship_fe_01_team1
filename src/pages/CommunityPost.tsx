@@ -42,14 +42,14 @@ export default function CommunityPost() {
 
             formData.set('content', contentWithPlaceholders); // update after placeholder replacements
 
-            const response = await api.post('/v1/community/posts/create/', formData);
+            const response = await api.post('/api/v1/community/posts/create/', formData);
             console.log('📦 서버 응답 전체:', response);
 
             // ID가 없다면 강제 목록 재요청
             let id = response.data.post_id || response.data.id;
 
             if (!id) {
-                const listRes = await api.get(`/v1/community/posts/${1}`)
+                const listRes = await api.get(`api/v1/community/posts/${1}`)
                 const lastPost = listRes.data?.[0]; // 최신 게시글이 가장 앞에 있다고 가정
                 id = lastPost?.id;
             }

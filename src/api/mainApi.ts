@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // 인스턴스 생성
 const api = axios.create({
-    baseURL: `/api`,
+    baseURL: import.meta.env.VITE_API_MAIN_URL,
     timeout: 15000,
     withCredentials: true,
 })
