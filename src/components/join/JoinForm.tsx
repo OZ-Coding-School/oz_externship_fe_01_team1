@@ -33,7 +33,7 @@ export default function JoinForm() {
     data.gender = 'MALE' // 입력 필드가 없어서 강제 적용
     data.phone_number = `${phone1}${phone2}${phone3}`
     try {
-      const res = await api.post(`/v1/auth/signup`, data)
+      const res = await api.post(`/api/v1/auth/signup`, data)
       if (res.status === 201) {
         navigate('/login')
       }
