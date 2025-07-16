@@ -42,7 +42,7 @@ export default function CommunityPost() {
 
             formData.set('content', contentWithPlaceholders); // update after placeholder replacements
 
-            const response = await api.post('/v1/community/posts/create/', formData);
+            const response = await api.post('/api/v1/community/posts/create/', formData);
             console.log('📦 서버 응답 전체:', response.data.post_id);
 
             // ID가 없다면 강제 목록 재요청
